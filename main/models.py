@@ -19,8 +19,8 @@ def upload_to(instance, filename):
 class TargetCoin(models.Model):
     SIGNIFICANCE = [("1", "*"), ("2", "**"), ("3", "***"), ("4", "****"), ("5", "*****"),]
     coin = models.CharField(max_length=20, verbose_name="Coin")
-    min_target_price = models.DecimalField(max_digits=13, decimal_places=8, verbose_name="Min Price")
-    max_target_price = models.DecimalField(max_digits=13, decimal_places=8, verbose_name="Max Price")
+    min_target_price = models.DecimalField(max_digits=13, decimal_places=8, blank=True, null=True, verbose_name="Min Price")
+    max_target_price = models.DecimalField(max_digits=13, decimal_places=8, blank=True, null=True, verbose_name="Max Price")
     significance = models.CharField(max_length=10, choices=SIGNIFICANCE, verbose_name="Significance")
     signal_notes = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Created At")
@@ -42,11 +42,11 @@ class TargetCoin(models.Model):
 class BoughtCoin(models.Model):
     coin = models.CharField(max_length=20, verbose_name="Coin")
     bought_price = models.DecimalField(max_digits=13, decimal_places=8, verbose_name="Min Price")
-    sold_price = models.DecimalField(max_digits=13, decimal_places=8, verbose_name="Min Price")
+    sold_price = models.DecimalField(max_digits=13, decimal_places=8, blank=True, null=True, verbose_name="Min Price")
     is_available = models.BooleanField(default=True, verbose_name="Is Available")
-    profit = models.DecimalField(max_digits=7, decimal_places=2, verbose_name="Profit (%)")
+    profit = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, verbose_name="Profit (%)")
     bought_at = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Bought At")
-    sold_at = models.DateTimeField(verbose_name="Sold At")
+    sold_at = models.DateTimeField(blank=True, null=True, verbose_name="Sold At")
 
     def __str__(self):
         return f"{self.coin} bought at {self.bought_price} and sold at {self.sold_price}"
