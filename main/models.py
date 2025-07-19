@@ -1,17 +1,6 @@
 from django.db import models, transaction
 from django.conf import settings
 from django.utils.timezone import now, localtime
-from os import path
-from uuid import uuid4
-
-
-#======================================= Needed Method ================================================
-
-def upload_to(instance, filename):
-    file_name, ext = path.splitext(filename)
-    new_filename = f"{uuid4()}{ext}"
-    coin = instance.logo
-    return f"photos/{coin.replace(" ", "_")}/{new_filename}"
 
 
 #====================================== TargetCoin Model ==============================================
