@@ -54,7 +54,7 @@ class CustomUserManager(BaseUserManager):
 
 #====================================== CustomUser Model ==============================================
 
-class CustomUserManager(AbstractBaseUser, PermissionsMixin):
+class CustomUser(AbstractBaseUser, PermissionsMixin):
     USER_TYPE = [("backend","BackEnd"), ("frontend","FrontEnd"), ("admin","Admin"), ("premium","Premium"), ("user","User")]
     username = models.CharField(max_length=30, unique=True, verbose_name="Username")
     first_name = models.CharField(max_length=30, verbose_name="First Name")
@@ -71,10 +71,11 @@ class CustomUserManager(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return f"{self.username}"
     
+    @property
     def is_staff(self):
         return self.is_admin
     
-    USERNAME = "username"
+    USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["first_name", "last_name", "email"]
     
     objects = CustomUserManager()
@@ -85,4 +86,3 @@ class CustomUserManager(AbstractBaseUser, PermissionsMixin):
         
         
 #======================================================================================================
-
