@@ -68,7 +68,7 @@ class BoughtCoin(models.Model):
         ]
         
         
-#====================================== BoughtCoin Model ==============================================
+#====================================== MostBoughtCoin Model ==========================================
         
 class MostBoughtCoin(models.Model):
     SOURCE = [("1", "TradingView"), ("2", "CoinMarketCap"), ("3", "Cryptometer")]
