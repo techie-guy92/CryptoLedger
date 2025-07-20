@@ -10,7 +10,7 @@ from uuid import uuid4
 def upload_to(instance, filename):
     file_name, ext = path.splitext(filename)
     new_filename = f"{uuid4()}{ext}"
-    return f"photos/{new_filename}"
+    return f"images/{new_filename}"
 
 
 #====================================== EntryPoint Model ==============================================
@@ -76,41 +76,44 @@ class ExitPoint(models.Model):
 
 class BoughtCoin(models.Model):
     coin = models.CharField(max_length=20, verbose_name="Coin")
-    bought_price_usdt = models.DecimalField(max_digits=13, decimal_places=8, verbose_name="Bought Price USDT")
-    bought_price_irt = models.IntegerField(verbose_name="Bought Price IRT")
-    sold_price_usdt = models.DecimalField(max_digits=13, decimal_places=8, blank=True, null=True, verbose_name="Sold Price USDT")
-    sold_price_irt = models.IntegerField(blank=True, null=True, verbose_name="Sold Price IRT")
-    usdt_rate_buy = models.IntegerField(verbose_name="USDT Rate (buy)")
-    usdt_rate_sell = models.IntegerField(verbose_name="USDT Rate (sell)")
+    holding_value = models.DecimalField(default=0, max_digits=12, decimal_places=2, verbose_name="Holding Value")
+    total_cost_usdt = models.DecimalField(default=0, max_digits=12, decimal_places=2, verbose_name="Total Cost (USDT)")
+    total_cost_irt = models.IntegerField(default=0, verbose_name="Total Cost (IRT)")
+    avg_net_cost_usdt = models.DecimalField(default=0, max_digits=12, decimal_places=2, verbose_name="AVG Net Cost (USDT)")
+    avg_net_cost_irt = models.IntegerField(default=0, verbose_name="AVG Net Cost (IRT)")
+    usdt_rate_buy = models.IntegerField(verbose_name="USDT Rate (Buy)")
+    usdt_rate_sell = models.IntegerField(blank=True, null=True, verbose_name="USDT Rate (Sell)")
+    total_earn_usdt = models.DecimalField(default=0, max_digits=12, decimal_places=2, blank=True, null=True, verbose_name="Total Earn (USDT)")
+    total_earn_irt = models.IntegerField(default=0, blank=True, null=True, verbose_name="Total Earn (IRT)")
     is_available = models.BooleanField(default=True, verbose_name="Being Available")
-    profit_usdt = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, verbose_name="Profit USDT")
-    profit_irt = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, verbose_name="Profit IRT")
-    bought_at = models.DateTimeField(auto_now_add=True, editable=False, verbose_name="Bought At")
-    sold_at = models.DateTimeField(blank=True, null=True, verbose_name="Sold At")
+    profit_usdt = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, verbose_name="Profit (USDT)")
+    profit_irt = models.DecimalField(max_digits=7, decimal_places=2, blank=True, null=True, verbose_name="Profit (IRT)")
+    bought_at = models.DateField(auto_now_add=True, editable=False, verbose_name="Bought At")
+    sold_at = models.DateField(blank=True, null=True, verbose_name="Sold At")
 
     def __str__(self):
-        return f"{self.coin} bought at {self.bought_price_usdt} and sold at {self.sold_price_usdt}"
+        return f"{self.coin} bought at {self.avg_net_cost_usdt} and holding value is  {self.holding_value}"
         
     def clean(self):
         self.change_availibility()
         self.add_profits()
     
     def change_availibility(self):
-        if self.sold_price_usdt:
+        if self.total_earn_usdt:
             self.is_available = False
             
     def add_profits(self):
-        if self.sold_price_usdt and self.bought_price_usdt:
-            change_usdt = (self.sold_price_usdt - self.bought_price_usdt) / self.bought_price_usdt
+        if self.total_cost_usdt and self.total_earn_usdt:
+            change_usdt = (self.total_earn_usdt - self.total_cost_usdt) / self.total_cost_usdt
             self.profit_usdt = change_usdt * 100
-        if self.sold_price_irt and self.bought_price_irt:
-            change_irt = (self.sold_price_irt - self.bought_price_irt) / self.bought_price_irt
+        if self.total_cost_irt and self.total_earn_usdt:
+            change_irt = (self.total_earn_usdt - self.total_cost_irt) / self.total_cost_irt
             self.profit_irt = change_irt * 100
     
     @property
-    def total_irt_profit_from_usdt(self):
-        if self.profit_usdt and self.usdt_rate_sell:
-            return round((self.profit_usdt / 100) * self.usdt_rate_sell, 2)
+    def unrealized_profit_usdt(self):
+        if self.holding_value and self.total_cost_usdt:
+            return round((self.holding_value - self.total_cost_usdt) / self.total_cost_usdt * 100, 2)
 
     def fx_adjusted_profit(self):
         if self.usdt_rate_buy and self.usdt_rate_sell:

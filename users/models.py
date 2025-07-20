@@ -12,7 +12,7 @@ def upload_to(instance, filename):
     file_name, ext = path.splitext(filename)
     new_filename = f"{uuid4()}{ext}"
     user = instance.user
-    return f"photos/{user.replace(" ", "_")}/{new_filename}"
+    return f"images/{user.replace(" ", "_")}/{new_filename}"
 
 
 #====================================== CustomUserManager Model =======================================

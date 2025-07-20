@@ -27,22 +27,47 @@ class ExitPointAdmin(admin.ModelAdmin):
 
 @admin.register(BoughtCoin)
 class BoughtCoinAdmin(admin.ModelAdmin):
-    list_display = ["coin", "usdt_rate_buy", "usdt_rate_sell", "bought_price_usdt", "sold_price_usdt", "bought_price_irt", "sold_price_irt", "is_available", "profit_display_usdt", "profit_display_irt", "bought_at", "sold_at"]
+    list_display = ["coin", "holding_value", "total_cost_usdt", "total_cost_irt_display", "avg_net_cost_usdt", "avg_net_cost_irt_display", "usdt_rate_buy_display", "usdt_rate_sell_display", "total_earn_usdt", "total_earn_irt_display", "profit_display_usdt", "is_available", "bought_at", "sold_at"]
     list_filter = ["is_available"]
     search_fields = ["coin", "bought_at", "sold_at"]
     ordering = ["id"]
-    list_editable = ["is_available"]
-    readonly_fields = ["profit_display_usdt", "profit_display_irt"]
+    readonly_fields = ["profit_usdt", "profit_irt"]
 
     def profit_display_usdt(self, obj):
-        color = "green" if obj.profit_usdt and obj.profit_usdt > 0 else "red"
-        return format_html(f"<span style='color: {color};'>{obj.profit_usdt:.2f}%</span>")
+        if obj.profit_usdt is not None:
+            color = "green" if obj.profit_usdt > 0 else "red"
+            return format_html(f"<span style='color: {color};'>{obj.profit_usdt:.2f}%</span>")
+        return "-"
     profit_display_usdt.short_description = "Profit"
     
     def profit_display_irt(self, obj):
-        color = "green" if obj.profit_irt and obj.profit_irt > 0 else "red"
-        return format_html(f"<span style='color: {color};'>{obj.profit_irt:.2f}%</span>")
+        if obj.profit_irt is not None:
+            color = "green" if obj.profit_irt > 0 else "red"
+            return format_html(f"<span style='color: {color};'>{obj.profit_irt:.2f}%</span>")
+        return "-"
     profit_display_irt.short_description = "Profit"
+
+
+    def total_cost_irt_display(self, obj):
+        return f"{obj.total_cost_irt:,}" if obj.total_cost_irt is not None else "-"
+    total_cost_irt_display.short_description = "Total Cost (IRT)"
+
+    def avg_net_cost_irt_display(self, obj):
+        return f"{obj.avg_net_cost_irt:,}" if obj.avg_net_cost_irt is not None else "-"
+    avg_net_cost_irt_display.short_description = "AVG Net Cost (IRT)"
+    
+    def usdt_rate_buy_display(self, obj):
+        return f"{obj.usdt_rate_buy:,}" if obj.usdt_rate_buy is not None else "-"
+    usdt_rate_buy_display.short_description = "USDT Rate (Buy)"
+    
+    def usdt_rate_sell_display(self, obj):
+        return f"{obj.usdt_rate_sell:,}" if obj.usdt_rate_sell is not None else "-"
+    usdt_rate_sell_display.short_description = "USDT Rate (Sell)"
+    
+    def total_earn_irt_display(self, obj):
+        return f"{obj.total_earn_irt:,}" if obj.total_earn_irt is not None else "-"
+    total_earn_irt_display.short_description = "Total Earn (IRT)"
+
 
 
 #====================================== BoughtCoin Model ==============================================
