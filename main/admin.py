@@ -43,7 +43,7 @@ class BoughtCoinAdmin(admin.ModelAdmin):
     def profit_display_irt(self, obj):
         if obj.profit_irt is not None:
             color = "green" if obj.profit_irt > 0 else "red"
-            return format_html(f"<span style='color: {color};'>{obj.profit_irt:.2f}</span>")
+            return format_html(f"<span style='color: {color};'>{obj.profit_irt:,.0f}</span>")
         return "-"
     profit_display_irt.short_description = "Profit (IRT)"
 
