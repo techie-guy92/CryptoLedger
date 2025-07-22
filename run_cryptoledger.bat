@@ -4,5 +4,6 @@ cd /d "%~dp0"
 call venv\Scripts\activate
 timeout /t 2 >nul
 python manage.py runserver 8020
+echo CryptoLedger launched at %DATE% %TIME% >> startup_log.txt
 pause
 start http://localhost:8020
