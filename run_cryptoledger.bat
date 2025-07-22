@@ -5,3 +5,4 @@ call venv\Scripts\activate
 timeout /t 2 >nul
 python manage.py runserver 8020
 pause
+start http://localhost:8020
