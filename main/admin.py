@@ -30,7 +30,7 @@ class BoughtCoinAdmin(admin.ModelAdmin):
     list_display = ["coin", "holding_value", "total_cost_usdt", "total_cost_irt_display", "avg_net_cost_usdt", "avg_net_cost_irt_display", "usdt_rate_buy_display", "usdt_rate_sell_display", "total_earn_usdt", "total_earn_irt_display", "profit_display_usdt", "profit_display_irt", "bought_at", "sold_at"]
     list_filter = ["is_available"]
     search_fields = ["coin", "bought_at", "sold_at"]
-    ordering = ["id"]
+    ordering = ["-total_cost_usdt"]
     readonly_fields = ["profit_usdt", "profit_irt"]
 
     def profit_display_usdt(self, obj):

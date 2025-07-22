@@ -2,7 +2,6 @@ from django.db import models, transaction
 from django.conf import settings
 from django.utils.timezone import now, localtime
 from os import path
-from uuid import uuid4
 from django.utils.text import slugify
 
 
@@ -10,7 +9,7 @@ from django.utils.text import slugify
 
 def upload_to(instance, filename):
     file_name, ext =path.splitext(filename)
-    new_filename = f"{uuid4()}{ext}"
+    new_filename = f"{instance}{ext}"
     if isinstance(instance, EntryPoint):
         return f"images/EntryPoint/{slugify(instance.coin.lower(), allow_unicode=True)}/{new_filename}"
     elif isinstance(instance, ExitPoint):
@@ -37,7 +36,9 @@ class EntryPoint(models.Model):
     created_at = models.DateField(auto_now_add=True, editable=False, verbose_name="Created At")
 
     def __str__(self):
-        return f"{self.coin} at {self.entry_1}"
+        current_time = localtime(now())
+        formatted_date = current_time.strftime("%Y-%m-%d")
+        return f"{self.coin} {self.entry_1} {formatted_date}"
 
     def get_entry_range(self, field_name="entry_1"):
         value = getattr(self, field_name, "")
@@ -71,7 +72,9 @@ class ExitPoint(models.Model):
     created_at = models.DateField(auto_now_add=True, editable=False, verbose_name="Created At")
 
     def __str__(self):
-        return f"{self.coin} at {self.exit_1}"
+        current_time = localtime(now())
+        formatted_date = current_time.strftime("%Y-%m-%d")
+        return f"{self.coin} {self.exit_1} {formatted_date}"
 
     class Meta:
         verbose_name = "Exit Point"
@@ -89,7 +92,7 @@ class BoughtCoin(models.Model):
     holding_value = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Holding Value")
     total_cost_usdt = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Total Cost (USDT)")
     total_cost_irt = models.IntegerField(verbose_name="Total Cost (IRT)")
-    avg_net_cost_usdt = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="AVG Net Cost (USDT)")
+    avg_net_cost_usdt = models.DecimalField(max_digits=14, decimal_places=8, verbose_name="AVG Net Cost (USDT)")
     avg_net_cost_irt = models.IntegerField(verbose_name="AVG Net Cost (IRT)")
     usdt_rate_buy = models.IntegerField(verbose_name="USDT Rate (Buy)")
     usdt_rate_sell = models.IntegerField(blank=True, null=True, verbose_name="USDT Rate (Sell)")
@@ -144,7 +147,8 @@ class BoughtCoin(models.Model):
 class Analyst(models.Model):
     ANALYST = [
         ("Il Capo", "CryptoCapo"), ("Hayes", "Arthur Hayes"), ("Kiyosaki", "Robert Kiyosaki"), ("Clay", "Alex Clay"), 
-        ("Jonathan", "Jonathan Carter"), ("Butterfly", "Butterfly"), ("Noah", "Noah Lutz"), ("", ""),
+        ("Jonathan", "Jonathan Carter"), ("Butterfly", "Butterfly"), ("Noah", "Noah Lutz"), ("Ananda", "Master Ananda"),
+        ("", ""),
         ]
     SENTIMENT = [("bullish", "Bullish"), ("bearish", "Bearish")]
     topic = models.CharField(max_length=30, verbose_name="Topic")
@@ -153,9 +157,12 @@ class Analyst(models.Model):
     text = models.TextField(verbose_name="Text")
     image = models.ImageField(upload_to=upload_to, blank=True, null=True, verbose_name="Chart")
     created_at = models.DateField(auto_now_add=True, editable=False, verbose_name="Created At")
-    
+
     def __str__(self):
-        return f"{self.analyst} posted at {self.created_at}"
+        current_time = localtime(now())
+        formatted_date = current_time.strftime("%Y-%m-%d")
+        return f"{self.analyst} {self.topic} {formatted_date}"
+
     
     class Meta:
         verbose_name = "Analyst"
