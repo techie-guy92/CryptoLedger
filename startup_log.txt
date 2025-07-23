@@ -12,3 +12,118 @@ Watching for file changes with StatReloader
 [22/Jul/2025 17:55:19] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
 [22/Jul/2025 18:06:43] "GET /admin/main/entrypoint/ HTTP/1.1" 200 20324
 [22/Jul/2025 18:06:43] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[22/Jul/2025 19:21:13] "GET /admin/main/entrypoint/ HTTP/1.1" 200 20324
+[22/Jul/2025 19:25:31] "GET /admin/main/entrypoint/ HTTP/1.1" 200 20324
+[22/Jul/2025 19:25:43] "GET /main/most-traded-coins HTTP/1.1" 301 0
+[22/Jul/2025 19:25:43] "GET /main/most-traded-coins/ HTTP/1.1" 200 11051
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 200 3426
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 200 1793
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 200 39680
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 200 13632
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 200 817
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/js/default.js HTTP/1.1" 200 1268
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 200 59
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 200 121457
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/css/default.css HTTP/1.1" 200 1152
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/img/grid.png HTTP/1.1" 200 1458
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 200 3796
+[22/Jul/2025 19:25:43] "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 200 87533
+Not Found: /favicon.ico
+[22/Jul/2025 19:25:44] "GET /favicon.ico HTTP/1.1" 404 3170
+[22/Jul/2025 19:25:56,412] - Broken pipe from ('127.0.0.1', 62050)
+[22/Jul/2025 19:25:56,416] - Broken pipe from ('127.0.0.1', 62055)
+[22/Jul/2025 19:25:56,417] - Broken pipe from ('127.0.0.1', 62053)
+[22/Jul/2025 19:25:56,418] - Broken pipe from ('127.0.0.1', 62051)
+[22/Jul/2025 19:25:56,419] - Broken pipe from ('127.0.0.1', 62052)
+[22/Jul/2025 19:25:56,426] - Broken pipe from ('127.0.0.1', 62054)
+[23/Jul/2025 10:12:27] "GET /admin/main/entrypoint/ HTTP/1.1" 200 20324
+[23/Jul/2025 10:13:18] "GET /main/most-traded-coins/ HTTP/1.1" 200 11051
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+[23/Jul/2025 10:13:18] "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+Not Found: /favicon.ico
+[23/Jul/2025 10:13:19] "GET /favicon.ico HTTP/1.1" 404 3170
+[23/Jul/2025 10:16:24] "GET /admin/main/mostboughtcoin/add/ HTTP/1.1" 200 12926
+[23/Jul/2025 10:16:24] "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+[23/Jul/2025 10:16:24] "GET /static/admin/css/forms.css HTTP/1.1" 200 8525
+[23/Jul/2025 10:16:24] "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[23/Jul/2025 10:16:24] "GET /static/admin/css/base.css HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/core.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/calendar.js HTTP/1.1" 200 9141
+[23/Jul/2025 10:16:24] "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/css/widgets.css HTTP/1.1" 200 11991
+[23/Jul/2025 10:16:24] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+[23/Jul/2025 10:16:24] "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+[23/Jul/2025 10:16:24] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+[23/Jul/2025 10:16:24] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+[23/Jul/2025 10:30:02] "POST /admin/main/mostboughtcoin/add/ HTTP/1.1" 302 0
+[23/Jul/2025 10:30:02] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 28135
+[23/Jul/2025 10:30:02] "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+[23/Jul/2025 10:30:02] "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+[23/Jul/2025 10:30:02] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[23/Jul/2025 10:30:02] "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+[23/Jul/2025 10:30:02] "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+[23/Jul/2025 10:30:02] "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+[23/Jul/2025 10:30:02] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+[23/Jul/2025 10:30:31] "GET /admin/main/mostboughtcoin/31/change/ HTTP/1.1" 200 13452
+[23/Jul/2025 10:30:31] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[23/Jul/2025 10:30:35] "POST /admin/main/mostboughtcoin/31/change/ HTTP/1.1" 302 0
+[23/Jul/2025 10:30:35] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 28140
+[23/Jul/2025 10:30:35] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[23/Jul/2025 10:33:06] "GET /admin/ HTTP/1.1" 200 13966
+[23/Jul/2025 10:33:06] "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+[23/Jul/2025 10:33:06] "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 304 0
+[23/Jul/2025 10:33:06] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+[23/Jul/2025 10:33:16] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 27805
+[23/Jul/2025 10:33:16] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[23/Jul/2025 10:34:01] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 27805
+[23/Jul/2025 10:34:01] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[23/Jul/2025 10:34:02] "GET /static/images/logos/Crypto_Ledger.ico HTTP/1.1" 304 0
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 22, 2025 - 17:50:30
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[23/Jul/2025 10:34:13] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 27806
+[23/Jul/2025 10:34:13] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 23, 2025 - 10:34:09
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[23/Jul/2025 10:34:24] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 27806
+[23/Jul/2025 10:34:25] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
