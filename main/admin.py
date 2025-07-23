@@ -84,7 +84,7 @@ class AnalystAdmin(admin.ModelAdmin):
 class MostBoughtCoinAdmin(admin.ModelAdmin):
     list_display = ["created_at", "coins"]
     search_fields = ["coins", "created_at"]
-    ordering = ["created_at"]
+    ordering = ["-created_at"]
 
 
 #======================================================================================================

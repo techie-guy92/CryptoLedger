@@ -1,2 +1,14 @@
 [2025-07-22 17:19:49.37] Starting CryptoLedger 
 Watching for file changes with StatReloader
+[2025-07-22 17:50:24.15] Starting CryptoLedger 
+[2025-07-22 17:50:24.39] Virtualenv activated 
+Watching for file changes with StatReloader
+[22/Jul/2025 17:50:58] "GET /admin/ HTTP/1.1" 200 13764
+[22/Jul/2025 17:51:26] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 27262
+[22/Jul/2025 17:51:26] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[22/Jul/2025 17:51:28] "GET /admin/main/analyst/ HTTP/1.1" 200 15053
+[22/Jul/2025 17:51:28] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[22/Jul/2025 17:55:19] "GET /admin/main/boughtcoin/ HTTP/1.1" 200 33445
+[22/Jul/2025 17:55:19] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[22/Jul/2025 18:06:43] "GET /admin/main/entrypoint/ HTTP/1.1" 200 20324
+[22/Jul/2025 18:06:43] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
