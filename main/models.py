@@ -174,8 +174,8 @@ class Analyst(models.Model):
 #====================================== MostBoughtCoin Model ==========================================
         
 class MostBoughtCoin(models.Model):
-    VOLUME_FLOW = [("inflow", "Inflow"), ("outflow", "Outflow")]
-    SOURCE = [("trading_view", "TradingView"), ("coin_market_cap", "CoinMarketCap"), ("crypto_meter", "Cryptometer")]
+    VOLUME_FLOW = [("1", "Inflow"), ("2", "Outflow")]
+    SOURCE = [("1", "TradingView"), ("2", "CoinMarketCap"), ("3", "Cryptometer")]
     coins = models.TextField(verbose_name="Coins")
     volume_flow = models.CharField(max_length=20, choices=VOLUME_FLOW, default="1", verbose_name="Volume Flow")
     source = models.CharField(max_length=20, choices=SOURCE, blank=True, null=True, verbose_name="Data Source")

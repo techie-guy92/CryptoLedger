@@ -27,12 +27,12 @@ class TopTradedCoinsAPIView(APIView):
         try:
             start_date = date(2025, 6, 25)
             end_date = date(2025, 7, 24)
-            entries = MostBoughtCoin.objects.filter(created_at__range=(start_date, end_date), volume_flow="inflow")
+            entries = MostBoughtCoin.objects.filter(created_at__range=(start_date, end_date), volume_flow="1")
             
             queryset = MostBoughtCoin.objects.all()
             
             all_coins = []
-            for entry in entries:
+            for entry in queryset:
                 raw = entry.coins 
                 coins = [coin.strip() for coin in raw.split(",") if coin.strip()]
                 all_coins.extend(coins)

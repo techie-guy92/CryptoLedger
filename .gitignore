@@ -14,6 +14,7 @@ venv/
 # Ignore logs
 logs/
 *.log
+*.txt
 startup_log.txt
 
 # Ignore VS Code settings and extensions

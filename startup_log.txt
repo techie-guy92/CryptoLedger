@@ -391,3 +391,200 @@ Traceback (most recent call last):
 SyntaxError: invalid syntax. Perhaps you forgot a comma?
 C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
 Watching for file changes with StatReloader
+[24/Jul/2025 09:27:07] "GET /admin/ HTTP/1.1" 200 14107
+[24/Jul/2025 09:27:11] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 28403
+[24/Jul/2025 09:27:11] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[24/Jul/2025 09:27:15] "GET /admin/main/mostboughtcoin/32/change/ HTTP/1.1" 200 14200
+[24/Jul/2025 09:27:15] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[24/Jul/2025 09:27:22] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 28403
+[24/Jul/2025 09:27:22] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:25:07
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:27:45
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[24/Jul/2025 09:28:06] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 29786
+[24/Jul/2025 09:28:06] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[24/Jul/2025 09:28:06] "GET /static/images/logos/Crypto_Ledger.ico HTTP/1.1" 304 0
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:28:01
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\admin.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:28:27
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[24/Jul/2025 09:28:37] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 29786
+[24/Jul/2025 09:28:37] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:28:31
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:29:58
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:30:41
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[24/Jul/2025 09:31:16] "GET /main/most-traded-coins/ HTTP/1.1" 200 10225
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/css/bootstrap-tweaks.css HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/css/bootstrap.min.css HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/css/default.css HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/css/prettify.css HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/js/ajax-form.js HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/js/default.js HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/js/prettify-min.js HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/img/grid.png HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/js/bootstrap.min.js HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/js/csrf.js HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/js/load-ajax-form.js HTTP/1.1" 304 0
+[24/Jul/2025 09:31:16] "GET /static/rest_framework/js/jquery-3.7.1.min.js HTTP/1.1" 304 0
+Not Found: /favicon.ico
+[24/Jul/2025 09:31:16] "GET /favicon.ico HTTP/1.1" 404 3170
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:31:02
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[24/Jul/2025 09:31:35] "GET /main/most-traded-coins/ HTTP/1.1" 200 11052
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:31:33
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:32:16
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:33:32
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:33:45
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+[24/Jul/2025 09:34:03] "GET /main/most-traded-coins/ HTTP/1.1" 200 10225
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:33:56
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:34:53
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
