@@ -135,3 +135,259 @@ Watching for file changes with StatReloader
 Watching for file changes with StatReloader
 [2025-07-23 17:40:50.97] Starting CryptoLedger 
 [2025-07-23 17:40:59.13] Virtualenv activated 
+Watching for file changes with StatReloader
+[24/Jul/2025 09:15:43] "GET /admin/ HTTP/1.1" 200 13966
+[24/Jul/2025 09:15:43] "GET /static/admin/css/dashboard.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/js/theme.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/css/base.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+[24/Jul/2025 09:15:43] "GET /static/admin/img/icon-deletelink.svg HTTP/1.1" 304 0
+[24/Jul/2025 09:15:56] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 27806
+[24/Jul/2025 09:15:56] "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:56] "GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:56] "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/js/core.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[24/Jul/2025 09:15:57] "GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/img/search.svg HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/js/filters.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+[24/Jul/2025 09:15:57] "GET /static/admin/img/sorting-icons.svg HTTP/1.1" 304 0
+[24/Jul/2025 09:15:58] "GET /admin/main/mostboughtcoin/add/ HTTP/1.1" 200 12926
+[24/Jul/2025 09:15:58] "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:58] "GET /static/admin/css/forms.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:58] "GET /static/admin/js/calendar.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:58] "GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:58] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[24/Jul/2025 09:15:58] "GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+[24/Jul/2025 09:15:58] "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+[24/Jul/2025 09:15:59] "GET /static/admin/img/icon-calendar.svg HTTP/1.1" 304 0
+[24/Jul/2025 09:21:50] "POST /admin/main/mostboughtcoin/add/ HTTP/1.1" 302 0
+[24/Jul/2025 09:21:50] "GET /admin/main/mostboughtcoin/ HTTP/1.1" 200 28763
+[24/Jul/2025 09:21:50] "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+[24/Jul/2025 09:21:50] "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 08:27:14
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+July 24, 2025 - 09:23:11
+Django version 5.2.4, using settings 'config.settings'
+Starting development server at http://127.0.0.1:8020/
+Quit the server with CTRL-BREAK.
+
+WARNING: This is a development server. Do not use it in a production setting. Use a production WSGI or ASGI server instead.
+For more information on production servers see: https://docs.djangoproject.com/en/5.2/howto/deployment/
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "C:\Program Files\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    ~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\commands\runserver.py", line 124, in inner_run
+    autoreload.raise_last_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 86, in raise_last_exception
+    raise _exception[1]
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\__init__.py", line 394, in execute
+    autoreload.check_errors(django.setup)()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\registry.py", line 116, in populate
+    app_config.import_models()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1018, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1156, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1086, in source_to_code
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py", line 180
+    volume_flow = models.CharField(max_length=20, choices=SOURCE, default="1" verbose_name="Data Source")
+                                                                          ^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "C:\Program Files\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    ~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\commands\runserver.py", line 124, in inner_run
+    autoreload.raise_last_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 86, in raise_last_exception
+    raise _exception[1]
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\__init__.py", line 394, in execute
+    autoreload.check_errors(django.setup)()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\registry.py", line 116, in populate
+    app_config.import_models()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1018, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1156, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1086, in source_to_code
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py", line 180
+    volume_flow = models.CharField(max_length=20, choices=SOURCE, default="1" verbose_name="Data Source")
+                                                                          ^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "C:\Program Files\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    ~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\commands\runserver.py", line 124, in inner_run
+    autoreload.raise_last_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 86, in raise_last_exception
+    raise _exception[1]
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\__init__.py", line 394, in execute
+    autoreload.check_errors(django.setup)()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\registry.py", line 116, in populate
+    app_config.import_models()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1018, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1156, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1086, in source_to_code
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py", line 180
+    volume_flow = models.CharField(max_length=20, choices=VOLUME_FLOW, default="1" verbose_name="Data Source")
+                                                                               ^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Watching for file changes with StatReloader
+Exception in thread django-main-thread:
+Traceback (most recent call last):
+  File "C:\Program Files\Python313\Lib\threading.py", line 1041, in _bootstrap_inner
+    self.run()
+    ~~~~~~~~^^
+  File "C:\Program Files\Python313\Lib\threading.py", line 992, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\commands\runserver.py", line 124, in inner_run
+    autoreload.raise_last_exception()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 86, in raise_last_exception
+    raise _exception[1]
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\core\management\__init__.py", line 394, in execute
+    autoreload.check_errors(django.setup)()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\utils\autoreload.py", line 64, in wrapper
+    fn(*args, **kwargs)
+    ~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\__init__.py", line 24, in setup
+    apps.populate(settings.INSTALLED_APPS)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\registry.py", line 116, in populate
+    app_config.import_models()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\venv\Lib\site-packages\django\apps\config.py", line 269, in import_models
+    self.models_module = import_module(models_module_name)
+                         ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Python313\Lib\importlib\__init__.py", line 88, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 1018, in exec_module
+  File "<frozen importlib._bootstrap_external>", line 1156, in get_code
+  File "<frozen importlib._bootstrap_external>", line 1086, in source_to_code
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py", line 180
+    volume_flow = models.CharField(max_length=20, choices=VOLUME_FLOW, default="1" verbose_name="Volume Flow")
+                                                                               ^^^^^^^^^^^^^^^^
+SyntaxError: invalid syntax. Perhaps you forgot a comma?
+C:\Users\Administrator\Downloads\IT\Projects\Django_Projects\CryptoLedger\main\models.py changed, reloading.
+Watching for file changes with StatReloader

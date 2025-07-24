@@ -82,8 +82,8 @@ class AnalystAdmin(admin.ModelAdmin):
 
 @admin.register(MostBoughtCoin)
 class MostBoughtCoinAdmin(admin.ModelAdmin):
-    list_display = ["created_at", "coins"]
-    search_fields = ["coins", "created_at"]
+    list_display = ["created_at", "volume_flow", "coins"]
+    search_fields = ["coins", "created_at", "volume_flow"]
     ordering = ["-created_at"]
 
 

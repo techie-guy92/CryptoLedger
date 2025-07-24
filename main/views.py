@@ -10,6 +10,7 @@ from drf_spectacular.utils import extend_schema
 from django.http import JsonResponse
 from django_filters.rest_framework import DjangoFilterBackend
 from collections import Counter
+from django.utils.timezone import now, localtime
 from datetime import timedelta, date
 from main.models import *
 from main.serializers import *
@@ -24,14 +25,14 @@ from main.serializers import *
 class TopTradedCoinsAPIView(APIView):
     def get(self, request: Request):
         try:
-            start_date = date(2025, 7, 1)
-            end_date = date(2025, 7, 15)
-            entries = MostBoughtCoin.objects.filter(created_at__range=(start_date, end_date))
+            start_date = date(2025, 6, 25)
+            end_date = date(2025, 7, 24)
+            entries = MostBoughtCoin.objects.filter(created_at__range=(start_date, end_date), volume_flow="inflow")
             
             queryset = MostBoughtCoin.objects.all()
             
             all_coins = []
-            for entry in queryset:
+            for entry in entries:
                 raw = entry.coins 
                 coins = [coin.strip() for coin in raw.split(",") if coin.strip()]
                 all_coins.extend(coins)
