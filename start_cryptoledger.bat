@@ -1,6 +1,5 @@
 echo [SCHEDULER TEST] %DATE% %TIME% Task trigger confirmed >> logs\boot_trace.txt
-
-echo [%DATE% %TIME%] Task Scheduler fired >> logs\boot_trace.txt
+echo [%DATE% %TIME%] Scheduler fired >> logs\boot_trace.txt
 
 :: Cap log file size (e.g. 1MB = 1048576 bytes)
 set "LOG_PATH=logs\startup_log.txt"
