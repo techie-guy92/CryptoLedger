@@ -54,5 +54,5 @@ python manage.py runserver 8020 >> logs\startup_log.txt 2>&1
 echo [DJANGO] [%DATE% %TIME%] Finished runserver >> logs\startup_log.txt
 
 :: Open browser to local server
-start http://localhost:8020
+start http://127.0.0.1:8020/admin/
 echo [COMPLETE] [%DATE% %TIME%] CryptoLedger boot sequence complete >> logs\startup_log.txt
