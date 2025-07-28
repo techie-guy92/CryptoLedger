@@ -27,6 +27,7 @@ def upload_to(instance, filename):
 class EntryPoint(models.Model):
     SIGNIFICANCE = [("1", "*"), ("2", "**"), ("3", "***"), ("4", "****"), ("5", "*****"),]
     coin = models.CharField(max_length=20, verbose_name="Coin")
+    value = models.CharField(max_length=50, help_text="Enter Value and its worth in USDT: '2000 - 230'", blank=True, null=True, verbose_name="Value")
     entry_1 = models.CharField(max_length=50, help_text="Enter range like: '2.13 - 1.78'", verbose_name="Entry Point 1")
     entry_2 = models.CharField(max_length=50, blank=True, null=True, help_text="Enter range like: '2.13 - 1.78'", verbose_name="Entry Point 2")
     entry_3 = models.CharField(max_length=50, blank=True, null=True, help_text="Enter range like: '2.13 - 1.78'", verbose_name="Entry Point 3")

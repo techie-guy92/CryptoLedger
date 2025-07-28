@@ -7,10 +7,10 @@ from .models import *
 
 @admin.register(EntryPoint)
 class EntryPointAdmin(admin.ModelAdmin):
-    list_display = ["coin", "entry_1", "entry_2", "entry_3", "significance", "updated_at"]
+    list_display = ["coin", "value", "entry_1", "entry_2", "entry_3", "significance", "updated_at"]
     list_filter = ["significance", "updated_at"]
     search_fields = ["coin", "significance"]
-    ordering = ["id"]
+    ordering = ["-significance", "id"]
     
 
 #====================================== ExitPoint Model ================================================
