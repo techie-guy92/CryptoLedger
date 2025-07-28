@@ -7,8 +7,8 @@ from .models import *
 
 @admin.register(EntryPoint)
 class EntryPointAdmin(admin.ModelAdmin):
-    list_display = ["coin", "entry_1", "entry_2", "entry_3", "significance", "created_at"]
-    list_filter = ["significance", "created_at"]
+    list_display = ["coin", "entry_1", "entry_2", "entry_3", "significance", "updated_at"]
+    list_filter = ["significance", "updated_at"]
     search_fields = ["coin", "significance"]
     ordering = ["id"]
     
@@ -17,8 +17,8 @@ class EntryPointAdmin(admin.ModelAdmin):
 
 @admin.register(ExitPoint)
 class ExitPointAdmin(admin.ModelAdmin):
-    list_display = ["coin", "exit_1", "exit_2", "exit_3", "created_at"]
-    list_filter = ["created_at"]
+    list_display = ["coin", "exit_1", "exit_2", "exit_3", "updated_at"]
+    list_filter = ["updated_at"]
     search_fields = ["coin"]
     ordering = ["id"]
     

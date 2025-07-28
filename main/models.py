@@ -33,7 +33,7 @@ class EntryPoint(models.Model):
     significance = models.CharField(max_length=10, choices=SIGNIFICANCE, verbose_name="Significance")
     signal_notes = models.TextField(blank=True, null=True, verbose_name="Signal Notes")
     image = models.ImageField(upload_to=upload_to, blank=True, null=True, verbose_name="Image")
-    created_at = models.DateField(auto_now_add=True, editable=False, verbose_name="Created At")
+    updated_at = models.DateField(auto_now_add=True, verbose_name="Updated At")
 
     def __str__(self):
         current_time = localtime(now())
@@ -50,10 +50,15 @@ class EntryPoint(models.Model):
                 return None
         return None
 
+    def save(self, *args, **kwargs):
+        if not self.created_at:
+            self.created_at = localtime(now())
+        super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = "Entry Point"
         verbose_name_plural = "Entry Points"
-        ordering = ["-created_at"]
+        ordering = ["-updated_at"]
         indexes = [
             models.Index(fields=["coin"]),
             models.Index(fields=["significance"]),
@@ -69,17 +74,22 @@ class ExitPoint(models.Model):
     exit_3 = models.CharField(max_length=50, blank=True, null=True, verbose_name="Exit Point 3")
     signal_notes = models.TextField(blank=True, null=True, verbose_name="Signal Notes")
     image = models.ImageField(upload_to=upload_to, blank=True, null=True, verbose_name="Image")
-    created_at = models.DateField(auto_now_add=True, editable=False, verbose_name="Created At")
+    updated_at = models.DateField(auto_now_add=True, verbose_name="Updated At")
 
     def __str__(self):
         current_time = localtime(now())
         formatted_date = current_time.strftime("%Y-%m-%d")
         return f"{self.coin} {self.exit_1} {formatted_date}"
 
+    def save(self, *args, **kwargs):
+        if not self.created_at:
+            self.created_at = localtime(now())
+        super().save(*args, **kwargs)
+        
     class Meta:
         verbose_name = "Exit Point"
         verbose_name_plural = "Exit Points"
-        ordering = ["-created_at"]
+        ordering = ["-updated_at"]
         indexes = [
             models.Index(fields=["coin"]),
         ]
