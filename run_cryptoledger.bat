@@ -43,16 +43,25 @@ if errorlevel 1 (
 echo [POST-SYNC TIME] [%DATE% %TIME%] Time check complete >> logs\startup_log.txt
 
 :: Activate Python environment
-call venv\Scripts\activate
-echo [ENV] [%DATE% %TIME%] Virtualenv activated >> logs\startup_log.txt
+if exist "venv\Scripts\activate.bat" (
+    call venv\Scripts\activate
+    echo [ENV] [%DATE% %TIME%] Virtualenv activated >> logs\startup_log.txt
+) else (
+    echo [ENV ERROR] [%DATE% %TIME%] Virtualenv not found! >> logs\startup_log.txt
+)
 
 :: Wait for service readiness
 timeout /t 10 >nul
 
 :: Launch Django server
+echo Boot triggered: %DATE% %TIME% >> logs\boot_trace.txt
 python manage.py runserver 8020 >> logs\startup_log.txt 2>&1
-echo [DJANGO] [%DATE% %TIME%] Finished runserver >> logs\startup_log.txt
+if errorlevel 1 (
+    echo [DJANGO] First launch failed — retrying in 10s >> logs\startup_log.txt
+    timeout /t 10 >nul
+    python manage.py runserver 8020 >> logs\startup_log.txt 2>&1
+)
 
 :: Open browser to local server
-start http://127.0.0.1:8020/admin/
+start "" /B "http://127.0.0.1:8020/admin/"
 echo [COMPLETE] [%DATE% %TIME%] CryptoLedger boot sequence complete >> logs\startup_log.txt
