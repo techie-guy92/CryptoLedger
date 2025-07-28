@@ -51,8 +51,8 @@ class EntryPoint(models.Model):
         return None
 
     def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = localtime(now())
+        if not self.updated_at:
+            self.updated_at = localtime(now())
         super().save(*args, **kwargs)
 
     class Meta:
@@ -82,8 +82,8 @@ class ExitPoint(models.Model):
         return f"{self.coin} {self.exit_1} {formatted_date}"
 
     def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = localtime(now())
+        if not self.updated_at:
+            self.updated_at = localtime(now())
         super().save(*args, **kwargs)
         
     class Meta:
