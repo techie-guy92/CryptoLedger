@@ -1,7 +1,9 @@
 import requests
 import requests_cache
 import aiohttp
+import asyncio
 from bs4 import BeautifulSoup
+
 
 #====================================== fetch Coins Price ==============================================
 
