@@ -14,7 +14,15 @@ from django.utils.timezone import now, localtime
 from datetime import timedelta, date
 from main.models import *
 from main.serializers import *
+from coingecko_utils import get_bulk_prices_sync
 
+
+#====================================== Analyst View ==================================================
+
+def fetch_prices(request):
+    result = get_bulk_prices_sync()
+    return JsonResponse(result["prices"])
+        
 
 #====================================== MostBoughtCoin View ===========================================
 
@@ -59,6 +67,6 @@ class AnalystViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ["analyst"]
-
+    
 
 #======================================================================================================

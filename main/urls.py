@@ -1,12 +1,13 @@
 from django.urls import path, re_path, include
 from rest_framework.routers import DefaultRouter
-from .views import (TopTradedCoinsAPIView, AnalystViewSet, )
+from .views import (fetch_prices, TopTradedCoinsAPIView, AnalystViewSet, )
 
 router = DefaultRouter()
 router.register(r"analyst", AnalystViewSet, basename="analyst")
 
 
 urlpatterns = [
+    path("fetch_prices/", fetch_prices, name="fetch_prices"),
     path("most-traded-coins/", TopTradedCoinsAPIView.as_view(), name="most-traded-coins"),
 ]
 
