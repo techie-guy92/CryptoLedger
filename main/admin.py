@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.utils.html import format_html
+from django.urls import reverse
+from django.shortcuts import redirect
 from .models import *
 
 
@@ -114,6 +116,12 @@ class MostBoughtCoinAdmin(admin.ModelAdmin):
     list_display = ["created_at", "volume_flow", "coins"]
     search_fields = ["coins", "created_at", "volume_flow"]
     ordering = ["-created_at"]
+    change_list_template = "admin/main/mostboughtcoin_change_list.html"
 
-
+    def changelist_view(self, request, extra_context=None):
+        if request.GET.get("_redirect") == "most_traded":
+            return redirect(reverse("most_traded_coins")) 
+        return super().changelist_view(request, extra_context)
+    
+    
 #======================================================================================================
