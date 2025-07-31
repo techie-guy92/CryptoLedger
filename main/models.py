@@ -100,7 +100,7 @@ class ExitPoint(models.Model):
 
 class BoughtCoin(models.Model):
     coin = models.CharField(max_length=20, verbose_name="Coin")
-    holding_value = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Holding Value")
+    holding_value = models.DecimalField(max_digits=12, decimal_places=3, verbose_name="Holding Value")
     total_cost_usdt = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Total Cost (USDT)")
     total_cost_irt = models.IntegerField(verbose_name="Total Cost (IRT)")
     avg_net_cost_usdt = models.DecimalField(max_digits=14, decimal_places=8, verbose_name="AVG Net Cost (USDT)")
