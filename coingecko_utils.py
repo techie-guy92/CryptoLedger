@@ -68,7 +68,6 @@ async def fetch_bulk_prices():
             async with session.get(url, params=params, timeout=aiohttp.ClientTimeout(total=10)) as response:
                 data = await response.json()
                 
-                # prices = {symbol: f"{data.get(coin_id, {}).get('usd', 0):.7f}" for symbol, coin_id in SYMBOL_TO_ID.items()}
                 prices = {symbol: f"{data.get(coin_id, {}).get('usd', 0):.7f}".rstrip("0").rstrip(".") for symbol, coin_id in SYMBOL_TO_ID.items()}
                 
                 return {

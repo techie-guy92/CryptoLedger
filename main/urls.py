@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (fetch_prices, TopTradedCoinsAPIView, AnalystViewSet, )
 
 router = DefaultRouter()
-router.register(r"analyst", AnalystViewSet, basename="analyst")
+router.register(r"perspectives", AnalystViewSet, basename="analyst")
 
 
 urlpatterns = [
