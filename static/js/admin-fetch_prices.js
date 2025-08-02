@@ -1,7 +1,7 @@
 (function ($) {
     $(document).ready(function () {
         function fetchLivePrices() {
-            fetch("/main/fetch_prices/")
+            fetch("/main/fetch-prices/")
                 .then(response => response.json())
                 .then(data => {
                     $(".live-coin-price").each(function () {
