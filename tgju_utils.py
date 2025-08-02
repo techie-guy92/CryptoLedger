@@ -44,14 +44,14 @@ async def fetch_usd_and_ounce_prices():
                 "OUNCE": ounce_price
             }
 
-            logger.debug(f"Fetched USD/IRT: {usd_price}, Ounce: {ounce_price}")
+            logger.debug(f"Fetched USD/USDT/IRT: {usd_price}, Ounce: {ounce_price}")
             return {
                 "timestamp": datetime.utcnow().isoformat(),
                 "prices": prices
             }
 
         except Exception as error:
-            logger.error(f"Failed to fetch USD/Ounce prices: {error}")
+            logger.error(f"Failed to fetch USD/USDT/Ounce prices: {error}")
             return {
                 "timestamp": datetime.utcnow().isoformat(),
                 "prices": {},
@@ -59,7 +59,7 @@ async def fetch_usd_and_ounce_prices():
             }
 
 def get_usd_and_ounce_prices_sync():
-    logger.debug(f"Fetching USD & Ounce prices at {datetime.utcnow().isoformat()}")
+    logger.debug(f"Fetching USD & USDT & Ounce prices at {datetime.utcnow().isoformat()}")
     return asyncio.run(fetch_usd_and_ounce_prices())
 
 
