@@ -15,14 +15,19 @@ from datetime import timedelta, date
 from main.models import *
 from main.serializers import *
 from coingecko_utils import get_bulk_prices_sync
+from tgju_utils import get_usd_and_ounce_prices_sync
 
 
 #====================================== Fetch Prices ==================================================
 
 def fetch_prices(request):
-    result = get_bulk_prices_sync()
-    return JsonResponse(result["prices"])
-        
+    crypto_prices = get_bulk_prices_sync()["prices"]
+    usd_ounce_prices = get_usd_and_ounce_prices_sync()["prices"]
+    # combined = crypto_prices.copy()
+    # combined.update(usd_ounce_prices)
+    combined = crypto_prices | usd_ounce_prices
+    return JsonResponse(combined)
+
 
 #====================================== Top Traded Coins APIVie =======================================
 
