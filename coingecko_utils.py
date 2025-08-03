@@ -51,12 +51,12 @@ async def main():
 #====================================== fetch bulk prices ==============================================
 
 SYMBOL_TO_ID = {
-    "ETH": "ethereum", "SOL": "solana", "XRP": "ripple", "ADA": "cardano", "AVAX": "avalanche-2", "LINK": "chainlink", 
-    "DOT": "polkadot", "AAVE": "aave", "UNI": "uniswap", "AXS": "axie-infinity", "SUSHI": "sushi", "XLM": "stellar",
-    "FIL": "filecoin", "NEAR": "near", "EGLD": "elrond-erd-2", "1INCH": "1inch", "SAND": "the-sandbox", "WLD": "worldcoin-wld",
-    "ENA": "ethena", "SUI": "sui", "APE": "apecoin", "RENDER": "render-token", "ARB": "arbitrum", "CRV": "curve-dao-token",  
-    "WAVES": "waves", "FET": "fetch-ai", "AIOZ": "aioz-network", "GMT": "stepn", "GRT": "the-graph", "CHZ": "chiliz", 
-    "GALA": "gala", "ONE": "harmony", "PEPE": "pepe",
+    "BTC": "bitcoin", "ETH": "ethereum", "BNB": "binancecoin", "SOL": "solana", "XRP": "ripple", "ADA": "cardano", "AVAX": "avalanche-2", "DOT": "polkadot",
+    "XMR": "monero", "AAVE": "aave", "LTC": "litecoin", "UNI": "uniswap", "LINK": "chainlink",  "AXS": "axie-infinity", "SUSHI": "sushi", "XLM": "stellar",
+    "FIL": "filecoin", "NEAR": "near", "EGLD": "elrond-erd-2", "1INCH": "1inch", "SAND": "the-sandbox", "WLD": "worldcoin-wld", "APT": "aptos", "DOGE": "dogecoin",
+    "WAVES": "waves", "ENA": "ethena", "SUI": "sui", "APE": "apecoin", "RENDER": "render-token", "ARB": "arbitrum", "CRV": "curve-dao-token", "FET": "fetch-ai",
+    "AIOZ": "aioz-network", "OP": "optimism",  "GMT": "stepn", "GRT": "the-graph", "CHZ": "chiliz", "GALA": "gala", "ONE": "harmony", "SHIB": "shiba-inu",
+    "FLOKI": "floki", "PEPE": "pepe",
 }
 
 async def fetch_bulk_prices():
@@ -68,7 +68,7 @@ async def fetch_bulk_prices():
             async with session.get(url, params=params, timeout=aiohttp.ClientTimeout(total=10)) as response:
                 data = await response.json()
                 
-                prices = {symbol: f"{data.get(coin_id, {}).get('usd', 0):.7f}".rstrip("0").rstrip(".") for symbol, coin_id in SYMBOL_TO_ID.items()}
+                prices = {symbol: f"{data.get(coin_id, {}).get('usd', 0):,.7f}".rstrip("0").rstrip(".") for symbol, coin_id in SYMBOL_TO_ID.items()}
                 
                 return {
                     "timestamp": datetime.utcnow().isoformat(), 

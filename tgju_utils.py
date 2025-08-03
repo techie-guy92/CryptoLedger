@@ -29,7 +29,8 @@ async def fetch_usd_and_ounce_prices():
             ounce_element = soup.select_one(selectors["ounce"])
 
             if not usd_element or not usdt_element or not ounce_element:
-                raise ValueError("Required elements not found in response.")
+                missing = [k for k, sel in selectors.items() if not soup.select_one(sel)]
+                raise ValueError(f"Missing elements: {", ".join(missing)}")
 
             usd_raw = usd_element.text.strip().replace(",", "").replace(".", "")
             usdt_raw  = usdt_element.text.strip().replace(",", "").replace(".", "")
@@ -39,9 +40,9 @@ async def fetch_usd_and_ounce_prices():
             ounce_price = round(float(ounce_element.text.strip().replace(",", "")), 2)
 
             prices = {
-                "USD": usd_price,
-                "USDT": usdt_price,
-                "OUNCE": ounce_price
+                "USD": f"{usd_price:,.0f}",
+                "USDT": f"{usdt_price:,.0f}",
+                "OUNCE": f"{ounce_price:,.2f}"
             }
 
             logger.debug(f"Fetched USD/USDT/IRT: {usd_price}, Ounce: {ounce_price}")
@@ -55,7 +56,7 @@ async def fetch_usd_and_ounce_prices():
             return {
                 "timestamp": datetime.utcnow().isoformat(),
                 "prices": {},
-                "error": str(error)
+                "error": repr(error)
             }
 
 def get_usd_and_ounce_prices_sync():
