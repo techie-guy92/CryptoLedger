@@ -3,10 +3,6 @@ __pycache__/
 *.py[cod]
 settings.json
 
-
-# Ignore sql files
-backup.sql
-
 # Ignore virtual environment directories
 venv/
 .env
