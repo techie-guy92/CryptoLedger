@@ -6,8 +6,7 @@ mkdir -p logs
 LOGFILE="logs/startup_log.txt"
 echo "[`date '+%Y-%m-%d %H:%M:%S'`] Starting CryptoLedger" >> "$LOGFILE"
 
-source venv/bin/activate
-echo "[`date '+%Y-%m-%d %H:%M:%S'`] Virtualenv activated" >> "$LOGFILE"
+PYTHON_BIN="/home/techie-guy92/Projects/Django/CryptoLedger/venv/bin/python"
+echo "[`date '+%Y-%m-%d %H:%M:%S'`] Using Python: $PYTHON_BIN" >> "$LOGFILE"
 
-# Run Django server in foreground so systemd can track it
-exec python manage.py runserver 0.0.0.0:8020 >> "$LOGFILE" 2>&1
+exec "$PYTHON_BIN" manage.py runserver 0.0.0.0:8020 >> "$LOGFILE" 2>&1
