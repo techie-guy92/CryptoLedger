@@ -8,24 +8,32 @@ from rest_framework.request import Request
 from rest_framework.decorators import action
 from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
 from django.http import JsonResponse
+from asgiref.sync import sync_to_async
 from django_filters.rest_framework import DjangoFilterBackend
 from collections import Counter
 from django.utils.timezone import now, localtime
 from datetime import timedelta, date
 from main.models import *
 from main.serializers import *
-from coingecko_utils import get_bulk_prices_sync
-from tgju_utils import get_usd_and_ounce_prices_sync
+from coingecko_utils import fetch_bulk_prices, get_bulk_prices_sync
+from tgju_utils import fetch_usd_and_ounce_prices, get_usd_and_ounce_prices_sync
 
 
 #====================================== Fetch Prices ==================================================
 
-def fetch_prices(request):
-    crypto_prices = get_bulk_prices_sync()["prices"]
-    usd_ounce_prices = get_usd_and_ounce_prices_sync()["prices"]
-    # combined = crypto_prices.copy()
-    # combined.update(usd_ounce_prices)
-    combined = crypto_prices | usd_ounce_prices
+# def fetch_prices(request):
+#     crypto_prices = get_bulk_prices_sync()["prices"]
+#     usd_ounce_prices = get_usd_and_ounce_prices_sync()["prices"]
+#     # combined = crypto_prices.copy()
+#     # combined.update(usd_ounce_prices)
+#     combined = crypto_prices | usd_ounce_prices
+#     return JsonResponse(combined)
+
+
+async def fetch_prices(request):
+    crypto_prices = await fetch_bulk_prices()
+    usd_ounce_prices = await fetch_usd_and_ounce_prices()
+    combined = crypto_prices["prices"] | usd_ounce_prices["prices"]
     return JsonResponse(combined)
 
 
