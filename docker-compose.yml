@@ -1,0 +1,79 @@
+version: '3.9'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ${PROJECT_NAME}-web
+
+    env_file:
+      - .env
+    depends_on:
+      - db
+      - redis
+      - rabbitmq
+    ports:
+      - "8020:8020"
+    volumes:
+      - .:/app
+    restart: always
+
+  db:
+    image: postgres:15.4
+    container_name: ${PROJECT_NAME}-postgres-db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ${PROJECT_NAME}_pgdata:/var/lib/postgresql/data
+
+    restart: always
+
+  redis:
+    image: redis:7.2
+    container_name: ${PROJECT_NAME}-redis-cache
+    ports:
+      - "6379:6379"
+    restart: always
+
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: ${PROJECT_NAME}-rabbitmq-broker
+    environment:
+      URL_BROKER: ${URL_BROKER}
+    ports:
+      - "5672:5672"     # Broker port
+      - "15672:15672"   # Management UI
+    restart: always
+
+  celery:
+    build:
+      context: .
+    command: celery -A config.celery_config worker --loglevel=info
+
+    env_file:
+      - .env
+    depends_on:
+      - web
+      - redis
+      - rabbitmq
+    restart: always
+
+  beat:
+    build:
+      context: .
+    command: celery -A config.celery_config beat --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - web
+      - redis
+      - rabbitmq
+    restart: always
+
+volumes:
+  ${PROJECT_NAME}_pgdata:
