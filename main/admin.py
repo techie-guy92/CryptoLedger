@@ -12,7 +12,7 @@ class EntryPointAdmin(admin.ModelAdmin):
     list_display = ["coin", "value", "coin_price", "entry_1", "entry_2", "entry_3", "significance", "updated_at"]
     list_filter = ["significance", "updated_at"]
     search_fields = ["coin", "significance"]
-    ordering = ["-significance", "id"]
+    ordering = ["coin", "-significance"]
     
     def coin_price(self, obj):
         return format_html(f'<span class="live-coin-price" data-coin="{obj.coin}">Loading...</span>')
@@ -32,7 +32,7 @@ class ExitPointAdmin(admin.ModelAdmin):
     list_display = ["coin", "coin_price", "exit_1", "exit_2", "exit_3", "updated_at"]
     list_filter = ["updated_at"]
     search_fields = ["coin"]
-    ordering = ["id"]
+    ordering = ["coin", "-significance"]
     
     def coin_price(self, obj):
         return format_html(f'<span class="live-coin-price" data-coin="{obj.coin}">Loading...</span>')
