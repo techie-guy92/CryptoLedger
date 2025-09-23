@@ -1,3 +1,4 @@
+from django.contrib.admin import AdminSite
 from django.contrib import admin
 from django.utils.html import format_html
 from django.urls import reverse
@@ -5,7 +6,17 @@ from django.shortcuts import redirect
 from .models import *
 
 
-#====================================== EntryPoint Model ==============================================
+#====================================== Dashboard AdminSite ==========================================
+
+# class DashboardAdminSite(AdminSite):
+#     site_header = "Crypto Ledger Admin"
+#     site_title = "Dashboard"
+#     index_title = "Welcome to the Dashboard"
+
+# dashboard_admin = DashboardAdminSite(name='dashboard_admin')
+
+
+#====================================== EntryPoint Admin ==============================================
 
 @admin.register(EntryPoint)
 class EntryPointAdmin(admin.ModelAdmin):
@@ -25,14 +36,14 @@ class EntryPointAdmin(admin.ModelAdmin):
         )
         
         
-#====================================== ExitPoint Model ================================================
+#====================================== ExitPoint Admin ================================================
 
 @admin.register(ExitPoint)
 class ExitPointAdmin(admin.ModelAdmin):
     list_display = ["coin", "coin_price", "exit_1", "exit_2", "exit_3", "updated_at"]
     list_filter = ["updated_at"]
     search_fields = ["coin"]
-    ordering = ["coin", "-significance"]
+    ordering = ["coin",]
     
     def coin_price(self, obj):
         return format_html(f'<span class="live-coin-price" data-coin="{obj.coin}">Loading...</span>')
@@ -44,7 +55,7 @@ class ExitPointAdmin(admin.ModelAdmin):
             "js/admin-fetch_prices.js",
         )
     
-#====================================== BoughtCoin Model ==============================================
+#====================================== BoughtCoin Admin ==============================================
 
 @admin.register(BoughtCoin)
 class BoughtCoinAdmin(admin.ModelAdmin):
@@ -99,7 +110,7 @@ class BoughtCoinAdmin(admin.ModelAdmin):
     total_earn_irt_display.short_description = "Total Earn (IRT)"
 
 
-#====================================== BoughtCoin Model ==============================================
+#====================================== BoughtCoin Admin ==============================================
 
 @admin.register(Analyst)
 class AnalystAdmin(admin.ModelAdmin):
@@ -109,7 +120,7 @@ class AnalystAdmin(admin.ModelAdmin):
     ordering = ["id"]
     
     
-#====================================== MostBoughtCoin Model ==========================================
+#====================================== MostBoughtCoin Admin ==========================================
 
 @admin.register(MostBoughtCoin)
 class MostBoughtCoinAdmin(admin.ModelAdmin):
@@ -123,5 +134,5 @@ class MostBoughtCoinAdmin(admin.ModelAdmin):
             return redirect(reverse("most_traded_coins")) 
         return super().changelist_view(request, extra_context)
     
-    
+
 #======================================================================================================
