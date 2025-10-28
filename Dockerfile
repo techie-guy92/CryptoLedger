@@ -36,7 +36,7 @@ RUN python manage.py collectstatic --noinput
 RUN mkdir -p logs
 
 # Expose port for Gunicorn
-EXPOSE 8000
+EXPOSE 8020
 
 # Start Gunicorn with fallback if DJANGO_CMD is not set
-CMD ["sh", "-c", "${DJANGO_CMD:-gunicorn config.asgi:application --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --log-level info --timeout 120 --access-logfile logs/access.log --error-logfile logs/error.log}"]
+CMD ["sh", "-c", "${DJANGO_CMD:-gunicorn config.asgi:application --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8020 --log-level info --timeout 120 --access-logfile logs/access.log --error-logfile logs/error.log}"]
