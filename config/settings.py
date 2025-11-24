@@ -14,6 +14,7 @@ from pathlib import Path
 from os import path, makedirs
 from environ import Env
 from datetime import timedelta
+from celery.schedules import crontab
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -223,10 +224,10 @@ LOGGING = {
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env.str('EMAIL_HOST')
-EMAIL_PORT = 587
+EMAIL_PORT = env.str('EMAIL_PORT')
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER') 
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD') 
-EMAIL_USE_TLS = True
+EMAIL_USE_TLS = str('EMAIL_USE_TLS')
 EMAIL_FROM_EMAIL = EMAIL_HOST_USER
 
 
@@ -249,8 +250,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=int(env.str('ACCESS_TOKEN'))),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=int(env.str('REFRESH_TOKEN'))),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': True,
+    'ROTATE_REFRESH_TOKENS': env.bool('ROTATE_REFRESH_TOKENS'),
+    'BLACKLIST_AFTER_ROTATION': env.bool('BLACKLIST_AFTER_ROTATION'),
     'ALGORITHM': 'HS256',
     'SIGNING_KEY': SECRET_KEY,
     'VERIFYING_KEY': None,
@@ -269,3 +270,48 @@ SPECTACULAR_SETTINGS = {
     "VERSION" : "1.0.0",
     "SERVE_INCLUDE_SCHEMA" : False,
 }
+
+
+# Celery Configuration
+CELERY_BROKER_URL = env.str('URL_BROKER')
+CELERY_RESULT_BACKEND = env.str('REDIS_CELERY_RESULTS')
+# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_RESULT_EXPIRES = 3600  
+
+# Serialization
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ACCEPT_CONTENT = ['json']
+
+# Time & Connection
+CELERY_TIMEZONE = 'Asia/Tehran'
+CELERY_ENABLE_UTC = True
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+CELERY_BROKER_HEARTBEAT = 0
+
+# Task Settings
+CELERY_TASK_ACKS_LATE = True
+CELERY_TASK_REJECT_ON_WORKER_LOST = True
+CELERY_TASK_TIME_LIMIT = 300
+
+
+# CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+# CELERY_BEAT_SCHEDULE = {
+ 
+# }
+
+
+# Django Cache & Sessions
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": env.str('REDIS_DJANGO_CACHE'),
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+SESSION_CACHE_ALIAS = "default"
+CACHE_TTL = 60 * 15 
