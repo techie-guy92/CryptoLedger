@@ -28,7 +28,7 @@ try:
     print(f"Secret created: {response['ARN']}")
 
 except ClientError as error:
-    if e.response['Error']['Code'] == 'ResourceExistsException':
+    if error.response['Error']['Code'] == 'ResourceExistsException':
         # If secret already exists, update it
         update_response = client.put_secret_value(
             SecretId=SECRET_NAME,

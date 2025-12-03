@@ -2,6 +2,7 @@
 __pycache__/
 *.py[cod]
 settings.json
+secret_keys.py
 
 # Ignore virtual environment directories
 venv/
@@ -24,3 +25,4 @@ startup_log.txt
 celerybeat-schedule
 celerybeat-schedule-shm
 celerybeat-schedule-wal
+db.sqlite3

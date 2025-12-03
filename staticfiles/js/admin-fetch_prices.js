@@ -18,10 +18,8 @@
                 });
         }
 
-        // Initial fetch
         fetchLivePrices();
 
-        // Auto-refresh every 30 seconds
         setInterval(fetchLivePrices, 30000);
     });
 })(django.jQuery);
