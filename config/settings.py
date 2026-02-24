@@ -36,24 +36,13 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 FRONTEND_DOMAIN = env.str('FRONTEND_DOMAIN')
-
-CSRF_COOKIE_SAMESITE = 'None'  # Allow cross-site requests
-CSRF_COOKIE_SECURE = False      # Must be False when using 'None' with HTTP
-SESSION_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SECURE = False
-CSRF_COOKIE_DOMAIN = None       # Keep as None for now
-# CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
-CSRF_TRUSTED_ORIGINS = [
-    'http://cl.local:8002',
-    'http://192.168.122.43:8002', 
-    'http://127.0.0.1:8002',
-    'http://localhost:8002',
-]
-CSRF_USE_SESSIONS = False  # Keep as False to use cookies
-CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript to access it (needed for some setups)
-CSRF_COOKIE_SAMESITE = 'Lax'  # or 'None' if you need cross-origin
-SESSION_COOKIE_SAMESITE = 'Lax'
-SESSION_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT')
+SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE')
+CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE')
+SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS')
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS')
+SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD')
 
 
 # Create logs directory if missing
