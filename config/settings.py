@@ -36,13 +36,19 @@ DEBUG = env.bool('DEBUG')
 
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS')
 FRONTEND_DOMAIN = env.str('FRONTEND_DOMAIN')
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
-# CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE')
-# SESSION_COOKIE_SECURE = env.bool('SESSION_COOKIE_SECURE')
-# SECURE_SSL_REDIRECT = env.bool('SECURE_SSL_REDIRECT')
-# SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS')
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS')
-# SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD')
+
+CSRF_COOKIE_SAMESITE = 'None'  # Allow cross-site requests
+CSRF_COOKIE_SECURE = False      # Must be False when using 'None' with HTTP
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = False
+CSRF_COOKIE_DOMAIN = None       # Keep as None for now
+# CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
+CSRF_TRUSTED_ORIGINS = [
+    'http://cl.local:8002',
+    'http://192.168.122.43:8002', 
+    'http://127.0.0.1:8002',
+    'http://localhost:8002',
+]
 
 
 # Create logs directory if missing
