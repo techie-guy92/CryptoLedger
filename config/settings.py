@@ -49,6 +49,11 @@ CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8002',
     'http://localhost:8002',
 ]
+CSRF_USE_SESSIONS = False  # Keep as False to use cookies
+CSRF_COOKIE_HTTPONLY = False  # Allow JavaScript to access it (needed for some setups)
+CSRF_COOKIE_SAMESITE = 'Lax'  # or 'None' if you need cross-origin
+SESSION_COOKIE_SAMESITE = 'Lax'
+SESSION_COOKIE_HTTPONLY = True
 
 
 # Create logs directory if missing
