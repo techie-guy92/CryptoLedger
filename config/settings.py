@@ -12,25 +12,19 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 from os import path, makedirs
-from environ import Env
+import environ
 from datetime import timedelta
 from celery.schedules import crontab
 
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Initialize environment
-env = Env()
-env.read_env(path.join(BASE_DIR, ".env"))
+env = environ.Env()
+env_path = env.str("ENV_PATH", default=str(BASE_DIR / ".env"))
+env.read_env(env_path)
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env.str('SECRET_KEY')
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG')
 
 
@@ -43,9 +37,11 @@ CSRF_COOKIE_SECURE = env.bool('CSRF_COOKIE_SECURE')
 SECURE_HSTS_SECONDS = env.int('SECURE_HSTS_SECONDS')
 SECURE_HSTS_INCLUDE_SUBDOMAINS = env.bool('SECURE_HSTS_INCLUDE_SUBDOMAINS')
 SECURE_HSTS_PRELOAD = env.bool('SECURE_HSTS_PRELOAD')
+USE_X_FORWARDED_HOST = env.bool('USE_X_FORWARDED_HOST')
+USE_X_FORWARDED_PORT = env.bool('USE_X_FORWARDED_PORT')
+SECURE_PROXY_SSL_HEADER = tuple(env.list('SECURE_PROXY_SSL_HEADER'))
 
 
-# Create logs directory if missing
 LOG_DIR = path.join(BASE_DIR, "logs")
 if not path.exists(LOG_DIR):
     makedirs(LOG_DIR)
@@ -54,7 +50,6 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',     
 ]
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -91,7 +86,7 @@ ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR / "templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -152,12 +147,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [path.join(BASE_DIR, 'static')]  
-STATIC_ROOT = path.join(BASE_DIR, 'staticfiles')    
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [path.join(BASE_DIR, 'static')]   
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = path.join(BASE_DIR, 'media/')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = path.join(BASE_DIR, 'media') 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -165,6 +160,10 @@ MEDIA_ROOT = path.join(BASE_DIR, 'media/')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.CustomUser'
+
+
+LOGIN_REDIRECT_URL = '/admin/'
+LOGOUT_REDIRECT_URL = '/admin/login/'
 
 
 #============================= Third Parties =================================
@@ -282,46 +281,48 @@ SPECTACULAR_SETTINGS = {
 }
 
 
-# Celery Configuration
-CELERY_BROKER_URL = env.str('URL_BROKER')
-CELERY_RESULT_BACKEND = env.str('REDIS_CELERY_RESULTS')
-# CELERY_RESULT_BACKEND = 'django-db'
-CELERY_RESULT_EXPIRES = 3600  
+# =====
 
-# Serialization
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_ACCEPT_CONTENT = ['json']
+# # Celery Configuration
+# CELERY_BROKER_URL = env.str('URL_BROKER')
+# CELERY_RESULT_BACKEND = env.str('REDIS_CELERY_RESULTS')
+# # CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_RESULT_EXPIRES = 3600  
 
-# Time & Connection
-CELERY_TIMEZONE = 'Asia/Tehran'
-CELERY_ENABLE_UTC = True
-CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-CELERY_BROKER_HEARTBEAT = 0
+# # Serialization
+# CELERY_TASK_SERIALIZER = 'json'
+# CELERY_RESULT_SERIALIZER = 'json'
+# CELERY_ACCEPT_CONTENT = ['json']
 
-# Task Settings
-CELERY_TASK_ACKS_LATE = True
-CELERY_TASK_REJECT_ON_WORKER_LOST = True
-CELERY_TASK_TIME_LIMIT = 300
+# # Time & Connection
+# CELERY_TIMEZONE = 'Asia/Tehran'
+# CELERY_ENABLE_UTC = True
+# CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+# CELERY_BROKER_HEARTBEAT = 0
+
+# # Task Settings
+# CELERY_TASK_ACKS_LATE = True
+# CELERY_TASK_REJECT_ON_WORKER_LOST = True
+# CELERY_TASK_TIME_LIMIT = 300
 
 
-# CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-# CELERY_BEAT_SCHEDULE = {
+# # CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+# # CELERY_BEAT_SCHEDULE = {
  
+# # }
+
+
+# # Django Cache & Sessions
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": env.str('REDIS_DJANGO_CACHE'),
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         }
+#     }
 # }
 
-
-# Django Cache & Sessions
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env.str('REDIS_DJANGO_CACHE'),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
-
-SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-SESSION_CACHE_ALIAS = "default"
-CACHE_TTL = 60 * 15 
+# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+# SESSION_CACHE_ALIAS = "default"
+# CACHE_TTL = 60 * 15 
