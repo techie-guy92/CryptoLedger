@@ -58,4 +58,4 @@ RUN adduser --uid 1000 --disabled-password --gecos '' webuser && \
 USER webuser
 
 # Expose port for Gunicorn
-EXPOSE 8020
+EXPOSE 8002
