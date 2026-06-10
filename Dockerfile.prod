@@ -15,6 +15,7 @@ WORKDIR /app
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     postgresql-client \
+    sqlite3 \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
@@ -25,9 +26,17 @@ RUN python -m pip install --upgrade pip && \
 # Copy project files
 COPY . .
 
-# Create user and set permissions
+# Create necessary directories with proper permissions
+RUN mkdir -p /app/staticfiles /app/media /app/logs && \
+    chmod 755 /app/staticfiles /app/media /app/logs
+
+# Run migrations and collect static files as root (before switching user)
+# This ensures the database and static files are created properly
+RUN python manage.py migrate --noinput && \
+    python manage.py collectstatic --noinput
+
+# Create non-root user and give ownership of necessary directories
 RUN adduser --uid 1000 --disabled-password --gecos '' webuser && \
-    mkdir -p logs && \
     chown -R webuser:webuser /app && \
     chmod -R 755 /app
 
@@ -36,5 +45,5 @@ USER webuser
 # Expose port for Gunicorn
 EXPOSE 8003
 
-
+# Run gunicorn only (migrations already done at build time)
 CMD ["gunicorn", "config.asgi:application", "--bind", "0.0.0.0:8003", "--timeout", "120", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker"]
