@@ -57,7 +57,7 @@ SYMBOLS = {
     "EGLD": "elrond-erd-2", "1INCH": "1inch", "SAND": "the-sandbox", "WLD": "worldcoin-wld", "APT": "aptos", "DOGE": "dogecoin", 
     "WAVES": "waves", "ENA": "ethena", "SUI": "sui", "APE": "apecoin", "RENDER": "render-token", "ARB": "arbitrum", 
     "POL": "matic-network", "CRV": "curve-dao-token", "FET": "fetch-ai", "AIOZ": "aioz-network", "OP": "optimism",  
-    "GMT": "stepn", "GRT": "the-graph", "CHZ": "chiliz", "Flow": "flow", "GALA": "gala", "ONE": "harmony", "SHIB": "shiba-inu", "FLOKI": "floki", 
+    "GMT": "stepn", "GRT": "the-graph", "CHZ": "chiliz", "FLOW": "flow", "GALA": "gala", "ONE": "harmony", "SHIB": "shiba-inu", "FLOKI": "floki", 
     "PEPE": "pepe", 
 }
 

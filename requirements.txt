@@ -11,6 +11,9 @@ drf-spectacular==0.28.0
 # Server
 gunicorn==23.0.0
 whitenoise==6.9.0
+uvicorn==0.35.0
+uvloop==0.21.0
+httptools==0.6.4
 
 # Database 
 psycopg2-binary==2.9.11
@@ -60,3 +63,12 @@ Jinja2==3.1.6
 MarkupSafe==3.0.2
 asgiref==3.8.1
 typing_extensions==4.14.0
+
+# Celery for async tasks
+celery==5.4.0
+kombu==5.4.2
+vine==5.1.0
+billiard==4.2.1
+click-didyoumean==0.3.1
+click-plugins==1.1.1
+click-repl==0.3.0
