@@ -1,5 +1,5 @@
 # Base image
-FROM python:3.12-slim
+FROM FROM 192.168.122.1:5000/python:3.12-slim
 
 # Set maintainer
 LABEL maintainer="soheil.dalirii@gmail.com"
