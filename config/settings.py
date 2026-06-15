@@ -72,13 +72,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -245,7 +245,7 @@ EMAIL_HOST = env.str('EMAIL_HOST')
 EMAIL_PORT = env.str('EMAIL_PORT')
 EMAIL_HOST_USER = env.str('EMAIL_HOST_USER') 
 EMAIL_HOST_PASSWORD = env.str('EMAIL_HOST_PASSWORD') 
-EMAIL_USE_TLS = str('EMAIL_USE_TLS')
+EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS')
 EMAIL_FROM_EMAIL = EMAIL_HOST_USER
 
 
