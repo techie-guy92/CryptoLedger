@@ -107,10 +107,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
         'ENGINE': env.str('ENGINE_NAME', 'django.db.backends.postgresql'),
-        'NAME': env.str('DB_NAME', 'crypto_ledger'),
+        'NAME': env.str('DB_NAME', BASE_DIR / 'db.sqlite3'),
         'HOST': env.str('DB_HOST', 'localhost'),
         'PORT': env.str('DB_PORT', '5432'),
         'USER': env.str('POSTGRES_USER', 'techie-guy92'),
