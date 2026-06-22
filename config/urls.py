@@ -22,23 +22,24 @@ from django.http import JsonResponse
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from django.db import connection
 from django.db.utils import OperationalError
+from rest_framework import status
 
 
-# def health_check(request):
-#     try:
-#         connection.ensure_connection()
-#         return JsonResponse({
-#             "status": "healthy",
-#             "database": "connected"
-#         })
-#     except OperationalError:
-#         return JsonResponse(
-#             {
-#                 "status": "unhealthy",
-#                 "database": "disconnected"
-#             },
-#             status=503
-#         )
+def health_check(request):
+    try:
+        connection.ensure_connection()
+        return JsonResponse({
+            "status": "healthy",
+            "database": "connected"
+        })
+    except OperationalError:
+        return JsonResponse(
+            {
+                "status": "unhealthy",
+                "database": "disconnected"
+            },
+            status=503
+        )
 
 
 def live_check(request):
@@ -71,7 +72,7 @@ def ready_check(request):
 
 
 urlpatterns = [
-    # path('health/', health_check, name='health-check'),
+    path('health/', health_check, name='health-check'),
     path("health/live/", live_check, name="live-check"),
     path("health/ready/", ready_check, name="ready-check"),
     path('admin/', admin.site.urls),
