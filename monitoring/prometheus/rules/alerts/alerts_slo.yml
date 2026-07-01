@@ -1,0 +1,85 @@
+groups:
+- name: slo_alerts
+  interval: 1m
+  rules:
+  # Error Budget Alerts
+  - alert: CreyptoledgerErrorBudgetBurning
+    expr: |
+      (sum(rate(django_http_responses_total_by_status{status=~"5.."}[1h])) 
+       / 
+       sum(rate(django_http_responses_total[1h]))) * 100 > 0.5
+    for: 15m
+    labels:
+      severity: critical
+    annotations:
+      summary: "High error rate"
+      description: "Error rate is {{ $value }}% in the last hour"
+
+  - alert: CreyptoledgerErrorBudgetExhausted
+    expr: |
+      (
+        sum(rate(django_http_responses_total_by_status{status=~"5.."}[30d]))
+        /
+        sum(rate(django_http_responses_total[30d]))
+      ) * 100 > 0.5
+    labels:
+      severity: critical
+      slo: "99.5"
+      error_budget: "exhausted"
+    annotations:
+      summary: "Error budget exhausted for the month"
+      description: |
+        Rolling 30-day error rate is {{ $value }}%,
+        exceeding the 99.5% SLO (0.5% error allowance).
+        This SLO has been breached for the month.
+
+  # Latency SLOs
+  - alert: CreyptoledgerHighLatencyAPI
+    expr: |
+      histogram_quantile(0.95, 
+        sum(rate(django_http_requests_latency_seconds_bucket{view=~"api.*"}[5m])) by (le)
+      ) > 0.3
+    for: 10m
+    labels:
+      severity: warning
+      slo: "latency_p95"
+    annotations:
+      summary: "API latency exceeds SLO"
+      description: |
+        P95 latency for API endpoints is {{ $value }}s.
+        This exceeds the 300ms SLO.
+
+  - alert: CreyptoledgerHighLatencyAdmin
+    expr: |
+      histogram_quantile(0.95, 
+        sum(rate(django_http_requests_latency_seconds_bucket{view=~"admin.*"}[5m])) by (le)
+      ) > 1.0
+    for: 10m
+    labels:
+      severity: warning
+      slo: "latency_p95_admin"
+    annotations:
+      summary: "Admin latency exceeds SLO"
+      description: |
+        P95 latency for admin endpoints is {{ $value }}s.
+        This exceeds the 1s SLO.
+
+  # Availability SLO
+  - alert: CreyptoledgerAvailabilityLow
+    expr: |
+      (
+        sum(up{job=~"Creyptoledger-.*"})
+        /
+        count(up{job=~"Creyptoledger-.*"})
+      ) * 100 < 99.9
+    for: 5m
+    labels:
+      severity: critical
+      slo: "availability_99.9"
+    annotations:
+      summary: "Service availability below SLO"
+      description: |
+        Current availability is {{ $value }}%,
+        below the 99.9% availability SLO.
+        The number of down services is {{ $value }}.
+

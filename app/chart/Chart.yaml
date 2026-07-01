@@ -1,0 +1,27 @@
+apiVersion: v2
+name: cryptoledger
+description: CryptoLedger - Django application for tracking cryptocurrency portfolios
+type: application
+version: 1.0.3
+appVersion: "v1.2.0"
+
+home: https://github.com/techie-guy92/cryptoledger_k8s
+
+sources:
+  - https://github.com/techie-guy92/cryptoledger_k8s
+
+maintainers:
+  - name: Soheil Daliri
+    email: soheil.dalirii@gmail.com
+
+keywords:
+  - django
+  - crypto
+  - portfolio
+  - cryptocurrency
+
+icon: http://crypto.local/images/logos/Crypto_Ledger.ico
+
+annotations:
+  artifacthub.io/license: MIT
+  artifacthub.io/operator: "false"

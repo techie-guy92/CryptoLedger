@@ -1,0 +1,109 @@
+groups:
+- name: basic_alerts
+  interval: 30s
+  rules:
+  # Service Down Alerts
+  - alert: CreyptoledgerServiceDown
+    expr: up{job=~"creypto-.*"} == 0
+    for: 1m
+    labels:
+      severity: critical
+      team: backend
+      service: "{{ $labels.job }}"
+    annotations:
+      summary: "Service {{ $labels.job }} is down"
+      description: "The {{ $labels.job }} service has been down for more than 1 minute. Instance: {{ $labels.instance }}"
+      runbook: "https://wiki.creypto.local/runbooks/DjangoApplication.md#creyptoservicedown"
+
+  # Container Health Alerts
+  - alert: ContainerRestartingFrequently
+    expr: rate(container_last_seen{container_label_com_docker_compose_project="creypto"}[15m]) > 0
+    for: 5m
+    labels:
+      severity: warning
+      team: platform
+    annotations:
+      summary: "Container {{ $labels.name }} is restarting frequently"
+      description: |
+        Container {{ $labels.name }} has restarted multiple times in the last 15 minutes.
+        This may indicate instability.
+
+  # Database Connection Alerts
+  - alert: PostgresHighConnections
+    expr: pg_stat_database_numbackends{datname=~"yummy_yard"} > 80
+    for: 5m
+    labels:
+      severity: warning
+      team: backend
+    annotations:
+      summary: "High PostgreSQL connections"
+      description: "PostgreSQL has {{ $value }} active connections (threshold: 80)"
+
+  - alert: PostgresDeadlocks
+    expr: rate(pg_stat_database_deadlocks{datname=~"yummy_yard"}[5m]) > 0
+    for: 1m
+    labels:
+      severity: critical
+      team: backend
+    annotations:
+      summary: "PostgreSQL deadlocks detected"
+      description: |
+        Deadlocks are occurring in the database at a rate of {{ $value }} per second.
+        This requires immediate investigation.
+
+  # Django Alerts
+  - alert: DjangoHighRequestLatency
+    expr: histogram_quantile(0.95, sum(rate(django_http_requests_latency_seconds_bucket[5m])) by (le, view)) > 0.5
+    for: 5m
+    labels:
+      severity: warning
+      team: backend
+    annotations:
+      summary: "High request latency in Django"
+      description: |
+        P95 latency for view {{ $labels.view }} is {{ $value }}s (above 0.5s).
+
+  - alert: DjangoDatabaseSlowQueries
+    expr: rate(django_db_execute_total{type!="connection"}[5m]) > 100
+    for: 5m
+    labels:
+      severity: warning
+      team: backend
+    annotations:
+      summary: "High database query rate"
+      description: |
+        Database is executing {{ $value }} queries per second.
+
+  - alert: DjangoCacheMissRate
+    expr: rate(django_cache_get_miss_total[5m]) / (rate(django_cache_get_total[5m]) + rate(django_cache_get_miss_total[5m])) * 100 > 30
+    for: 10m
+    labels:
+      severity: warning
+      team: backend
+    annotations:
+      summary: "High cache miss rate"
+      description: |
+        Cache miss rate is {{ $value }}% (above 30%).
+
+  # System Alerts
+  - alert: DiskSpaceLow
+    expr: (1 - (node_filesystem_avail_bytes{fstype=~"ext4|xfs"} / node_filesystem_size_bytes{fstype=~"ext4|xfs"})) * 100 > 85
+    for: 5m
+    labels:
+      severity: warning
+      team: platform
+    annotations:
+      summary: "Low disk space on {{ $labels.mountpoint }}"
+      description: |
+        Disk usage is at {{ $value }}% on {{ $labels.mountpoint }}.
+
+  - alert: HighMemoryUsage
+    expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+    for: 5m
+    labels:
+      severity: warning
+      team: platform
+    annotations:
+      summary: "High memory usage on host"
+      description: |
+        Host memory usage is at {{ $value }}%.

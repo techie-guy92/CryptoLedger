@@ -1,28 +1,38 @@
-# Ignore Python bytecode files and etc
+# Python
 __pycache__/
 *.py[cod]
-settings.json
 secret_keys.py
 
-# Ignore virtual environment directories
+# Virtualenv
 venv/
 .env
 
-# Ignore logs
+# SQLite
+db.sqlite3
+
+# Django generated
+media/
+staticfiles/
+
+# Secrets
+secrets/
+*.secret.yaml
+*.pem
+*.key
+
+# Logs
 logs/
 *.log
-*.txt
 startup_log.txt
 
-# Ignore VS Code settings and extensions
+# Celery
+celerybeat-schedule*
+
+# VSCode
 .vscode/
 
-# Ignore other OS-specific files
+# OS
 .DS_Store
-.codegpt
 
-# Ignore celery beat schedule files
-celerybeat-schedule
-celerybeat-schedule-shm
-celerybeat-schedule-wal
-db.sqlite3
+# Personal 
+tutorial

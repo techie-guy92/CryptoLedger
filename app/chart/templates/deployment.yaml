@@ -1,0 +1,91 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cryptoledger.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "cryptoledger.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      {{- include "cryptoledger.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "cryptoledger.selectorLabels" . | nindent 8 }}
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - {{ include "cryptoledger.name" . }}
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.port }}
+        startupProbe:
+          httpGet:
+            path: /health/live/
+            port: {{ .Values.service.port }}
+            httpHeaders:
+            - name: Host
+              value: {{ .Values.ingress.host }}
+          failureThreshold: 30
+          periodSeconds: 10
+          timeoutSeconds: 2
+        readinessProbe:
+          httpGet:
+            path: /health/ready/
+            port: {{ .Values.service.port }}
+            httpHeaders:
+            - name: Host
+              value: {{ .Values.ingress.host }}
+          periodSeconds: 5
+          timeoutSeconds: 2
+          successThreshold: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /health/live/
+            port: {{ .Values.service.port }}
+            httpHeaders:
+            - name: Host
+              value: {{ .Values.ingress.host }}
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 3
+        resources:
+          {{- toYaml .Values.resources | nindent 10 }}
+        envFrom:
+        - configMapRef:
+            name: {{ include "cryptoledger.fullname" . }}-config
+        {{- if .Values.secrets.external }}
+        - secretRef:
+            name: {{ .Values.secrets.name }}
+        {{- else }}
+        - secretRef:
+            name: {{ include "cryptoledger.fullname" . }}-secrets
+        {{- end }}
+        volumeMounts:
+        - name: media
+          mountPath: /app/media
+      volumes:
+      - name: media
+        persistentVolumeClaim:
+          claimName: {{ include "cryptoledger.fullname" . }}-media-pvc

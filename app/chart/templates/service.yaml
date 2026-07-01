@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "cryptoledger.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "cryptoledger.labels" . | nindent 4 }}
+spec:
+  selector:
+    {{- include "cryptoledger.selectorLabels" . | nindent 4 }}
+  ports:
+  - port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.port }}
+  type: ClusterIP
+  

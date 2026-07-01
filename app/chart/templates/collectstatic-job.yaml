@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "cryptoledger.fullname" . }}-collectstatic
+  namespace: {{ .Release.Namespace }}
+spec:
+  backoffLimit: 3
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: collectstatic
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        command: ["python", "manage.py", "collectstatic", "--noinput"]
+        envFrom:
+        - configMapRef:
+            name: {{ include "cryptoledger.fullname" . }}-config
+        {{- if .Values.secrets.external }}
+        - secretRef:
+            name: {{ .Values.secrets.name }}
+        {{- else }}
+        - secretRef:
+            name: {{ include "cryptoledger.fullname" . }}-secrets
+        {{- end }}
+        

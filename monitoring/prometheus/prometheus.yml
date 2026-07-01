@@ -1,0 +1,71 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'crypto-monitor'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['localhost:9093']
+
+rule_files:
+  - "rules/alerts/*.yml"
+  - "rules/recording_rules/*.yml"
+
+scrape_configs:
+  # Django metrics
+  - job_name: 'crypto-django'
+    params:
+       Host: ['localhost']
+    scrape_interval: 10s
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['localhost:8000']
+        labels:
+          service: 'django'
+          project: 'crypto'
+
+  # PostgreSQL
+  - job_name: 'crypto-postgres'
+    static_configs:
+      - targets: ['localhost:9187']
+        labels:
+          service: 'postgres'
+          project: 'crypto'
+
+  # Nginx
+  - job_name: 'crypto-nginx'
+    static_configs:
+      - targets: ['localhost:9113']
+        labels:
+          service: 'nginx'
+          project: 'crypto'
+
+  # Blackbox - endpoint monitoring
+  - job_name: 'crypto-blackbox'
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+        - https://192.168.122.43:8443  
+        - http://192.168.122.43:8080
+        - http://localhost:8000/health/
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: localhost:9115
+
+  # Prometheus itself
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  
+  # Alertmanager
+  - job_name: 'alertmanager'
+    static_configs:
+      - targets: ['localhost:9093']

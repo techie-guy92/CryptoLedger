@@ -1,0 +1,90 @@
+replicaCount: 3
+
+image:
+  repository: 192.168.122.1:5000/crypto
+  tag: v1.2.0
+  pullPolicy: Always
+
+service:
+  port: 8000
+
+ingress:
+  enabled: true
+  host: crypto.local
+  annotations:
+    kubernetes.io/ingress.class: "traefik"
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+
+resources:
+  requests:
+    cpu: 250m
+    memory: 256Mi
+  limits:
+    cpu: 500m
+    memory: 512Mi
+
+namespace:
+  create: true
+  name: crypto
+
+configMap:
+  PROJECT_NAME: "crypto"
+  DEBUG: "False"
+  DJANGO_SETTINGS_MODULE: "config.settings"
+  ENGINE_NAME: "django.db.backends.postgresql"
+  DB_NAME: "crypto_ledger"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  EMAIL_HOST: "smtp.gmail.com"
+  EMAIL_PORT: "587"
+  EMAIL_USE_TLS: "True"
+  ALLOWED_HOSTS: "localhost,127.0.0.1,crypto.local"
+  CSRF_TRUSTED_ORIGINS: "http://localhost:8000,http://127.0.0.1:8000,http://crypto.local"
+  FRONTEND_DOMAIN: "http://crypto.local"
+  DEFAULT_PORT: "8000"
+  SECURE_SSL_REDIRECT: "False"
+  SESSION_COOKIE_SECURE: "False"
+  CSRF_COOKIE_SECURE: "False"
+  SECURE_PROXY_SSL_HEADER: "HTTP_X_FORWARDED_PROTO,https"
+  USE_X_FORWARDED_HOST: "True"
+  USE_X_FORWARDED_PORT: "True"
+  SECURE_HSTS_SECONDS: "31536000"
+  SECURE_HSTS_INCLUDE_SUBDOMAINS: "True"
+  SECURE_HSTS_PRELOAD: "True"
+  ACCESS_TOKEN: "15"
+  REFRESH_TOKEN: "30"
+  ROTATE_REFRESH_TOKENS: "False"
+  BLACKLIST_AFTER_ROTATION: "True"
+
+persistence:
+  media:
+    enabled: true
+    storageClass: "longhorn"
+    accessMode: ReadWriteMany
+    size: 1Gi
+  postgres:
+    enabled: true
+    storageClass: "longhorn"
+    accessMode: ReadWriteOnce
+    size: 10Gi
+
+secrets:
+  external: true
+  name: crypto-secrets
+
+postgres:
+  enabled: true
+  image:
+    repository: 192.168.122.1:5000/postgres
+    tag: 15.4
+  resources:
+    requests:
+      cpu: 250m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+# serviceAccount:
+#   create: false
+#   name: ""
