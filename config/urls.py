@@ -72,6 +72,7 @@ def ready_check(request):
 
 
 urlpatterns = [
+    path('', include('django_prometheus.urls')),
     path('health/', health_check, name='health-check'),
     path("health/live/", live_check, name="live-check"),
     path("health/ready/", ready_check, name="ready-check"),
