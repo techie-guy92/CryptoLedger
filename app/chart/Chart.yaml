@@ -3,7 +3,7 @@ name: cryptoledger
 description: CryptoLedger - Django application for tracking cryptocurrency portfolios
 type: application
 version: 1.0.3
-appVersion: "v1.2.0"
+appVersion: "v1.3.0"
 
 home: https://github.com/techie-guy92/cryptoledger_k8s
 
