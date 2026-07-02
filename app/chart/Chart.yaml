@@ -5,10 +5,12 @@ type: application
 version: 1.0.3
 appVersion: "v1.3.0"
 
-home: https://github.com/techie-guy92/cryptoledger_k8s
+# home: https://github.com/techie-guy92/cryptoledger_k8s
+home:  https://gitlab.com/techie-guy92/cryptoledger
 
 sources:
-  - https://github.com/techie-guy92/cryptoledger_k8s
+  # - https://github.com/techie-guy92/cryptoledger_k8s
+  - https://gitlab.com/techie-guy92/cryptoledger
 
 maintainers:
   - name: Soheil Daliri

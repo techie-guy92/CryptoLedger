@@ -7,9 +7,10 @@ spec:
   project: default
 
   source:
-    repoURL: https://github.com/techie-guy92/cryptoledger_k8s.git
+    # repoURL: https://github.com/techie-guy92/cryptoledger_k8s.git
+    repoURL: https://gitlab.com/techie-guy92/cryptoledger.git
     targetRevision: develop
-    path: helm
+    path: app/chart
     helm:
       releaseName: crypto
 
