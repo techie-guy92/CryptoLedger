@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: 192.168.122.1:5000/crypto
-  tag: v1.3.2
+  tag: v1.3.3
   pullPolicy: Always
 
 service:
