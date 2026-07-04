@@ -1,10 +1,17 @@
 apiVersion: batch/v1
 kind: Job
+
 metadata:
   name: {{ include "cryptoledger.fullname" . }}-collectstatic
   namespace: {{ .Release.Namespace }}
 
+  annotations:
+    argocd.argoproj.io/hook: PreSync
+    argocd.argoproj.io/hook-weight: "-5"
+    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
+
 spec:
+  ttlSecondsAfterFinished: 600
   backoffLimit: 3
 
   template:
