@@ -68,7 +68,6 @@ INSTALLED_APPS = [
     
     # created apps
     'main',
-    'users',
 ]
 
 MIDDLEWARE = [
@@ -172,7 +171,7 @@ MEDIA_ROOT = path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'users.CustomUser'
+# AUTH_USER_MODEL = 'users.CustomUser'
 
 
 LOGIN_REDIRECT_URL = '/admin/'

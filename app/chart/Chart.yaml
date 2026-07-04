@@ -4,7 +4,7 @@ description: CryptoLedger - Django application for tracking cryptocurrency portf
 type: application
 
 version: 1.0.3
-appVersion: "v1.3.0"
+appVersion: "v1.3.1"
 
 home: https://gitlab.com/techie-guy92/cryptoledger
 
