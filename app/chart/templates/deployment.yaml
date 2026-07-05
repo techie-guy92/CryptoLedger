@@ -33,6 +33,34 @@ spec:
                   values:
                   - {{ include "cryptoledger.name" . }}
               topologyKey: kubernetes.io/hostname
+      initContainers:
+      - name: collectstatic
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -h postgres -p 5432; do
+            echo "PostgreSQL not ready yet..."
+            sleep 2
+          done
+          echo "PostgreSQL is ready! Running collectstatic..."
+          python manage.py collectstatic --noinput
+        envFrom:
+        - configMapRef:
+            name: {{ include "cryptoledger.fullname" . }}-config
+        {{- if .Values.secrets.external }}
+        - secretRef:
+            name: {{ .Values.secrets.name }}
+        {{- else }}
+        - secretRef:
+            name: {{ include "cryptoledger.fullname" . }}-secrets
+        {{- end }}
+        volumeMounts:
+        - name: static
+          mountPath: /app/staticfiles
       containers:
       - name: {{ .Chart.Name }}
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -85,7 +113,11 @@ spec:
         volumeMounts:
         - name: media
           mountPath: /app/media
+        - name: static
+          mountPath: /app/staticfiles
       volumes:
       - name: media
         persistentVolumeClaim:
           claimName: {{ include "cryptoledger.fullname" . }}-media-pvc
+      - name: static
+        emptyDir: {}
