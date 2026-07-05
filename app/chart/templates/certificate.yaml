@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: {{ include "cryptoledger.fullname" . }}-tls
+  namespace: {{ .Release.Namespace }}
+spec:
+  secretName: {{ include "cryptoledger.fullname" . }}-tls
+
+  issuerRef:
+    name: crypto-selfsigned
+    kind: ClusterIssuer
+
+  dnsNames:
+    - {{ .Values.ingress.host }}

@@ -8,6 +8,10 @@ metadata:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ include "cryptoledger.fullname" . }}-tls
   rules:
   - host: {{ .Values.ingress.host }}
     http:
