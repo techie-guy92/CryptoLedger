@@ -12,7 +12,17 @@ spec:
       containers:
       - name: migrate
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-        command: ["python", "manage.py", "migrate"]
+        command:
+        - /bin/sh
+        - -c
+        - |
+          echo "Waiting for PostgreSQL to be ready..."
+          until pg_isready -h postgres -p 5432 -U ${POSTGRES_USER}; do
+            echo "PostgreSQL not ready yet..."
+            sleep 2
+          done
+          echo "PostgreSQL is ready! Running migrations..."
+          python manage.py migrate
         envFrom:
         - configMapRef:
             name: {{ include "cryptoledger.fullname" . }}-config
