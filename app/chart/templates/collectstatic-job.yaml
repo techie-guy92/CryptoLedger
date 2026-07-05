@@ -1,42 +1,21 @@
 apiVersion: batch/v1
 kind: Job
-
 metadata:
   name: {{ include "cryptoledger.fullname" . }}-collectstatic
   namespace: {{ .Release.Namespace }}
-
-  annotations:
-    argocd.argoproj.io/hook: PreSync
-    argocd.argoproj.io/hook-weight: "-5"
-    argocd.argoproj.io/hook-delete-policy: BeforeHookCreation,HookSucceeded
-
 spec:
   ttlSecondsAfterFinished: 600
   backoffLimit: 3
-
   template:
-    metadata:
-      labels:
-        app.kubernetes.io/name: cryptoledger
-        app.kubernetes.io/instance: crypto
-
     spec:
       restartPolicy: Never
-
       containers:
       - name: collectstatic
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-
-        command:
-        - python
-        - manage.py
-        - collectstatic
-        - --noinput
-
+        command: ["python", "manage.py", "collectstatic", "--noinput"]
         envFrom:
         - configMapRef:
             name: {{ include "cryptoledger.fullname" . }}-config
-
         {{- if .Values.secrets.external }}
         - secretRef:
             name: {{ .Values.secrets.name }}
