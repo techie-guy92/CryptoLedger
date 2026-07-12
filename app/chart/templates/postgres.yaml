@@ -7,6 +7,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "cryptoledger.labels" . | nindent 4 }}
+    app.kubernetes.io/component: database
+    monitoring: "postgres"
 spec:
   selector:
     app: postgres

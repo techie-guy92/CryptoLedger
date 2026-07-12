@@ -5,6 +5,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "cryptoledger.labels" . | nindent 4 }}
+    app.kubernetes.io/component: backend
+    monitoring: "django"
 spec:
   selector:
     {{- include "cryptoledger.selectorLabels" . | nindent 4 }}
