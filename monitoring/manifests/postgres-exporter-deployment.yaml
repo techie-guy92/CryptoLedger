@@ -5,8 +5,8 @@ metadata:
   namespace: crypto
   labels:
     app: postgres-exporter
-    app.kubernetes.io/name: {{ include "cryptoledger.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/instance: crypto
+    app.kubernetes.io/name: cryptoledger
 
 spec:
   replicas: 1
