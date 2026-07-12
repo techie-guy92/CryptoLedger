@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+
+metadata:
+  name: cryptoledger-root
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://gitlab.com/techie-guy92/cryptoledger.git
+    targetRevision: develop
+    path: argocd/applications
+
+    directory:
+      recurse: false
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
+    syncOptions:
+      - CreateNamespace=true
+
+  revisionHistoryLimit: 5
