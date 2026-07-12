@@ -28,9 +28,9 @@ spec:
         - name: DATA_SOURCE_NAME
           valueFrom:
             secretKeyRef:
-              name: {{ .Values.secrets.name }}
+              name: crypto-secrets
               key: POSTGRES_EXPORTER_DSN
-        
+
         ports:
         - name: metrics
           containerPort: 9187
