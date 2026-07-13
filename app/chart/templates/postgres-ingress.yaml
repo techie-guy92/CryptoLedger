@@ -20,6 +20,14 @@ spec:
           matchLabels:
             app.kubernetes.io/name: {{ include "cryptoledger.name" . }}
             app.kubernetes.io/instance: {{ .Release.Name }}
+
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: {{ .Release.Namespace }}
+        podSelector:
+          matchLabels:
+        {{ include "cryptoledger.monitoringLabels" . | indent 12 }}
+
     ports:
       - protocol: TCP
         port: 5432

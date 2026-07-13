@@ -50,6 +50,11 @@ app.kubernetes.io/name: {{ include "cryptoledger.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
+{{- define "cryptoledger.monitoringLabels" -}}
+{{ include "cryptoledger.selectorLabels" . }}
+app.kubernetes.io/component: monitoring
+{{- end }}
+
 {{/*
 Create the name of the service account to use
 */}}
