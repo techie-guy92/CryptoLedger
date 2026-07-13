@@ -50,8 +50,9 @@ app.kubernetes.io/name: {{ include "cryptoledger.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
-{{- define "cryptoledger.monitoringLabels" -}}
-{{ include "cryptoledger.selectorLabels" . }}
+{{- define "cryptoledger.monitoringSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "cryptoledger.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/component: monitoring
 {{- end }}
 
