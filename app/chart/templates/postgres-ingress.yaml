@@ -26,7 +26,10 @@ spec:
             kubernetes.io/metadata.name: {{ .Release.Namespace }}
         podSelector:
           matchLabels:
-          {{- include "cryptoledger.monitoringSelectorLabels" . | nindent 10 }}
+          # {{ include "cryptoledger.monitoringSelectorLabels" . | nindent 12 }}
+            app.kubernetes.io/name: {{ include "cryptoledger.name" . }}
+            app.kubernetes.io/instance: {{ .Release.Name }}
+            app.kubernetes.io/component: monitoring
 
     ports:
       - protocol: TCP
