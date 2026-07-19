@@ -1,0 +1,117 @@
+stages:
+  - lint
+  - build
+  - test
+  - update-manifests
+
+variables:
+  REGISTRY: "192.168.122.1:5000"
+  IMAGE_NAME: "crypto"
+  PROJECT_DIR: app/source
+
+default:
+  tags:
+    - local-registry-runner
+
+
+lint:
+  stage: lint
+
+  image: 192.168.122.1:5000/python:3.12-slim
+
+  before_script:
+    - pip install black flake8 isort
+
+  script:
+    - cd $PROJECT_DIR
+    - black --check .
+    - isort --profile black --check-only .
+    - flake8 .
+
+
+build:
+  stage: build
+
+  image: 192.168.122.1:5000/docker:latest
+  # image: 192.168.122.1:5000/alpine:latest
+
+  # before_script:
+    # - apk add --no-cache docker-cli
+
+  script:
+    - export IMAGE_TAG="v1.3.${CI_PIPELINE_IID}"
+    - export FULL_IMAGE="$REGISTRY/$IMAGE_NAME:$IMAGE_TAG"
+
+    - docker version
+
+    - docker build -t "$FULL_IMAGE" -f "$PROJECT_DIR/Dockerfile" "$PROJECT_DIR"
+
+    - docker image inspect "$FULL_IMAGE"
+
+    - docker tag "$FULL_IMAGE" "$REGISTRY/$IMAGE_NAME:latest"
+
+    - docker push "$FULL_IMAGE"
+    - docker push "$REGISTRY/$IMAGE_NAME:latest"
+
+    - echo "$IMAGE_TAG" > image_tag.txt
+
+  artifacts:
+    paths:
+      - image_tag.txt
+    expire_in: 1 day
+
+
+unit-tests:
+  stage: test
+
+  image: 192.168.122.1:5000/python:3.12-slim
+
+  needs:
+    - build
+
+  cache:
+    paths:
+      - .cache/pip
+
+  before_script:
+    - cd $PROJECT_DIR
+    - pip install --cache-dir "$CI_PROJECT_DIR/.cache/pip" -r requirements.txt
+
+  script:
+    - python manage.py test
+
+
+update-manifests:
+  stage: update-manifests
+
+  image: 192.168.122.1:5000/alpine/git:latest
+
+  needs:
+    - build
+    - unit-tests
+
+  before_script:
+    - apk add --no-cache sed 
+
+  script:
+    - export IMAGE_TAG=$(cat image_tag.txt)
+    - echo "Deploying image tag: $IMAGE_TAG"
+
+    # - sed -i "s|tag:.*|tag: ${IMAGE_TAG}|" app/chart/values.yaml
+    - sed -i "s|^\([[:space:]]*tag:\).*|\1 ${IMAGE_TAG}|" app/chart/values.yaml
+
+    - git config user.email "gitlab-ci@gitlab.com"
+    - git config user.name "GitLab CI"
+
+    - git add app/chart/values.yaml
+
+    - |
+      if ! git diff --cached --quiet; then
+        git commit -m "Update image tag to ${IMAGE_TAG} [skip ci]"
+        git push gitlab HEAD:$CI_COMMIT_BRANCH
+      else
+        echo "No manifest changes."
+      fi
+
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'

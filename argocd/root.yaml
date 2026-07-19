@@ -9,7 +9,8 @@ spec:
   project: default
 
   source:
-    repoURL: https://gitlab.com/techie-guy92/cryptoledger.git
+    # repoURL: https://gitlab.com/techie-guy92/cryptoledger.git
+    repoURL: git@gitlab.com:techie-guy92/cryptoledger.git
     targetRevision: develop
     path: argocd/applications
 
