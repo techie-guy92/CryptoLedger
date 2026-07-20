@@ -6,13 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0012_alter_analyst_analyst_and_more'),
+        ("main", "0012_alter_analyst_analyst_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='mostboughtcoin',
-            name='volume_flow',
-            field=models.CharField(choices=[('1', 'Inflow'), ('2', 'Outflow')], default='1', max_length=20, verbose_name='Volume Flow'),
+            model_name="mostboughtcoin",
+            name="volume_flow",
+            field=models.CharField(
+                choices=[("1", "Inflow"), ("2", "Outflow")],
+                default="1",
+                max_length=20,
+                verbose_name="Volume Flow",
+            ),
         ),
     ]

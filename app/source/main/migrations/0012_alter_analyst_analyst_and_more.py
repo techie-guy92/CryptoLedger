@@ -6,18 +6,34 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0011_alter_boughtcoin_profit_irt_and_more'),
+        ("main", "0011_alter_boughtcoin_profit_irt_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='analyst',
-            name='analyst',
-            field=models.CharField(choices=[('Il Capo', 'CryptoCapo'), ('Hayes', 'Arthur Hayes'), ('Kiyosaki', 'Robert Kiyosaki'), ('Clay', 'Alex Clay'), ('Jonathan', 'Jonathan Carter'), ('Butterfly', 'Butterfly'), ('Noah', 'Noah Lutz'), ('Ananda', 'Master Ananda'), ('', '')], max_length=30, verbose_name='Analyst'),
+            model_name="analyst",
+            name="analyst",
+            field=models.CharField(
+                choices=[
+                    ("Il Capo", "CryptoCapo"),
+                    ("Hayes", "Arthur Hayes"),
+                    ("Kiyosaki", "Robert Kiyosaki"),
+                    ("Clay", "Alex Clay"),
+                    ("Jonathan", "Jonathan Carter"),
+                    ("Butterfly", "Butterfly"),
+                    ("Noah", "Noah Lutz"),
+                    ("Ananda", "Master Ananda"),
+                    ("", ""),
+                ],
+                max_length=30,
+                verbose_name="Analyst",
+            ),
         ),
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='avg_net_cost_usdt',
-            field=models.DecimalField(decimal_places=8, max_digits=14, verbose_name='AVG Net Cost (USDT)'),
+            model_name="boughtcoin",
+            name="avg_net_cost_usdt",
+            field=models.DecimalField(
+                decimal_places=8, max_digits=14, verbose_name="AVG Net Cost (USDT)"
+            ),
         ),
     ]

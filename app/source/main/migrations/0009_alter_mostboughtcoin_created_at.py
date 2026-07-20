@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0008_alter_mostboughtcoin_coins'),
+        ("main", "0008_alter_mostboughtcoin_coins"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mostboughtcoin',
-            name='created_at',
-            field=models.DateField(verbose_name='Created At'),
+            model_name="mostboughtcoin",
+            name="created_at",
+            field=models.DateField(verbose_name="Created At"),
         ),
     ]

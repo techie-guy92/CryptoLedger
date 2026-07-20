@@ -6,33 +6,33 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0006_alter_analyst_analyst_and_more'),
+        ("main", "0006_alter_analyst_analyst_and_more"),
     ]
 
     operations = [
         migrations.RemoveIndex(
-            model_name='mostboughtcoin',
-            name='main_mostbo_coin_8bb64e_idx',
+            model_name="mostboughtcoin",
+            name="main_mostbo_coin_8bb64e_idx",
         ),
         migrations.RemoveField(
-            model_name='mostboughtcoin',
-            name='coin',
+            model_name="mostboughtcoin",
+            name="coin",
         ),
         migrations.RemoveField(
-            model_name='mostboughtcoin',
-            name='rank',
+            model_name="mostboughtcoin",
+            name="rank",
         ),
         migrations.AddField(
-            model_name='mostboughtcoin',
-            name='coins',
-            field=models.TextField(default='hey', verbose_name='Coins'),
+            model_name="mostboughtcoin",
+            name="coins",
+            field=models.TextField(default="hey", verbose_name="Coins"),
         ),
         migrations.AddIndex(
-            model_name='mostboughtcoin',
-            index=models.Index(fields=['coins'], name='main_mostbo_coins_29802b_idx'),
+            model_name="mostboughtcoin",
+            index=models.Index(fields=["coins"], name="main_mostbo_coins_29802b_idx"),
         ),
         migrations.AddIndex(
-            model_name='mostboughtcoin',
-            index=models.Index(fields=['source'], name='main_mostbo_source_a2b2f8_idx'),
+            model_name="mostboughtcoin",
+            index=models.Index(fields=["source"], name="main_mostbo_source_a2b2f8_idx"),
         ),
     ]

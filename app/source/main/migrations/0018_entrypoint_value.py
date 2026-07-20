@@ -6,13 +6,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0017_alter_entrypoint_updated_at_and_more'),
+        ("main", "0017_alter_entrypoint_updated_at_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='entrypoint',
-            name='value',
-            field=models.CharField(blank=True, help_text="Enter Value and its worth in USDT: '2000 - 230'", max_length=50, null=True, verbose_name='Value'),
+            model_name="entrypoint",
+            name="value",
+            field=models.CharField(
+                blank=True,
+                help_text="Enter Value and its worth in USDT: '2000 - 230'",
+                max_length=50,
+                null=True,
+                verbose_name="Value",
+            ),
         ),
     ]

@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0016_alter_entrypoint_options_alter_exitpoint_options_and_more'),
+        ("main", "0016_alter_entrypoint_options_alter_exitpoint_options_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='entrypoint',
-            name='updated_at',
-            field=models.DateField(auto_now_add=True, verbose_name='Updated At'),
+            model_name="entrypoint",
+            name="updated_at",
+            field=models.DateField(auto_now_add=True, verbose_name="Updated At"),
         ),
         migrations.AlterField(
-            model_name='exitpoint',
-            name='updated_at',
-            field=models.DateField(auto_now_add=True, verbose_name='Updated At'),
+            model_name="exitpoint",
+            name="updated_at",
+            field=models.DateField(auto_now_add=True, verbose_name="Updated At"),
         ),
     ]

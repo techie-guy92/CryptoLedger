@@ -1,25 +1,31 @@
-from rest_framework import status, viewsets
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser, IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
-from rest_framework.pagination import PageNumberPagination
-from rest_framework.filters import SearchFilter
-from rest_framework.request import Request
-from rest_framework.decorators import action
-from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiTypes
-from django.http import JsonResponse
-from asgiref.sync import sync_to_async
-from django_filters.rest_framework import DjangoFilterBackend
 from collections import Counter
-from django.utils.timezone import now, localtime
-from datetime import timedelta, date
+from datetime import date, timedelta
+
+from asgiref.sync import sync_to_async
+from django.http import JsonResponse
+from django.utils.timezone import localtime, now
+from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import OpenApiParameter, OpenApiTypes, extend_schema
+from rest_framework import status, viewsets
+from rest_framework.decorators import action
+from rest_framework.filters import SearchFilter
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import (
+    AllowAny,
+    IsAdminUser,
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly,
+)
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from coingecko_utils import fetch_bulk_prices, get_bulk_prices_sync
 from main.models import *
 from main.serializers import *
-from coingecko_utils import fetch_bulk_prices, get_bulk_prices_sync
 from tgju_utils import fetch_usd_and_ounce_prices, get_usd_and_ounce_prices_sync
 
-
-#====================================== Fetch Prices ==================================================
+# ====================================== Fetch Prices ==================================================
 
 # def fetch_prices(request):
 #     crypto_prices = get_bulk_prices_sync()["prices"]
@@ -37,15 +43,31 @@ async def fetch_prices(request):
     return JsonResponse(combined)
 
 
-#====================================== Top Traded Coins APIVie =======================================
+# ====================================== Top Traded Coins APIVie =======================================
+
 
 @extend_schema(
     responses={200: TopTradedCoinEntrySerializer(many=True)},
     summary="Return most frequently traded coins",
     parameters=[
-        OpenApiParameter(name='start_date', type=OpenApiTypes.DATE, required=False, description="Start date (YYYY-MM-DD)"),
-        OpenApiParameter(name='end_date', type=OpenApiTypes.DATE, required=False, description="End date (YYYY-MM-DD)"),
-        OpenApiParameter(name='limit', type=OpenApiTypes.INT, required=False, description="Number of top coins to return (default: 20)"),
+        OpenApiParameter(
+            name="start_date",
+            type=OpenApiTypes.DATE,
+            required=False,
+            description="Start date (YYYY-MM-DD)",
+        ),
+        OpenApiParameter(
+            name="end_date",
+            type=OpenApiTypes.DATE,
+            required=False,
+            description="End date (YYYY-MM-DD)",
+        ),
+        OpenApiParameter(
+            name="limit",
+            type=OpenApiTypes.INT,
+            required=False,
+            description="Number of top coins to return (default: 20)",
+        ),
     ],
 )
 class TopTradedCoinsAPIView(APIView):
@@ -55,10 +77,10 @@ class TopTradedCoinsAPIView(APIView):
         try:
             start_date = request.query_params.get("start_date")
             end_date = request.query_params.get("end_date")
-            limit = int(request.query_params.get("limit", 20)) 
-            
+            limit = int(request.query_params.get("limit", 20))
+
             queryset = MostBoughtCoin.objects.all()
-            
+
             if start_date and end_date:
                 start_date = date.fromisoformat(start_date)
                 end_date = date.fromisoformat(end_date)
@@ -66,11 +88,13 @@ class TopTradedCoinsAPIView(APIView):
 
             all_coins = []
             for entry in queryset:
-                coins = [coin.strip() for coin in entry.coins.split(",") if coin.strip()]
+                coins = [
+                    coin.strip() for coin in entry.coins.split(",") if coin.strip()
+                ]
                 all_coins.extend(coins)
 
             coin_counts = Counter(all_coins)
-            top_traded = coin_counts.most_common(limit)  
+            top_traded = coin_counts.most_common(limit)
             result = [{"coin": coin, "count": count} for coin, count in top_traded]
 
             return Response(result, status=status.HTTP_200_OK)
@@ -78,16 +102,17 @@ class TopTradedCoinsAPIView(APIView):
         except ValueError as e:
             return Response(
                 {"detail": "Invalid date format. Use YYYY-MM-DD."},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
         except Exception as error:
             return Response(
                 {"detail": f"Something went wrong: {str(error)}"},
-                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
             )
-            
-            
-#====================================== Analyst View ==================================================
+
+
+# ====================================== Analyst View ==================================================
+
 
 class AnalystViewSet(viewsets.ModelViewSet):
     permission_classes = [AllowAny]
@@ -97,6 +122,6 @@ class AnalystViewSet(viewsets.ModelViewSet):
     pagination_class = PageNumberPagination
     filter_backends = [SearchFilter, DjangoFilterBackend]
     search_fields = ["analyst"]
-    
 
-#======================================================================================================
+
+# ======================================================================================================

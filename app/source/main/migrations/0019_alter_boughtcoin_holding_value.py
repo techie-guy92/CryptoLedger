@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0018_entrypoint_value'),
+        ("main", "0018_entrypoint_value"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='holding_value',
-            field=models.DecimalField(decimal_places=3, max_digits=12, verbose_name='Holding Value'),
+            model_name="boughtcoin",
+            name="holding_value",
+            field=models.DecimalField(
+                decimal_places=3, max_digits=12, verbose_name="Holding Value"
+            ),
         ),
     ]

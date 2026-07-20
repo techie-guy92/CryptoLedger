@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0007_remove_mostboughtcoin_main_mostbo_coin_8bb64e_idx_and_more'),
+        ("main", "0007_remove_mostboughtcoin_main_mostbo_coin_8bb64e_idx_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='mostboughtcoin',
-            name='coins',
-            field=models.TextField(verbose_name='Coins'),
+            model_name="mostboughtcoin",
+            name="coins",
+            field=models.TextField(verbose_name="Coins"),
         ),
     ]

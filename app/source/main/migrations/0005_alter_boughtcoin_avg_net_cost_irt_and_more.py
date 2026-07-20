@@ -6,18 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0004_alter_boughtcoin_avg_net_cost_irt_and_more'),
+        ("main", "0004_alter_boughtcoin_avg_net_cost_irt_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='avg_net_cost_irt',
-            field=models.IntegerField(default=0, verbose_name='AVG Net Cost (IRT)'),
+            model_name="boughtcoin",
+            name="avg_net_cost_irt",
+            field=models.IntegerField(default=0, verbose_name="AVG Net Cost (IRT)"),
         ),
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='usdt_rate_sell',
-            field=models.IntegerField(blank=True, null=True, verbose_name='USDT Rate (Sell)'),
+            model_name="boughtcoin",
+            name="usdt_rate_sell",
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name="USDT Rate (Sell)"
+            ),
         ),
     ]

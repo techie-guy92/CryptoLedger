@@ -1,17 +1,19 @@
-import aiohttp
 import asyncio
 import json
 import logging
 from datetime import datetime
 
+import aiohttp
 
 logger = logging.getLogger(__name__)
 
-#====================================== fetch coins price ==============================================
+# ====================================== fetch coins price ==============================================
+
 
 async def get_price(url, session):
     async with session.get(url) as response:
         return await response.json()
+
 
 async def fetch_coins_prices():
     async with aiohttp.ClientSession() as session:
@@ -21,7 +23,7 @@ async def fetch_coins_prices():
             "AVAX": "https://api.coingecko.com/api/v3/simple/price?ids=avalanche-2&vs_currencies=usd",
             "LINK": "https://api.coingecko.com/api/v3/simple/price?ids=chainlink&vs_currencies=usd",
             "ENA": "https://api.coingecko.com/api/v3/simple/price?ids=ethena&vs_currencies=usd",
-            "PEPE": "https://api.coingecko.com/api/v3/simple/price?ids=pepe&vs_currencies=usd"
+            "PEPE": "https://api.coingecko.com/api/v3/simple/price?ids=pepe&vs_currencies=usd",
         }
 
         results = {}
@@ -35,7 +37,7 @@ async def fetch_coins_prices():
                 else:
                     price = list(data.values())[0]["usd"]
                     results[coin] = price
-                await asyncio.sleep(1)  
+                await asyncio.sleep(1)
             except Exception as error:
                 results[coin] = f"Error: {error}"
         return results
@@ -45,21 +47,59 @@ async def main():
     individual = await fetch_coins_prices()
     return individual
 
+
 # print(asyncio.run(main()))
 
 
-#====================================== fetch bulk prices ==============================================
+# ====================================== fetch bulk prices ==============================================
 
 SYMBOLS = {
-    "BTC": "bitcoin", "ETH": "ethereum", "BNB": "binancecoin", "SOL": "solana", "XRP": "ripple", "ADA": "cardano", 
-    "AVAX": "avalanche-2", "DOT": "polkadot", "XMR": "monero", "AAVE": "aave", "LTC": "litecoin", "UNI": "uniswap", 
-    "LINK": "chainlink",  "AXS": "axie-infinity", "SUSHI": "sushi", "XLM": "stellar", "FIL": "filecoin", "NEAR": "near", 
-    "EGLD": "elrond-erd-2", "1INCH": "1inch", "SAND": "the-sandbox", "WLD": "worldcoin-wld", "APT": "aptos", "DOGE": "dogecoin", 
-    "WAVES": "waves", "ENA": "ethena", "SUI": "sui", "APE": "apecoin", "RENDER": "render-token", "ARB": "arbitrum", 
-    "POL": "matic-network", "CRV": "curve-dao-token", "FET": "fetch-ai", "AIOZ": "aioz-network", "OP": "optimism",  
-    "GMT": "stepn", "GRT": "the-graph", "CHZ": "chiliz", "FLOW": "flow", "GALA": "gala", "ONE": "harmony", "SHIB": "shiba-inu", "FLOKI": "floki", 
-    "PEPE": "pepe", 
+    "BTC": "bitcoin",
+    "ETH": "ethereum",
+    "BNB": "binancecoin",
+    "SOL": "solana",
+    "XRP": "ripple",
+    "ADA": "cardano",
+    "AVAX": "avalanche-2",
+    "DOT": "polkadot",
+    "XMR": "monero",
+    "AAVE": "aave",
+    "LTC": "litecoin",
+    "UNI": "uniswap",
+    "LINK": "chainlink",
+    "AXS": "axie-infinity",
+    "SUSHI": "sushi",
+    "XLM": "stellar",
+    "FIL": "filecoin",
+    "NEAR": "near",
+    "EGLD": "elrond-erd-2",
+    "1INCH": "1inch",
+    "SAND": "the-sandbox",
+    "WLD": "worldcoin-wld",
+    "APT": "aptos",
+    "DOGE": "dogecoin",
+    "WAVES": "waves",
+    "ENA": "ethena",
+    "SUI": "sui",
+    "APE": "apecoin",
+    "RENDER": "render-token",
+    "ARB": "arbitrum",
+    "POL": "matic-network",
+    "CRV": "curve-dao-token",
+    "FET": "fetch-ai",
+    "AIOZ": "aioz-network",
+    "OP": "optimism",
+    "GMT": "stepn",
+    "GRT": "the-graph",
+    "CHZ": "chiliz",
+    "FLOW": "flow",
+    "GALA": "gala",
+    "ONE": "harmony",
+    "SHIB": "shiba-inu",
+    "FLOKI": "floki",
+    "PEPE": "pepe",
 }
+
 
 async def fetch_bulk_prices():
     url = "https://api.coingecko.com/api/v3/simple/price"
@@ -67,21 +107,25 @@ async def fetch_bulk_prices():
 
     async with aiohttp.ClientSession() as session:
         try:
-            async with session.get(url, params=params, timeout=aiohttp.ClientTimeout(total=10)) as response:
+            async with session.get(
+                url, params=params, timeout=aiohttp.ClientTimeout(total=10)
+            ) as response:
                 data = await response.json()
-                
-                prices = {symbol: f"{data.get(coin_id, {}).get('usd', 0):,.7f}".rstrip("0").rstrip(".") for symbol, coin_id in SYMBOLS.items()}
-                
-                return {
-                    "timestamp": datetime.utcnow().isoformat(), 
-                    "prices": prices
+
+                prices = {
+                    symbol: f"{data.get(coin_id, {}).get('usd', 0):,.7f}".rstrip(
+                        "0"
+                    ).rstrip(".")
+                    for symbol, coin_id in SYMBOLS.items()
                 }
+
+                return {"timestamp": datetime.utcnow().isoformat(), "prices": prices}
 
         except Exception as error:
             return {
                 "timestamp": datetime.utcnow().isoformat(),
                 "prices": {},
-                "error": f"{str(error)} (URL: {url})"
+                "error": f"{str(error)} (URL: {url})",
             }
 
 
@@ -90,4 +134,4 @@ def get_bulk_prices_sync():
     return asyncio.run(fetch_bulk_prices())
 
 
-#=======================================================================================================
+# =======================================================================================================

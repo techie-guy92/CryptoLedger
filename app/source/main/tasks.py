@@ -1,11 +1,12 @@
-from celery import shared_task
-from django.utils.timezone import now, localtime
-from django.core.cache import cache
 import logging
 import time
-from django.db import models
-from .models import *
 
+from celery import shared_task
+from django.core.cache import cache
+from django.db import models
+from django.utils.timezone import localtime, now
+
+from .models import *
 
 # Start the Celery worker
 # celery -A config.celery_config worker --loglevel=info

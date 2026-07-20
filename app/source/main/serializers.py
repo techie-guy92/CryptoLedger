@@ -1,21 +1,23 @@
 from rest_framework import serializers
-from rest_framework.serializers import Serializer, CharField, IntegerField
-from .models import *
+from rest_framework.serializers import CharField, IntegerField, Serializer
 
+from .models import BoughtCoin, Analyst
 
-#====================================== MostBoughtCoin serializers ====================================
+# ====================================== MostBoughtCoin serializers ====================================
+
 
 class TopTradedCoinEntrySerializer(Serializer):
     coin = CharField()
     count = IntegerField()
-    
-    
-#====================================== Analyst serializers ===========================================
-    
+
+
+# ====================================== Analyst serializers ===========================================
+
+
 class AnalystSerializer(serializers.ModelSerializer):
     class Meta:
         model = Analyst
         fields = "__all__"
 
-    
-#======================================================================================================
+
+# ======================================================================================================

@@ -6,34 +6,46 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0015_alter_mostboughtcoin_source_and_more'),
+        ("main", "0015_alter_mostboughtcoin_source_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='entrypoint',
-            options={'ordering': ['-updated_at'], 'verbose_name': 'Entry Point', 'verbose_name_plural': 'Entry Points'},
+            name="entrypoint",
+            options={
+                "ordering": ["-updated_at"],
+                "verbose_name": "Entry Point",
+                "verbose_name_plural": "Entry Points",
+            },
         ),
         migrations.AlterModelOptions(
-            name='exitpoint',
-            options={'ordering': ['-updated_at'], 'verbose_name': 'Exit Point', 'verbose_name_plural': 'Exit Points'},
+            name="exitpoint",
+            options={
+                "ordering": ["-updated_at"],
+                "verbose_name": "Exit Point",
+                "verbose_name_plural": "Exit Points",
+            },
         ),
         migrations.RemoveField(
-            model_name='entrypoint',
-            name='created_at',
+            model_name="entrypoint",
+            name="created_at",
         ),
         migrations.RemoveField(
-            model_name='exitpoint',
-            name='created_at',
+            model_name="exitpoint",
+            name="created_at",
         ),
         migrations.AddField(
-            model_name='entrypoint',
-            name='updated_at',
-            field=models.DateField(auto_now_add=True, null=True, verbose_name='Updated At'),
+            model_name="entrypoint",
+            name="updated_at",
+            field=models.DateField(
+                auto_now_add=True, null=True, verbose_name="Updated At"
+            ),
         ),
         migrations.AddField(
-            model_name='exitpoint',
-            name='updated_at',
-            field=models.DateField(auto_now_add=True, null=True, verbose_name='Updated At'),
+            model_name="exitpoint",
+            name="updated_at",
+            field=models.DateField(
+                auto_now_add=True, null=True, verbose_name="Updated At"
+            ),
         ),
     ]
