@@ -64,7 +64,7 @@ update-manifests:
       artifacts: false
   before_script:
     - apk add --no-cache git sed openssh-client
-    - git remote set-url origin https://${GITLAB_PAT}@gitlab.com/techie-guy92/cryptoledger.git
+    - git remote set-url origin https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/techie-guy92/cryptoledger.git
   script:
     - |
         IMAGE_TAG="v1.3.${CI_PIPELINE_IID}"
