@@ -45,13 +45,15 @@ unit-tests:
   stage: test
   image: 192.168.122.1:5000/python:3.12-slim
   needs:
-    - build
-  cache:
-    paths:
-      - .cache/pip
+    - job: build
+      artifacts: false
+  # cache:
+  #   paths:
+  #     - .cache/pip
   before_script:
     - cd $PROJECT_DIR
-    - pip install --cache-dir "$CI_PROJECT_DIR/.cache/pip" -r requirements.txt
+    # - pip install --cache-dir "$CI_PROJECT_DIR/.cache/pip" -r requirements.txt
+    - pip install -r requirements.txt
   script:
     - python manage.py test
 
