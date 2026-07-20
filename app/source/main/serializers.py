@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import CharField, IntegerField, Serializer
 
-from .models import BoughtCoin, Analyst
+from .models import *
 
 # ====================================== MostBoughtCoin serializers ====================================
 
