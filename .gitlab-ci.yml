@@ -66,7 +66,7 @@ update-manifests:
     - apk add --no-cache sed
   script:
     - export IMAGE_TAG=$(cat image_tag.txt)
-    - sed -i "s|tag:.*|tag: ${IMAGE_TAG}|" app/chart/values.yaml
+    - 'sed -i "s|^\([[:space:]]*tag:\).*|\1 ${IMAGE_TAG}|" app/chart/values.yaml'
     - git config user.email "gitlab-ci@gitlab.com"
     - git config user.name "GitLab CI"
     - git add app/chart/values.yaml
