@@ -47,12 +47,8 @@ unit-tests:
   needs:
     - job: build
       artifacts: false
-  # cache:
-  #   paths:
-  #     - .cache/pip
   before_script:
     - cd $PROJECT_DIR
-    # - pip install --cache-dir "$CI_PROJECT_DIR/.cache/pip" -r requirements.txt
     - pip install -r requirements.txt
   script:
     - python manage.py test
