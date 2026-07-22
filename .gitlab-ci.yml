@@ -8,6 +8,7 @@ variables:
   REGISTRY: "192.168.122.1:5000"
   IMAGE_NAME: "crypto"
   PROJECT_DIR: app/source
+  VALUES_FILE: app/chart/values.yaml
 
 default:
   tags:
@@ -56,7 +57,6 @@ unit-tests:
 update-manifests:
   stage: update-manifests
   image: 192.168.122.1:5000/alpine:latest
-  dependencies: []
   needs:
     - job: build
       artifacts: false
@@ -69,10 +69,10 @@ update-manifests:
     - |
         IMAGE_TAG="v1.3.${CI_PIPELINE_IID}"
         echo "Updating manifest with image tag: ${IMAGE_TAG}"
-        sed -i "0,/tag:.*/s//tag: ${IMAGE_TAG}/" app/chart/values.yaml
+        sed -i "0,/tag:.*/s//tag: ${IMAGE_TAG}/" "$VALUES_FILE"
         git config user.email "gitlab-ci@gitlab.com"
         git config user.name "GitLab CI"
-        git add app/chart/values.yaml
+        git add "$VALUES_FILE"
         if ! git diff --cached --quiet; then
           git commit -m "Update image tag to ${IMAGE_TAG} [skip ci]"
           git push origin HEAD:$CI_COMMIT_BRANCH
