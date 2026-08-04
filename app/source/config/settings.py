@@ -112,15 +112,20 @@ WSGI_APPLICATION = "config.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": env.str("ENGINE_NAME", "django.db.backends.postgresql"),
-        "NAME": env.str("DB_NAME", BASE_DIR / "db.sqlite3"),
-        "HOST": env.str("DB_HOST", "localhost"),
+        "NAME": env.str("DB_NAME", "crypto_ledger"),
+        "HOST": env.str("DB_HOST", "postgres"),
         "PORT": env.str("DB_PORT", "5432"),
-        "USER": env.str("POSTGRES_USER", "techie-guy92"),
+        "USER": env.str("POSTGRES_USER", "dbadmin"),
         "PASSWORD": env.str("POSTGRES_PASSWORD", ""),
         "CONN_MAX_AGE": 600,
-        # "OPTIONS": {
-        #     "connect_timeout": 10,
-        # },
+        "CONN_HEALTH_CHECKS": True,
+        "OPTIONS": {
+            "connect_timeout": 10,
+            "keepalives": 1,
+            "keepalives_idle": 30,
+            "keepalives_interval": 10,
+            "keepalives_count": 5,
+        },
     }
 }
 
