@@ -115,7 +115,7 @@ DATABASES = {
         "HOST": env.str("DB_HOST", "postgres"),
         "PORT": env.str("DB_PORT", "5432"),
         "USER": env.str("POSTGRES_USER", "dbadmin"),
-        "PASSWORD": env.str("POSTGRES_PASSWORD", "")
+        "PASSWORD": env.str("POSTGRES_PASSWORD", ""),
     }
 }
 
