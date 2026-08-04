@@ -15,7 +15,6 @@ from os import makedirs, path
 from pathlib import Path
 
 import environ
-from celery.schedules import crontab
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -117,15 +116,6 @@ DATABASES = {
         "PORT": env.str("DB_PORT", "5432"),
         "USER": env.str("POSTGRES_USER", "dbadmin"),
         "PASSWORD": env.str("POSTGRES_PASSWORD", ""),
-        "CONN_MAX_AGE": 600,
-        "CONN_HEALTH_CHECKS": True,
-        "OPTIONS": {
-            "connect_timeout": 10,
-            "keepalives": 1,
-            "keepalives_idle": 30,
-            "keepalives_interval": 10,
-            "keepalives_count": 5,
-        },
     }
 }
 
@@ -304,50 +294,3 @@ SPECTACULAR_SETTINGS = {
     "VERSION": "1.0.0",
     "SERVE_INCLUDE_SCHEMA": False,
 }
-
-
-# =====
-
-# # Celery Configuration
-# CELERY_BROKER_URL = env.str('URL_BROKER')
-# CELERY_RESULT_BACKEND = env.str('REDIS_CELERY_RESULTS')
-# # CELERY_RESULT_BACKEND = 'django-db'
-# CELERY_RESULT_EXPIRES = 3600
-
-# # Serialization
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_ACCEPT_CONTENT = ['json']
-
-# # Time & Connection
-# CELERY_TIMEZONE = 'Asia/Tehran'
-# CELERY_ENABLE_UTC = True
-# CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-# CELERY_BROKER_HEARTBEAT = 0
-
-# # Task Settings
-# CELERY_TASK_ACKS_LATE = True
-# CELERY_TASK_REJECT_ON_WORKER_LOST = True
-# CELERY_TASK_TIME_LIMIT = 300
-
-
-# # CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
-# # CELERY_BEAT_SCHEDULE = {
-
-# # }
-
-
-# # Django Cache & Sessions
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": env.str('REDIS_DJANGO_CACHE'),
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         }
-#     }
-# }
-
-# SESSION_ENGINE = "django.contrib.sessions.backends.cache"
-# SESSION_CACHE_ALIAS = "default"
-# CACHE_TTL = 60 * 15
