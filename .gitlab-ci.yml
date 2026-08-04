@@ -52,7 +52,7 @@ unit-tests:
     - cd $PROJECT_DIR
     - pip install -r requirements.txt
   script:
-    - python manage.py test
+    - python manage.py test --settings=config.test_settings
 
 update-manifests:
   stage: update-manifests
