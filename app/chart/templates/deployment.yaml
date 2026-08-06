@@ -63,6 +63,15 @@ spec:
           mountPath: /app/staticfiles
       containers:
       - name: {{ .Chart.Name }}
+        lifecycle:
+          postStart:
+            exec:
+              command:
+              - /bin/sh
+              - -c
+              - |
+                sleep 5
+                curl -s -o /dev/null http://localhost:8000/health/ready/ || true
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
