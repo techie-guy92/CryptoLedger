@@ -31,4 +31,6 @@ EXPOSE 8000
 
 CMD ["gunicorn", "config.asgi:application", "--bind", "0.0.0.0:8000", "--timeout", "120", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker"]
 
+# CMD ["gunicorn", "config.asgi:application", "--bind", "0.0.0.0:8000", "--timeout", "120", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "--worker-tmp-dir", "/dev/shm"]
+
 # CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "120", "--workers", "4"]
