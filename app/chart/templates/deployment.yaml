@@ -84,10 +84,11 @@ spec:
             httpHeaders:
             - name: Host
               value: {{ .Values.ingress.host }}
+          initialDelaySeconds: 30
           periodSeconds: 5
           timeoutSeconds: 2
           successThreshold: 1
-          failureThreshold: 3
+          failureThreshold: 5
         livenessProbe:
           httpGet:
             path: /health/live/

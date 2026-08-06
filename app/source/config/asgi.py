@@ -10,7 +10,13 @@ https://docs.djangoproject.com/en/5.0/howto/deployment/asgi/
 import os
 
 from django.core.asgi import get_asgi_application
+from django.db import connection
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
+# Pre-warm the database connection when the worker starts
 application = get_asgi_application()
+
+# Ensure the database connection is established
+# with connection.cursor() as cursor:
+#     cursor.execute("SELECT 1")
