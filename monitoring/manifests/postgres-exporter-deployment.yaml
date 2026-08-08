@@ -17,8 +17,6 @@ spec:
     metadata:
       labels:
         app: postgres-exporter
-        app.kubernetes.io/name: cryptoledger
-        app.kubernetes.io/instance: crypto
         app.kubernetes.io/component: monitoring
 
     spec:
