@@ -15,8 +15,6 @@ ingress:
     kubernetes.io/ingress.class: "traefik"
     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
     traefik.ingress.kubernetes.io/router.middlewares: crypto-redirect-https@kubernetescrd
-    traefik.ingress.kubernetes.io/response-header-timeout: "60s"
-    traefik.ingress.kubernetes.io/forwarding-timeout: "60s"
 
 resources:
   requests:
