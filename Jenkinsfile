@@ -7,7 +7,8 @@ pipeline {
         PROJECT_DIR = 'app/source'
         VALUES_FILE = 'app/chart/values.yaml'
         GITHUB_CREDS = 'github-token'
-        HOME = '/tmp'  // ← Fix pip permission issue
+        HOME = '/tmp'
+        PATH = '/tmp/.local/bin:/usr/local/bin:/usr/bin:/bin'  // ← Added PATH
     }
     
     stages {
@@ -23,6 +24,7 @@ pipeline {
             steps {
                 dir('app/source') {
                     sh '''
+                        export PATH="/tmp/.local/bin:$PATH"
                         pip install --break-system-packages black isort
                         black --check .
                         isort --profile black --check-only .
@@ -74,6 +76,7 @@ pipeline {
             steps {
                 dir('app/source') {
                     sh '''
+                        export PATH="/tmp/.local/bin:$PATH"
                         pip install --break-system-packages -r requirements.txt
                         python manage.py test --settings=config.test_settings
                     '''
