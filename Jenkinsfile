@@ -8,7 +8,7 @@ pipeline {
         VALUES_FILE = 'app/chart/values.yaml'
         GITHUB_CREDS = 'github-token'
         HOME = '/tmp'
-        PATH = '/tmp/.local/bin:/usr/local/bin:/usr/bin:/bin'  // ← Added PATH
+        PATH = '/tmp/.local/bin:/usr/local/bin:/usr/bin:/bin'
     }
     
     stages {
@@ -74,12 +74,14 @@ pipeline {
                 }
             }
             steps {
-                dir('app/source') {
-                    sh '''
-                        export PATH="/tmp/.local/bin:$PATH"
-                        pip install --break-system-packages -r requirements.txt
-                        python manage.py test --settings=config.test_settings
-                    '''
+                withCredentials([string(credentialsId: 'crypto-secret-key', variable: 'SECRET_KEY')]) {
+                    dir('app/source') {
+                        sh '''
+                            export PATH="/tmp/.local/bin:$PATH"
+                            pip install --break-system-packages -r requirements.txt
+                            python manage.py test --settings=config.test_settings
+                        '''
+                    }
                 }
             }
         }
