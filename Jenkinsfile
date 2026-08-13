@@ -141,7 +141,6 @@ pipeline {
                     sh """
                         apk add --no-cache git sed openssh-client
                         
-                        # Configure Git
                         git config user.email "jenkins@ci.com"
                         git config user.name "Jenkins CI"
                         
@@ -165,6 +164,7 @@ pipeline {
                 }
             }
         }
+    }
     
     // ============================================================
     // POST-BUILD ACTIONS: Email Notifications
@@ -198,4 +198,4 @@ pipeline {
             )
         }
     }
-}
+}  
