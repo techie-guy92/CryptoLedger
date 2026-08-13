@@ -7,7 +7,6 @@ pipeline {
         PROJECT_DIR = 'app/source'
         VALUES_FILE = 'app/chart/values.yaml'
         GITHUB_CREDS = 'github-token'
-        APP_NAME = 'CryptoLedger'
     }
     
     stages {
@@ -23,7 +22,7 @@ pipeline {
             steps {
                 dir('app/source') {
                     sh '''
-                        pip install black isort
+                        pip install --user black isort
                         black --check .
                         isort --profile black --check-only .
                     '''
@@ -32,26 +31,7 @@ pipeline {
         }
         
         // ============================================================
-        // STAGE 2: Unit Tests (Runs on ALL branches)
-        // ============================================================
-        stage('Unit Tests') {
-            agent {
-                docker {
-                    image "${env.REGISTRY}/python:3.12-slim"
-                }
-            }
-            steps {
-                dir('app/source') {
-                    sh '''
-                        pip install -r requirements.txt
-                        python manage.py test --settings=config.test_settings
-                    '''
-                }
-            }
-        }
-        
-        // ============================================================
-        // STAGE 3: Build & Push Docker (ONLY on main branch)
+        // STAGE 2: Build & Push Docker (ONLY on main branch)
         // ============================================================
         stage('Build & Push Docker') {
             when {
@@ -77,6 +57,25 @@ pipeline {
                     
                     writeFile file: 'image_tag.txt', text: imageTag
                     stash name: 'image-tag', includes: 'image_tag.txt'
+                }
+            }
+        }
+        
+        // ============================================================
+        // STAGE 3: Unit Tests (Runs on ALL branches)
+        // ============================================================
+        stage('Unit Tests') {
+            agent {
+                docker {
+                    image "${env.REGISTRY}/python:3.12-slim"
+                }
+            }
+            steps {
+                dir('app/source') {
+                    sh '''
+                        pip install --user -r requirements.txt
+                        python manage.py test --settings=config.test_settings
+                    '''
                 }
             }
         }
@@ -108,7 +107,7 @@ pipeline {
                             # ============================================
                             # 1. Update values.yaml on MAIN
                             # ============================================
-                            echo "Updating values.yaml on MAIN branch..."
+                            echo "📝 Updating values.yaml on MAIN branch..."
                             sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
                             git add ${env.VALUES_FILE}
                             git commit -m "Update image tag to ${imageTag} [skip ci]"
@@ -117,22 +116,16 @@ pipeline {
                             # ============================================
                             # 2. Update values.yaml on DEVELOP
                             # ============================================
-                            echo "Updating values.yaml on DEVELOP branch..."
+                            echo "📝 Updating values.yaml on DEVELOP branch..."
                             git checkout develop
                             git pull origin develop
-                            
-                            # Update values.yaml with the same tag
                             sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
                             git add ${env.VALUES_FILE}
                             git commit -m "Sync image tag to ${imageTag} from main [skip ci]"
                             git push origin HEAD:develop
                             
-                            # ============================================
-                            # 3. Switch back to main
-                            # ============================================
                             git checkout main
-                            
-                            echo "Both branches updated with image tag: ${imageTag}"
+                            echo "✅ Both branches updated with image tag: ${imageTag}"
                         """
                     }
                 }
@@ -147,23 +140,20 @@ pipeline {
         success {
             mail (
                 to: 'soheil.dalirii@gmail.com',
-                subject: "SUCCESS: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
+                subject: "✅ SUCCESS: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
                 body: """
                     Build Successful!
                     Job: ${env.JOB_NAME}
                     Build Number: ${env.BUILD_NUMBER}
                     Branch: ${env.BRANCH_NAME}
                     URL: ${env.BUILD_URL}
-                    
-                    Image: ${env.REGISTRY}/${env.IMAGE_NAME}:v1.3.${env.BUILD_NUMBER}
-                    Both main and develop branches updated with new image tag.
                 """
             )
         }
         failure {
             mail (
                 to: 'soheil.dalirii@gmail.com',
-                subject: "FAILED: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
+                subject: "❌ FAILED: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
                 body: """
                     Build Failed!
                     Job: ${env.JOB_NAME}
