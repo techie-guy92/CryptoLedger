@@ -134,6 +134,7 @@ pipeline {
                 }
             }
             steps {
+                checkout scm
                 script {
                     unstash 'image-tag'
                     def imageTag = readFile('image_tag.txt').trim()
