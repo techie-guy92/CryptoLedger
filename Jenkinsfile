@@ -43,7 +43,7 @@ pipeline {
             agent {
                 docker {
                     image "${env.REGISTRY}/docker:latest"
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    args "-v /var/run/docker.sock:/var/run/docker.sock -u root"
                 }
             }
             steps {
@@ -130,6 +130,7 @@ pipeline {
             agent {
                 docker {
                     image "${env.REGISTRY}/alpine:latest"
+                    args '-u root'
                 }
             }
             steps {
@@ -187,7 +188,7 @@ pipeline {
         failure {
             mail (
                 to: 'soheil.dalirii@gmail.com',
-                subject: "❌ FAILED: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
+                subject: "FAILED: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
                 body: """
                     Build Failed!
                     Job: ${env.JOB_NAME}
