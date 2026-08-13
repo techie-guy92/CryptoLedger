@@ -43,7 +43,7 @@ pipeline {
             agent {
                 docker {
                     image "${env.REGISTRY}/docker:latest"
-                    args "-v /var/run/docker.sock:/var/run/docker.sock -u root"
+                    args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
                 }
             }
             steps {
@@ -138,35 +138,33 @@ pipeline {
                     unstash 'image-tag'
                     def imageTag = readFile('image_tag.txt').trim()
                     
-                    withCredentials([string(credentialsId: env.GITHUB_CREDS, variable: 'GITHUB_TOKEN')]) {
-                        sh """
-                            apk add --no-cache git sed openssh-client
-                            
-                            git config user.email "jenkins@ci.com"
-                            git config user.name "Jenkins CI"
-                            
-                            echo "Updating values.yaml on MAIN branch..."
-                            sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
-                            git add ${env.VALUES_FILE}
-                            git commit -m "Update image tag to ${imageTag} [skip ci]"
-                            git push origin HEAD:main
-                            
-                            echo "Updating values.yaml on DEVELOP branch..."
-                            git checkout develop
-                            git pull origin develop
-                            sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
-                            git add ${env.VALUES_FILE}
-                            git commit -m "Sync image tag to ${imageTag} from main [skip ci]"
-                            git push origin HEAD:develop
-                            
-                            git checkout main
-                            echo "Both branches updated with image tag: ${imageTag}"
-                        """
-                    }
+                    sh """
+                        apk add --no-cache git sed openssh-client
+                        
+                        # Configure Git
+                        git config user.email "jenkins@ci.com"
+                        git config user.name "Jenkins CI"
+                        
+                        echo "Updating values.yaml on MAIN branch..."
+                        sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
+                        git add ${env.VALUES_FILE}
+                        git commit -m "Update image tag to ${imageTag} [skip ci]"
+                        git push origin HEAD:main
+                        
+                        echo "Updating values.yaml on DEVELOP branch..."
+                        git checkout develop
+                        git pull origin develop
+                        sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
+                        git add ${env.VALUES_FILE}
+                        git commit -m "Sync image tag to ${imageTag} from main [skip ci]"
+                        git push origin HEAD:develop
+                        
+                        git checkout main
+                        echo "Both branches updated with image tag: ${imageTag}"
+                    """
                 }
             }
         }
-    }
     
     // ============================================================
     // POST-BUILD ACTIONS: Email Notifications
