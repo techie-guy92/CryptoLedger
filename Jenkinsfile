@@ -74,7 +74,41 @@ pipeline {
                 }
             }
             steps {
-                withCredentials([string(credentialsId: 'crypto-secret-key', variable: 'SECRET_KEY')]) {
+                withCredentials([
+                    // Django Core
+                    string(credentialsId: 'crypto-secret-key', variable: 'SECRET_KEY'),
+                    string(credentialsId: 'DEBUG', variable: 'DEBUG'),
+                    string(credentialsId: 'ALLOWED_HOSTS', variable: 'ALLOWED_HOSTS'),
+                    string(credentialsId: 'FRONTEND_DOMAIN', variable: 'FRONTEND_DOMAIN'),
+                    
+                    // Security Settings
+                    string(credentialsId: 'SECURE_SSL_REDIRECT', variable: 'SECURE_SSL_REDIRECT'),
+                    string(credentialsId: 'SESSION_COOKIE_SECURE', variable: 'SESSION_COOKIE_SECURE'),
+                    string(credentialsId: 'CSRF_COOKIE_SECURE', variable: 'CSRF_COOKIE_SECURE'),
+                    string(credentialsId: 'SECURE_HSTS_SECONDS', variable: 'SECURE_HSTS_SECONDS'),
+                    string(credentialsId: 'SECURE_HSTS_INCLUDE_SUBDOMAINS', variable: 'SECURE_HSTS_INCLUDE_SUBDOMAINS'),
+                    string(credentialsId: 'SECURE_HSTS_PRELOAD', variable: 'SECURE_HSTS_PRELOAD'),
+                    string(credentialsId: 'USE_X_FORWARDED_HOST', variable: 'USE_X_FORWARDED_HOST'),
+                    string(credentialsId: 'USE_X_FORWARDED_PORT', variable: 'USE_X_FORWARDED_PORT'),
+                    string(credentialsId: 'SECURE_PROXY_SSL_HEADER', variable: 'SECURE_PROXY_SSL_HEADER'),
+                    
+                    // Email Settings
+                    string(credentialsId: 'EMAIL_HOST', variable: 'EMAIL_HOST'),
+                    string(credentialsId: 'EMAIL_PORT', variable: 'EMAIL_PORT'),
+                    string(credentialsId: 'EMAIL_HOST_USER', variable: 'EMAIL_HOST_USER'),
+                    string(credentialsId: 'EMAIL_HOST_PASSWORD', variable: 'EMAIL_HOST_PASSWORD'),
+                    string(credentialsId: 'EMAIL_USE_TLS', variable: 'EMAIL_USE_TLS'),
+                    
+                    // JWT Settings
+                    string(credentialsId: 'ACCESS_TOKEN', variable: 'ACCESS_TOKEN'),
+                    string(credentialsId: 'REFRESH_TOKEN', variable: 'REFRESH_TOKEN'),
+                    string(credentialsId: 'ROTATE_REFRESH_TOKENS', variable: 'ROTATE_REFRESH_TOKENS'),
+                    string(credentialsId: 'BLACKLIST_AFTER_ROTATION', variable: 'BLACKLIST_AFTER_ROTATION'),
+                    
+                    // Database Settings
+                    string(credentialsId: 'ENGINE_NAME', variable: 'ENGINE_NAME'),
+                    string(credentialsId: 'DB_NAME', variable: 'DB_NAME')
+                ]) {
                     dir('app/source') {
                         sh '''
                             export PATH="/tmp/.local/bin:$PATH"
@@ -110,13 +144,13 @@ pipeline {
                             git config user.email "jenkins@ci.com"
                             git config user.name "Jenkins CI"
                             
-                            echo "📝 Updating values.yaml on MAIN branch..."
+                            echo "Updating values.yaml on MAIN branch..."
                             sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
                             git add ${env.VALUES_FILE}
                             git commit -m "Update image tag to ${imageTag} [skip ci]"
                             git push origin HEAD:main
                             
-                            echo "📝 Updating values.yaml on DEVELOP branch..."
+                            echo "Updating values.yaml on DEVELOP branch..."
                             git checkout develop
                             git pull origin develop
                             sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
@@ -125,7 +159,7 @@ pipeline {
                             git push origin HEAD:develop
                             
                             git checkout main
-                            echo "✅ Both branches updated with image tag: ${imageTag}"
+                            echo "Both branches updated with image tag: ${imageTag}"
                         """
                     }
                 }
@@ -140,7 +174,7 @@ pipeline {
         success {
             mail (
                 to: 'soheil.dalirii@gmail.com',
-                subject: "✅ SUCCESS: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
+                subject: "SUCCESS: ${env.JOB_NAME} - #${env.BUILD_NUMBER}",
                 body: """
                     Build Successful!
                     Job: ${env.JOB_NAME}
