@@ -7,6 +7,7 @@ pipeline {
         PROJECT_DIR = 'app/source'
         VALUES_FILE = 'app/chart/values.yaml'
         GITHUB_CREDS = 'github-token'
+        HOME = '/tmp'  // ← Fix pip permission issue
     }
     
     stages {
@@ -22,7 +23,7 @@ pipeline {
             steps {
                 dir('app/source') {
                     sh '''
-                        pip install --user black isort
+                        pip install --break-system-packages black isort
                         black --check .
                         isort --profile black --check-only .
                     '''
@@ -73,7 +74,7 @@ pipeline {
             steps {
                 dir('app/source') {
                     sh '''
-                        pip install --user -r requirements.txt
+                        pip install --break-system-packages -r requirements.txt
                         python manage.py test --settings=config.test_settings
                     '''
                 }
@@ -104,18 +105,12 @@ pipeline {
                             git config user.email "jenkins@ci.com"
                             git config user.name "Jenkins CI"
                             
-                            # ============================================
-                            # 1. Update values.yaml on MAIN
-                            # ============================================
                             echo "📝 Updating values.yaml on MAIN branch..."
                             sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
                             git add ${env.VALUES_FILE}
                             git commit -m "Update image tag to ${imageTag} [skip ci]"
                             git push origin HEAD:main
                             
-                            # ============================================
-                            # 2. Update values.yaml on DEVELOP
-                            # ============================================
                             echo "📝 Updating values.yaml on DEVELOP branch..."
                             git checkout develop
                             git pull origin develop
