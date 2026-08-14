@@ -19,6 +19,7 @@ pipeline {
             agent {
                 docker {
                     image "${env.REGISTRY}/python:3.12-slim"
+                    args '--network host -u root'
                 }
             }
             steps {
@@ -71,6 +72,7 @@ pipeline {
             agent {
                 docker {
                     image "${env.REGISTRY}/python:3.12-slim"
+                    args '--network host -u root'
                 }
             }
             steps {
