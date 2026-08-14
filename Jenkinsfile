@@ -151,7 +151,7 @@ pipeline {
                                 git config --global user.email "jenkins@ci.com"
                                 git config --global user.name "Jenkins CI"
 
-                                git remote set-url origin https://\${GIT_USER}:\${GIT_TOKEN}@github.com/techie-guy92/CryptoLedger.git
+                                git remote set-url origin https://\${GIT_TOKEN}@github.com/techie-guy92/CryptoLedger.git
 
                                 echo "PWD: \$(pwd)"
                                 ls -la
