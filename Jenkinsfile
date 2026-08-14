@@ -142,18 +142,17 @@ pipeline {
                             unstash 'image-tag'
                             def imageTag = readFile('image_tag.txt').trim()
 
+                            withCredentials([string(credentialsId: env.GITHUB_CREDS, variable: 'GIT_TOKEN')]) {
+
                             sh """
                                 apk add --no-cache git sed openssh-client
-
-                                mkdir -p ~/.ssh
-                                ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null
 
                                 git config --global --add safe.directory '*'
                                 git config --global user.email "jenkins@ci.com"
                                 git config --global user.name "Jenkins CI"
 
-                                git remote set-url origin git@github.com:techie-guy92/CryptoLedger.git
-                                
+                                git remote set-url origin https://\${GIT_USER}:\${GIT_TOKEN}@github.com/techie-guy92/CryptoLedger.git
+
                                 echo "PWD: \$(pwd)"
                                 ls -la
 
