@@ -142,45 +142,39 @@ pipeline {
                             unstash 'image-tag'
                             def imageTag = readFile('image_tag.txt').trim()
 
-                            withCredentials([
-                                usernamePassword(
-                                    credentialsId: env.GITHUB_CREDS,
-                                    usernameVariable: 'GITHUB_USER',
-                                    passwordVariable: 'GITHUB_TOKEN'
-                                )
-                            ]) {
+                            sh """
+                                apk add --no-cache git sed openssh-client
 
-                                sh """
-                                    apk add --no-cache git sed openssh-client
+                                mkdir -p ~/.ssh
+                                ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
-                                    git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/techie-guy92/CryptoLedger.git
-                                    
-                                    echo "PWD: \$(pwd)"
-                                    ls -la
+                                git remote set-url origin git@github.com:techie-guy92/CryptoLedger.git
+                                
+                                echo "PWD: \$(pwd)"
+                                ls -la
 
-                                    git config --global user.email "jenkins@ci.com"
-                                    git config --global user.name "Jenkins CI"
-                                    git config --global --add safe.directory '*'
+                                git config --global user.email "jenkins@ci.com"
+                                git config --global user.name "Jenkins CI"
+                                git config --global --add safe.directory '*'
 
-                                    echo "Updating values.yaml on MAIN branch..."
-                                    git pull origin main
-                                    sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
-                                    git add ${env.VALUES_FILE}
-                                    git commit -m "Update image tag to ${imageTag} [skip ci]"
-                                    git push origin HEAD:main
-                                    
-                                    echo "Updating values.yaml on DEVELOP branch..."
-                                    git checkout develop
-                                    git pull origin develop
-                                    sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
-                                    git add ${env.VALUES_FILE}
-                                    git commit -m "Sync image tag to ${imageTag} from main [skip ci]"
-                                    git push origin HEAD:develop
-                                    
-                                    git checkout main
-                                    echo "Both branches updated with image tag: ${imageTag}"
-                                """
-                            }
+                                echo "Updating values.yaml on MAIN branch..."
+                                git pull origin main
+                                sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
+                                git add ${env.VALUES_FILE}
+                                git commit -m "Update image tag to ${imageTag} [skip ci]"
+                                git push origin HEAD:main
+                                
+                                echo "Updating values.yaml on DEVELOP branch..."
+                                git checkout develop
+                                git pull origin develop
+                                sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
+                                git add ${env.VALUES_FILE}
+                                git commit -m "Sync image tag to ${imageTag} from main [skip ci]"
+                                git push origin HEAD:develop
+                                
+                                git checkout main
+                                echo "Both branches updated with image tag: ${imageTag}"
+                            """
                         }
                     }
                 }
