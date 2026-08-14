@@ -146,7 +146,7 @@ pipeline {
                                 apk add --no-cache git sed openssh-client
 
                                 mkdir -p ~/.ssh
-                                ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+                                ssh-keyscan -H github.com >> ~/.ssh/known_hosts 2>/dev/null
 
                                 git config --global --add safe.directory '*'
                                 git config --global user.email "jenkins@ci.com"
