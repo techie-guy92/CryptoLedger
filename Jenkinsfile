@@ -137,6 +137,7 @@ pipeline {
             }
             steps {
                 checkout scm
+                dir(env.WORKSPACE) {
                 script {
                     unstash 'image-tag'
                     def imageTag = readFile('image_tag.txt').trim()
@@ -148,6 +149,7 @@ pipeline {
                         git config user.name "Jenkins CI"
                         
                         echo "Updating values.yaml on MAIN branch..."
+                        git pull origin main
                         sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
                         git add ${env.VALUES_FILE}
                         git commit -m "Update image tag to ${imageTag} [skip ci]"
