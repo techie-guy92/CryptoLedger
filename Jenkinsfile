@@ -148,14 +148,14 @@ pipeline {
                                 mkdir -p ~/.ssh
                                 ssh-keyscan -H github.com >> ~/.ssh/known_hosts
 
+                                git config --global --add safe.directory '*'
+                                git config --global user.email "jenkins@ci.com"
+                                git config --global user.name "Jenkins CI"
+
                                 git remote set-url origin git@github.com:techie-guy92/CryptoLedger.git
                                 
                                 echo "PWD: \$(pwd)"
                                 ls -la
-
-                                git config --global user.email "jenkins@ci.com"
-                                git config --global user.name "Jenkins CI"
-                                git config --global --add safe.directory '*'
 
                                 echo "Updating values.yaml on MAIN branch..."
                                 git pull origin main
