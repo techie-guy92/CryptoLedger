@@ -26,7 +26,7 @@ pipeline {
                 dir('app/source') {
                     sh '''
                         export PATH="/tmp/.local/bin:$PATH"
-                        pip install --break-system-packages black isort
+                        pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ black isort
                         black --check .
                         isort --profile black --check-only .
                     '''
@@ -114,7 +114,7 @@ pipeline {
                     dir('app/source') {
                         sh '''
                             export PATH="/tmp/.local/bin:$PATH"
-                            pip install --break-system-packages -r requirements.txt
+                            pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ -r requirements.txt
                             python manage.py test --settings=config.test_settings
                         '''
                     }
@@ -182,10 +182,17 @@ pipeline {
             }
         }
     }
-    // ============================================================
-    // POST-BUILD ACTIONS: Email Notifications
-    // ============================================================
+    // ===============================================================
+    // POST-BUILD ACTIONS: Email Notifications and Restore workspaces
+    // ===============================================================
     post {
+        always {
+            script {
+                docker.image("${env.REGISTRY}/alpine:latest").inside('-u root') {
+                    sh 'chown -R 131:128 ${WORKSPACE} || true'
+                }
+            }
+        }
         success {
             mail (
                 to: 'soheil.dalirii@gmail.com',
