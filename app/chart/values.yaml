@@ -2,19 +2,7 @@ replicaCount: 3
 
 image:
   repository: 192.168.122.1:5000/crypto
-<<<<<<< HEAD
-  tag: v1.3.34
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-  tag: v1.3.33
-=======
-  tag: v1.3.43
->>>>>>> 0aeabe64462185fe770a2c25b5d052cdbdca457a
-=======
-  tag: v1.3.34
->>>>>>> ca8ea4e3c143f3888ba7b4a8bda7edbb3293f852
->>>>>>> main
+  tag: v1.3.47
   pullPolicy: Always
 
 service:
@@ -89,7 +77,7 @@ postgres:
   enabled: true
   image:
     repository: 192.168.122.1:5000/postgres
-    tag: v1.3.34
+    tag: 15.4
   resources:
     requests:
       cpu: 250m
