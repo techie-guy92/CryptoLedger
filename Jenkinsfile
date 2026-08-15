@@ -162,7 +162,7 @@ pipeline {
                                 git add ${env.VALUES_FILE}
                                 git commit -m "Update image tag to ${imageTag} [skip ci]"
                                 git push origin HEAD:main
-                                
+
                                 echo "Updating values.yaml on DEVELOP branch..."
                                 git checkout develop
                                 git pull origin develop
@@ -170,8 +170,10 @@ pipeline {
                                 git add ${env.VALUES_FILE}
                                 git commit -m "Sync image tag to ${imageTag} from main [skip ci]"
                                 git push origin HEAD:develop
-                                
+
                                 git checkout main
+                                git fetch origin main
+                                git reset --hard origin/main
                                 echo "Both branches updated with image tag: ${imageTag}"
                             """
                         }
