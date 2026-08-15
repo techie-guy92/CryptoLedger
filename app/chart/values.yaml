@@ -4,7 +4,7 @@ image:
   repository: 192.168.122.1:5000/crypto
 <<<<<<< HEAD
 <<<<<<< HEAD
-  tag: v1.3.33
+  tag: v1.3.47
 =======
   tag: v1.3.43
 >>>>>>> 0aeabe64462185fe770a2c25b5d052cdbdca457a
