@@ -26,7 +26,7 @@ pipeline {
                 dir('app/source') {
                     sh '''
                         export PATH="/tmp/.local/bin:$PATH"
-                        pip install --break-system-packages black isort
+                        pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ black isort
                         black --check .
                         isort --profile black --check-only .
                     '''
@@ -114,7 +114,7 @@ pipeline {
                     dir('app/source') {
                         sh '''
                             export PATH="/tmp/.local/bin:$PATH"
-                            pip install --break-system-packages -r requirements.txt
+                            pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ -r requirements.txt
                             python manage.py test --settings=config.test_settings
                         '''
                     }
@@ -179,6 +179,20 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
+    // ============================================================
+    // STAGE 5: Restores workspace ownership
+    // ============================================================    
+        stage('Fix Permissions') {
+            agent {
+                docker {
+                    image "${env.REGISTRY}/alpine:latest"
+                    args '-u root'
+                }
+            }
+            steps {
+                sh 'chown -R 131:128 ${WORKSPACE} || true'
             }
         }
     }
