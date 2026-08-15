@@ -190,7 +190,7 @@ pipeline {
         always {
             script {
                 docker.image("${env.REGISTRY}/alpine:latest").inside('-u root') {
-                    sh 'chown -R 131:128 ${WORKSPACE} || true'
+                    sh 'chown -R 131:128 /var/lib/jenkins/workspace/CryptoLedger-Multibranch_* || true'
                 }
             }
         }
