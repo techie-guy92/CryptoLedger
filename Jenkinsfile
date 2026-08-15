@@ -181,25 +181,18 @@ pipeline {
                 }
             }
         }
-    // ============================================================
-    // STAGE 5: Restores workspace ownership
-    // ============================================================    
-        stage('Fix Permissions') {
-            agent {
-                docker {
-                    image "${env.REGISTRY}/alpine:latest"
-                    args '-u root'
+    }
+    // ===============================================================
+    // POST-BUILD ACTIONS: Email Notifications and Restore workspaces
+    // ===============================================================
+    post {
+        always {
+            script {
+                docker.image("${env.REGISTRY}/alpine:latest").inside('-u root') {
+                    sh 'chown -R 131:128 ${WORKSPACE} || true'
                 }
             }
-            steps {
-                sh 'chown -R 131:128 ${WORKSPACE} || true'
-            }
         }
-    }
-    // ============================================================
-    // POST-BUILD ACTIONS: Email Notifications
-    // ============================================================
-    post {
         success {
             mail (
                 to: 'soheil.dalirii@gmail.com',
