@@ -26,7 +26,7 @@ pipeline {
                 dir('app/source') {
                     sh '''
                         export PATH="/tmp/.local/bin:$PATH"
-                        pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ black isort
+                        pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ --extra-index-url https://pypi.org/simple/ black isort
                         black --check .
                         isort --profile black --check-only .
                     '''
@@ -114,7 +114,8 @@ pipeline {
                     dir('app/source') {
                         sh '''
                             export PATH="/tmp/.local/bin:$PATH"
-                            pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ -r requirements.txt
+                            pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ --extra-index-url https://pypi.org/simple/ -r requirements.txt
+
                             python manage.py test --settings=config.test_settings
                         '''
                     }
