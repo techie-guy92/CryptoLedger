@@ -27,6 +27,8 @@ lint:
 build:
   stage: build
   image: 192.168.122.1:5000/docker:latest
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
   script:
     - IMAGE_TAG="v1.3.${CI_PIPELINE_IID}"
     - FULL_IMAGE="${REGISTRY}/${IMAGE_NAME}:${IMAGE_TAG}"
@@ -48,6 +50,7 @@ unit-tests:
   needs:
     - job: build
       artifacts: false
+      optional: true
   before_script:
     - cd $PROJECT_DIR
     - pip install -r requirements.txt
@@ -68,16 +71,37 @@ update-manifests:
   script:
     - |
         IMAGE_TAG="v1.3.${CI_PIPELINE_IID}"
-        echo "Updating manifest with image tag: ${IMAGE_TAG}"
-        sed -i "0,/tag:.*/s//tag: ${IMAGE_TAG}/" "$VALUES_FILE"
+
         git config user.email "gitlab-ci@gitlab.com"
         git config user.name "GitLab CI"
+
+        echo "Updating values.yaml on MAIN branch..."
+        git checkout main
+        git pull origin main
+        sed -i "0,/tag:.*/s//tag: ${IMAGE_TAG}/" "$VALUES_FILE"
         git add "$VALUES_FILE"
         if ! git diff --cached --quiet; then
           git commit -m "Update image tag to ${IMAGE_TAG} [skip ci]"
-          git push origin HEAD:$CI_COMMIT_BRANCH
+          git push origin HEAD:main
         else
-          echo "No manifest changes."
+          echo "No manifest changes on main."
         fi
+
+        echo "Updating values.yaml on DEVELOP branch..."
+        git checkout develop
+        git pull origin develop
+        sed -i "0,/tag:.*/s//tag: ${IMAGE_TAG}/" "$VALUES_FILE"
+        git add "$VALUES_FILE"
+        if ! git diff --cached --quiet; then
+          git commit -m "Sync image tag to ${IMAGE_TAG} from main [skip ci]"
+          git push origin HEAD:develop
+        else
+          echo "No manifest changes on develop."
+        fi
+
+        git checkout main
+        git fetch origin main
+        git reset --hard origin/main
+        echo "Both branches updated with image tag: ${IMAGE_TAG}"
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
