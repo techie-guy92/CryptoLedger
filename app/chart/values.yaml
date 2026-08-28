@@ -8,13 +8,21 @@ image:
 service:
   port: 8000
 
+# ingress:
+#   enabled: true
+#   host: crypto.local
+#   annotations:
+#     kubernetes.io/ingress.class: "traefik"
+#     traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
+#     traefik.ingress.kubernetes.io/router.middlewares: crypto-redirect-https@kubernetescrd
+
 ingress:
   enabled: true
   host: crypto.local
+  className: nginx
   annotations:
-    kubernetes.io/ingress.class: "traefik"
-    traefik.ingress.kubernetes.io/router.entrypoints: web,websecure
-    traefik.ingress.kubernetes.io/router.middlewares: crypto-redirect-https@kubernetescrd
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 
 resources:
   requests:
@@ -60,14 +68,14 @@ configMap:
 persistence:
   media:
     enabled: true
-    storageClass: "longhorn"
+    storageClass: "ceph-filesystem"
     accessMode: ReadWriteMany
     size: 1Gi
   postgres:
     enabled: true
-    storageClass: "longhorn"
+    storageClass: "ceph-block"
     accessMode: ReadWriteOnce
-    size: 10Gi
+    size: 3Gi
 
 secrets:
   external: true

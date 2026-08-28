@@ -6,9 +6,8 @@ metadata:
   namespace: {{ .Release.Namespace }}
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
-    traefik.ingress.kubernetes.io/router.middlewares: {{ .Release.Namespace }}-redirect-https@kubernetescrd
 spec:
-  ingressClassName: traefik
+  ingressClassName: {{ .Values.ingress.className | default "nginx" }}
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
@@ -25,14 +24,3 @@ spec:
             port:
               number: {{ .Values.service.port }}
 {{- end }}
-
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: redirect-https
-  namespace: {{ .Release.Namespace }}
-spec:
-  redirectScheme:
-    scheme: https
-    permanent: true
