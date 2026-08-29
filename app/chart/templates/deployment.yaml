@@ -1,10 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "cryptoledger.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: cryptoledger
+  namespace: crypto
   labels:
-    {{- include "cryptoledger.labels" . | nindent 4 }}
+    app: cryptoledger
 spec:
   replicas: {{ .Values.replicaCount }}
   minReadySeconds: 10
@@ -15,11 +15,11 @@ spec:
       maxSurge: 1
   selector:
     matchLabels:
-      {{- include "cryptoledger.selectorLabels" . | nindent 6 }}
+      app: cryptoledger
   template:
     metadata:
       labels:
-        {{- include "cryptoledger.selectorLabels" . | nindent 8 }}
+        app: cryptoledger
     spec:
       affinity:
         podAntiAffinity:
@@ -27,11 +27,8 @@ spec:
           - weight: 100
             podAffinityTerm:
               labelSelector:
-                matchExpressions:
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                  - {{ include "cryptoledger.name" . }}
+                matchLabels:
+                  app: cryptoledger
               topologyKey: kubernetes.io/hostname
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -60,19 +57,14 @@ spec:
           python manage.py collectstatic --noinput
         envFrom:
         - configMapRef:
-            name: {{ include "cryptoledger.fullname" . }}-config
-        {{- if .Values.secrets.external }}
+            name: cryptoledger-config
         - secretRef:
-            name: {{ .Values.secrets.name }}
-        {{- else }}
-        - secretRef:
-            name: {{ include "cryptoledger.fullname" . }}-secrets
-        {{- end }}
+            name: crypto-secrets
         volumeMounts:
         - name: static
           mountPath: /app/staticfiles
       containers:
-      - name: {{ .Chart.Name }}
+      - name: cryptoledger
         image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
@@ -113,14 +105,9 @@ spec:
           {{- toYaml .Values.resources | nindent 10 }}
         envFrom:
         - configMapRef:
-            name: {{ include "cryptoledger.fullname" . }}-config
-        {{- if .Values.secrets.external }}
+            name: cryptoledger-config
         - secretRef:
-            name: {{ .Values.secrets.name }}
-        {{- else }}
-        - secretRef:
-            name: {{ include "cryptoledger.fullname" . }}-secrets
-        {{- end }}
+            name: crypto-secrets
         volumeMounts:
         - name: media
           mountPath: /app/media
@@ -129,6 +116,6 @@ spec:
       volumes:
       - name: media
         persistentVolumeClaim:
-          claimName: {{ include "cryptoledger.fullname" . }}-media-pvc
+          claimName: cryptoledger-media-pvc
       - name: static
         emptyDir: {}

@@ -1,15 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "cryptoledger.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: cryptoledger
+  namespace: crypto
   labels:
-    {{- include "cryptoledger.labels" . | nindent 4 }}
-    app.kubernetes.io/component: backend
+    app: cryptoledger
     monitoring: "django"
 spec:
   selector:
-    {{- include "cryptoledger.selectorLabels" . | nindent 4 }}
+    app: cryptoledger
   ports:
     - name: http
       port: {{ .Values.service.port }}

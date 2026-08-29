@@ -2,8 +2,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: {{ include "cryptoledger.fullname" . }}
-  namespace: {{ .Release.Namespace }}
+  name: cryptoledger
+  namespace: crypto
   annotations:
     {{- toYaml .Values.ingress.annotations | nindent 4 }}
 spec:
@@ -11,7 +11,7 @@ spec:
   tls:
     - hosts:
         - {{ .Values.ingress.host }}
-      secretName: {{ include "cryptoledger.fullname" . }}-tls
+      secretName: cryptoledger-tls
   rules:
   - host: {{ .Values.ingress.host }}
     http:
@@ -20,7 +20,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: {{ include "cryptoledger.fullname" . }}
+            name: cryptoledger
             port:
               number: {{ .Values.service.port }}
 {{- end }}

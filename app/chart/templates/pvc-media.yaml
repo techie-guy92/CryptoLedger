@@ -1,11 +1,10 @@
-{{- if .Values.persistence.media.enabled }}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "cryptoledger.fullname" . }}-media-pvc
-  namespace: {{ .Release.Namespace }}
+  name: cryptoledger-media-pvc
+  namespace: crypto
   labels:
-    {{- include "cryptoledger.labels" . | nindent 4 }}
+    app: cryptoledger
 spec:
   storageClassName: {{ .Values.persistence.media.storageClass }}
   accessModes:
@@ -13,4 +12,3 @@ spec:
   resources:
     requests:
       storage: {{ .Values.persistence.media.size }}
-{{- end }}

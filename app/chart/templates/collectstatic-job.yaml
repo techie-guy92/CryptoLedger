@@ -1,22 +1,19 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "cryptoledger.fullname" . }}-collectstatic
-  namespace: {{ .Release.Namespace }}
-
+  name: cryptoledger-collectstatic
+  namespace: crypto
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation
-
 spec:
   ttlSecondsAfterFinished: 600
   backoffLimit: 3
   template:
     metadata:
       labels:
-        app.kubernetes.io/name: {{ include "cryptoledger.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
+        app: cryptoledger-collectstatic
     spec:
       restartPolicy: Never
       containers:
@@ -26,20 +23,10 @@ spec:
         - /bin/sh
         - -c
         - |
-          echo "Waiting for PostgreSQL to be ready..."
-          until pg_isready -h postgres -p 5432; do
-            echo "PostgreSQL not ready yet..."
-            sleep 2
-          done
-          echo "PostgreSQL is ready! Running collectstatic..."
+          until pg_isready -h postgres -p 5432; do sleep 2; done
           python manage.py collectstatic --noinput
         envFrom:
         - configMapRef:
-            name: {{ include "cryptoledger.fullname" . }}-config
-        {{- if .Values.secrets.external }}
+            name: cryptoledger-config
         - secretRef:
-            name: {{ .Values.secrets.name }}
-        {{- else }}
-        - secretRef:
-            name: {{ include "cryptoledger.fullname" . }}-secrets
-        {{- end }}
+            name: crypto-secrets
