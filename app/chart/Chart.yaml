@@ -3,14 +3,14 @@ name: cryptoledger
 description: CryptoLedger - Django application for tracking cryptocurrency portfolios
 type: application
 
-version: 1.0.4
-appVersion: "v1.3.4"
+version: 1.3.4
+appVersion: "v1.3.47"
 
-home: https://gitlab.com/techie-guy92/cryptoledger
+home: git@github.com:techie-guy92/CryptoLedger.git
 
 sources:
-  - https://gitlab.com/techie-guy92/cryptoledger
   - https://github.com/techie-guy92/CryptoLedger
+  - https://gitlab.com/techie-guy92/cryptoledger
 
 maintainers:
   - name: Soheil Daliri
