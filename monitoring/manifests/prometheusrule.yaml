@@ -1,0 +1,157 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: cryptoledger-alerts
+  namespace: monitoring
+  labels:
+    release: kube-prometheus-stack
+spec:
+  groups:
+  - name: cryptoledger_basic_alerts
+    interval: 30s
+    rules:
+    - alert: CryptoledgerServiceDown
+      expr: up{job="cryptoledger"} == 0
+      for: 1m
+      labels:
+        severity: critical
+        team: backend
+      annotations:
+        summary: "CryptoLedger service is down"
+        description: "The cryptoledger service has been down for more than 1 minute. Instance: {{ $labels.instance }}"
+
+    - alert: CryptoledgerPodRestartingFrequently
+      expr: increase(kube_pod_container_status_restarts_total{namespace="crypto"}[15m]) > 3
+      for: 5m
+      labels:
+        severity: warning
+        team: platform
+      annotations:
+        summary: "Pod {{ $labels.pod }} is restarting frequently"
+        description: "Pod {{ $labels.pod }} in namespace crypto has restarted more than 3 times in the last 15 minutes."
+
+    - alert: PostgresHighConnections
+      expr: pg_stat_database_numbackends{datname="crypto_ledger"} > 80
+      for: 5m
+      labels:
+        severity: warning
+        team: backend
+      annotations:
+        summary: "High PostgreSQL connections"
+        description: "PostgreSQL has {{ $value }} active connections (threshold: 80)"
+
+    - alert: PostgresDeadlocks
+      expr: rate(pg_stat_database_deadlocks{datname="crypto_ledger"}[5m]) > 0
+      for: 1m
+      labels:
+        severity: critical
+        team: backend
+      annotations:
+        summary: "PostgreSQL deadlocks detected"
+        description: "Deadlocks occurring at {{ $value }} per second. Requires investigation."
+
+    - alert: DjangoHighRequestLatency
+      expr: histogram_quantile(0.95, sum(rate(django_http_requests_latency_seconds_bucket[5m])) by (le, view)) > 0.5
+      for: 5m
+      labels:
+        severity: warning
+        team: backend
+      annotations:
+        summary: "High request latency in Django"
+        description: "P95 latency for view {{ $labels.view }} is {{ $value }}s (above 0.5s)."
+
+    - alert: DjangoCacheMissRate
+      expr: rate(django_cache_get_miss_total[5m]) / (rate(django_cache_get_total[5m]) + rate(django_cache_get_miss_total[5m])) * 100 > 30
+      for: 10m
+      labels:
+        severity: warning
+        team: backend
+      annotations:
+        summary: "High cache miss rate"
+        description: "Cache miss rate is {{ $value }}% (above 30%)."
+
+    - alert: DiskSpaceLow
+      expr: (1 - (node_filesystem_avail_bytes{fstype=~"ext4|xfs"} / node_filesystem_size_bytes{fstype=~"ext4|xfs"})) * 100 > 85
+      for: 5m
+      labels:
+        severity: warning
+        team: platform
+      annotations:
+        summary: "Low disk space on {{ $labels.mountpoint }}"
+        description: "Disk usage is at {{ $value }}% on {{ $labels.mountpoint }}."
+
+    - alert: HighMemoryUsage
+      expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) * 100 > 90
+      for: 5m
+      labels:
+        severity: warning
+        team: platform
+      annotations:
+        summary: "High memory usage on host"
+        description: "Host memory usage is at {{ $value }}%."
+
+  - name: cryptoledger_slo_alerts
+    interval: 1m
+    rules:
+    - alert: CryptoledgerErrorBudgetBurning
+      expr: |
+        (sum(rate(django_http_responses_total_by_status{status=~"5.."}[1h]))
+         /
+         sum(rate(django_http_requests_total[1h]))) * 100 > 0.5
+      for: 15m
+      labels:
+        severity: critical
+      annotations:
+        summary: "High error rate"
+        description: "Error rate is {{ $value }}% in the last hour"
+
+    - alert: CryptoledgerHighLatencyAPI
+      expr: |
+        histogram_quantile(0.95,
+          sum(rate(django_http_requests_latency_seconds_bucket{view=~"api.*"}[5m])) by (le)
+        ) > 0.3
+      for: 10m
+      labels:
+        severity: warning
+        slo: "latency_p95"
+      annotations:
+        summary: "API latency exceeds SLO"
+        description: "P95 latency for API endpoints is {{ $value }}s (exceeds 300ms SLO)."
+
+    - alert: CryptoledgerAvailabilityLow
+      expr: |
+        (sum(up{job="cryptoledger"}) / count(up{job="cryptoledger"})) * 100 < 99.9
+      for: 5m
+      labels:
+        severity: critical
+        slo: "availability_99.9"
+      annotations:
+        summary: "Service availability below SLO"
+        description: "Current availability is {{ $value }}%, below the 99.9% SLO."
+
+  - name: dashboard_compatibility
+    interval: 1m
+    rules:
+    - record: django_http_requests_total_by_view_method
+      expr: django_http_requests_total_by_view_transport_method_total
+
+    - record: django_http_requests_total
+      expr: sum(django_http_requests_total_by_method_total) by (job)
+
+    - record: django_http_responses_total_by_status
+      expr: django_http_responses_total_by_status_total
+
+    - record: django_http_requests_latency_seconds_by_view
+      expr: django_http_requests_latency_seconds_by_view_method
+
+    - record: job:django_errors:rate5m
+      expr: |
+        sum(rate(django_http_responses_total_by_status_total{status=~"5.."}[5m])) by (job)
+        /
+        sum(rate(django_http_requests_total_by_method_total[5m])) by (job)
+
+    - record: job:request_latency:p95
+      expr: |
+        histogram_quantile(0.95,
+          sum(rate(django_http_requests_latency_seconds_by_view_method_bucket[5m])) by (le, job)
+        )

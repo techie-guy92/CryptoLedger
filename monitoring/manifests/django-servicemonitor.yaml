@@ -1,22 +1,17 @@
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
-
 metadata:
   name: django-servicemonitor
   namespace: monitoring
-
   labels:
-    release: monitoring
-
+    release: kube-prometheus-stack
 spec:
   namespaceSelector:
     matchNames:
       - crypto
-
   selector:
     matchLabels:
-      monitoring: django
-
+      monitoring: "django"
   endpoints:
     - port: http
       path: /metrics
