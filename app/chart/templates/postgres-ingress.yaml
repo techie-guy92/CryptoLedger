@@ -23,6 +23,18 @@ spec:
         podSelector:
           matchLabels:
             app.kubernetes.io/component: monitoring
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: crypto
+        podSelector:
+          matchLabels:
+            app: cryptoledger-migrate
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: crypto
+        podSelector:
+          matchLabels:
+            app: cryptoledger-collectstatic
     ports:
       - protocol: TCP
         port: 5432
