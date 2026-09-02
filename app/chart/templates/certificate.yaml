@@ -3,6 +3,8 @@ kind: Certificate
 metadata:
   name: cryptoledger-tls
   namespace: crypto
+  labels:
+    app.kubernetes.io/instance: {{ .Release.Name }}
 spec:
   secretName: cryptoledger-tls
   issuerRef:
