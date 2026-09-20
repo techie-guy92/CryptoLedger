@@ -81,6 +81,8 @@ SYMBOLS = {
     "WAVES": "waves",
     "ENA": "ethena",
     "SUI": "sui",
+    "TIA": "celestia",
+    "ICP": "internet-computer",
     "APE": "apecoin",
     "RENDER": "render-token",
     "ARB": "arbitrum",
