@@ -20,6 +20,8 @@ spec:
     metadata:
       labels:
         app: cryptoledger
+      annotations:
+        backup.velero.io/backup-volumes: media
     spec:
       affinity:
         podAntiAffinity:
