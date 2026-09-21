@@ -6,6 +6,7 @@ secret_keys.py
 
 # Virtualenv
 .venv/
+app/source/venv
 .env
 
 # SQLite
