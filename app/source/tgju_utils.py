@@ -35,7 +35,7 @@ async def fetch_usd_and_ounce_prices():
                 missing = [
                     k for k, sel in selectors.items() if not soup.select_one(sel)
                 ]
-                raise ValueError(f"Missing elements: {", ".join(missing)}")
+                raise ValueError(f"Missing elements: {', '.join(missing)}")
 
             usd_raw = usd_element.text.strip().replace(",", "").replace(".", "")
             usdt_raw = usdt_element.text.strip().replace(",", "").replace(".", "")
@@ -67,6 +67,14 @@ def get_usd_and_ounce_prices_sync():
         f"Fetching USD & USDT & Ounce prices at {datetime.utcnow().isoformat()}"
     )
     return asyncio.run(fetch_usd_and_ounce_prices())
+
+
+def get_usdt_rate_sync():
+    data = get_usd_and_ounce_prices_sync()
+    raw = data.get("prices", {}).get("USDT")
+    if not raw:
+        return None
+    return int(raw.replace(",", ""))
 
 
 # =======================================================================================================
