@@ -6,38 +6,58 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('main', '0019_alter_boughtcoin_holding_value'),
+        ("main", "0019_alter_boughtcoin_holding_value"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='avg_net_cost_irt',
-            field=models.IntegerField(blank=True, null=True, verbose_name='AVG Net Cost (IRT)'),
+            model_name="boughtcoin",
+            name="avg_net_cost_irt",
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name="AVG Net Cost (IRT)"
+            ),
         ),
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='profit_irt',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=12, null=True, verbose_name='Profit/Loss (IRT)'),
+            model_name="boughtcoin",
+            name="profit_irt",
+            field=models.DecimalField(
+                blank=True,
+                decimal_places=2,
+                max_digits=12,
+                null=True,
+                verbose_name="Profit/Loss (IRT)",
+            ),
         ),
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='profit_usdt',
-            field=models.DecimalField(blank=True, decimal_places=2, max_digits=12, null=True, verbose_name='Profit/Loss (USDT)'),
+            model_name="boughtcoin",
+            name="profit_usdt",
+            field=models.DecimalField(
+                blank=True,
+                decimal_places=2,
+                max_digits=12,
+                null=True,
+                verbose_name="Profit/Loss (USDT)",
+            ),
         ),
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='total_cost_irt',
-            field=models.IntegerField(blank=True, null=True, verbose_name='Total Cost (IRT)'),
+            model_name="boughtcoin",
+            name="total_cost_irt",
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name="Total Cost (IRT)"
+            ),
         ),
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='usdt_rate_buy',
-            field=models.IntegerField(blank=True, null=True, verbose_name='Current USDT Rate (Buy)'),
+            model_name="boughtcoin",
+            name="usdt_rate_buy",
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name="Current USDT Rate (Buy)"
+            ),
         ),
         migrations.AlterField(
-            model_name='boughtcoin',
-            name='usdt_rate_sell',
-            field=models.IntegerField(blank=True, null=True, verbose_name='Current USDT Rate (Sell)'),
+            model_name="boughtcoin",
+            name="usdt_rate_sell",
+            field=models.IntegerField(
+                blank=True, null=True, verbose_name="Current USDT Rate (Sell)"
+            ),
         ),
     ]

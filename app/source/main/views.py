@@ -10,12 +10,8 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import (
-    AllowAny,
-    IsAdminUser,
-    IsAuthenticated,
-    IsAuthenticatedOrReadOnly,
-)
+from rest_framework.permissions import (AllowAny, IsAdminUser, IsAuthenticated,
+                                        IsAuthenticatedOrReadOnly)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -23,7 +19,8 @@ from rest_framework.views import APIView
 from coingecko_utils import fetch_bulk_prices, get_bulk_prices_sync
 from main.models import *
 from main.serializers import *
-from tgju_utils import fetch_usd_and_ounce_prices, get_usd_and_ounce_prices_sync
+from tgju_utils import (fetch_usd_and_ounce_prices,
+                        get_usd_and_ounce_prices_sync)
 
 # ====================================== Fetch Prices ==================================================
 

@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import models, transaction
 from django.utils.text import slugify
 from django.utils.timezone import localtime, now
+
 from tgju_utils import get_usdt_rate_sync
 
 # ======================================= Needed Method ================================================
@@ -143,19 +144,55 @@ class ExitPoint(models.Model):
 
 class BoughtCoin(models.Model):
     coin = models.CharField(max_length=20, verbose_name="Coin")
-    holding_value = models.DecimalField(max_digits=12, decimal_places=3, verbose_name="Holding Value")
-    total_cost_usdt = models.DecimalField(max_digits=12, decimal_places=2, verbose_name="Total Cost (USDT)")
-    total_cost_irt = models.IntegerField(blank=True, null=True, verbose_name="Total Cost (IRT)")
-    avg_net_cost_usdt = models.DecimalField(max_digits=14, decimal_places=8, verbose_name="AVG Net Cost (USDT)")
-    avg_net_cost_irt = models.IntegerField(blank=True, null=True, verbose_name="AVG Net Cost (IRT)")
-    usdt_rate_buy = models.IntegerField(blank=True, null=True, verbose_name="Current USDT Rate (Buy)")
-    usdt_rate_sell = models.IntegerField(blank=True, null=True, verbose_name="Current USDT Rate (Sell)")
-    total_earn_usdt = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True, verbose_name="Total Earn (USDT)")
-    total_earn_irt = models.IntegerField(blank=True, null=True, verbose_name="Total Earn (IRT)")
+    holding_value = models.DecimalField(
+        max_digits=12, decimal_places=3, verbose_name="Holding Value"
+    )
+    total_cost_usdt = models.DecimalField(
+        max_digits=12, decimal_places=2, verbose_name="Total Cost (USDT)"
+    )
+    total_cost_irt = models.IntegerField(
+        blank=True, null=True, verbose_name="Total Cost (IRT)"
+    )
+    avg_net_cost_usdt = models.DecimalField(
+        max_digits=14, decimal_places=8, verbose_name="AVG Net Cost (USDT)"
+    )
+    avg_net_cost_irt = models.IntegerField(
+        blank=True, null=True, verbose_name="AVG Net Cost (IRT)"
+    )
+    usdt_rate_buy = models.IntegerField(
+        blank=True, null=True, verbose_name="Current USDT Rate (Buy)"
+    )
+    usdt_rate_sell = models.IntegerField(
+        blank=True, null=True, verbose_name="Current USDT Rate (Sell)"
+    )
+    total_earn_usdt = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        verbose_name="Total Earn (USDT)",
+    )
+    total_earn_irt = models.IntegerField(
+        blank=True, null=True, verbose_name="Total Earn (IRT)"
+    )
     is_available = models.BooleanField(default=True, verbose_name="Being Available")
-    profit_usdt = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True,verbose_name="Profit/Loss (USDT)")
-    profit_irt = models.DecimalField(max_digits=12, decimal_places=2, blank=True, null=True, verbose_name="Profit/Loss (IRT)")
-    bought_at = models.DateField(auto_now_add=True, editable=False, verbose_name="Bought At")
+    profit_usdt = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        verbose_name="Profit/Loss (USDT)",
+    )
+    profit_irt = models.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        verbose_name="Profit/Loss (IRT)",
+    )
+    bought_at = models.DateField(
+        auto_now_add=True, editable=False, verbose_name="Bought At"
+    )
     sold_at = models.DateField(blank=True, null=True, verbose_name="Sold At")
 
     def __str__(self):
