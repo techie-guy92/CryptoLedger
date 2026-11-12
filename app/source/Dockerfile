@@ -27,8 +27,6 @@ RUN adduser --uid 1000 --disabled-password --gecos '' webuser && \
 
 USER webuser
 
-EXPOSE 8000
+EXPOSE 8001
 
-CMD ["gunicorn", "config.asgi:application", "--bind", "0.0.0.0:8000", "--timeout", "120", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker"]
-
-# CMD ["gunicorn", "config.wsgi:application", "--bind", "0.0.0.0:8000", "--timeout", "120", "--workers", "4"]
+CMD ["gunicorn", "config.asgi:application", "--bind", "0.0.0.0:8001", "--timeout", "120", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker"]
