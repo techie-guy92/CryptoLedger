@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN python -m pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN python -m pip install --upgrade pip --timeout 120 && \
+    pip install --no-cache-dir --timeout 120 --retries 5 -r requirements.txt
 
 COPY . .
 
