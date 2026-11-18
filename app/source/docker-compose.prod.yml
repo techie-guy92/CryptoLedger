@@ -1,0 +1,71 @@
+# ============================================================
+# CryptoLedger — production stack (docker compose)
+#
+#   docker compose -f docker-compose.prod.yml up --build -d
+#   docker compose -f docker-compose.prod.yml logs -f web
+#   docker compose -f docker-compose.prod.yml down
+#
+# Services:
+#   migrate — one-shot `manage.py migrate`, exits 0 on success
+#   web     — gunicorn + uvicorn worker, host port 8001 -> 8000
+#
+# Config comes from .env.prod (same variables the k8s ConfigMap/Secret provide).
+# ============================================================
+
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+x-app-env: &app-env
+  SQLITE_PATH: /data/db.sqlite3
+
+services:
+  migrate:
+    image: cryptoledger:latest
+    container_name: cryptoledger_prod_migrate
+    restart: "no"
+    env_file: .env.prod
+    environment: *app-env
+    command: ["python", "manage.py", "migrate", "--noinput"]
+    volumes:
+      - data:/data
+    logging: *default-logging
+    networks: [cryptoledger_net]
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      network: host
+    image: cryptoledger:latest
+    container_name: cryptoledger_prod_web
+    restart: unless-stopped
+    env_file: .env.prod
+    environment: *app-env
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    ports:
+      - "8001:8000"
+    volumes:
+      - data:/data
+      - media:/app/media
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health/"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 30s
+    stop_grace_period: 30s
+    logging: *default-logging
+    networks: [cryptoledger_net]
+
+volumes:
+  data:
+  media:
+
+networks:
+  cryptoledger_net:
+    driver: bridge

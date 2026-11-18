@@ -1,198 +1,153 @@
+// ============================================================
+// CryptoLedger — Jenkins pipeline (multibranch)
+//
+// Every branch/PR : lint + unit tests + build image
+// develop only    : push image, bump app/chart/values.yaml, ArgoCD syncs
+//
+// Runs on the Jenkins host as the `jenkins` user (same as OpsBoon).
+// Needs: python3-venv, docker CLI (jenkins in `docker` group), git.
+// Credentials used: github-ssh (write access to the repo) — nothing else.
+// Tests need NO credentials: config.settings.test supplies dummy values.
+// ============================================================
+
 pipeline {
     agent any
-    
-    environment {
-        REGISTRY = '192.168.122.1:5000'
-        IMAGE_NAME = 'crypto'
-        PROJECT_DIR = 'app/source'
-        VALUES_FILE = 'app/chart/values.yaml'
-        GITHUB_CREDS = 'github-token'
-        HOME = '/tmp'
-        PATH = '/tmp/.local/bin:/usr/local/bin:/usr/bin:/bin'
-    }
-    
-    stages {
-        // ============================================================
-        // STAGE 1: Lint (Runs on ALL branches)
-        // ============================================================
-        stage('Lint') {
-            agent {
-                docker {
-                    image "${env.REGISTRY}/python:3.12-slim"
-                    args '--network host -u root'
-                }
-            }
-            steps {
-                dir('app/source') {
-                    sh '''
-                        export PATH="/tmp/.local/bin:$PATH"
-                        pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ --extra-index-url https://pypi.org/simple/ black isort
-                        black --check .
-                        isort --profile black --check-only .
-                    '''
-                }
-            }
-        }
-        
-        // ============================================================
-        // STAGE 2: Build & Push Docker (ONLY on main branch)
-        // ============================================================
-        stage('Build & Push Docker') {
-            when {
-                branch 'main'
-            }
-            agent {
-                docker {
-                    image "${env.REGISTRY}/docker:latest"
-                    args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
-                }
-            }
-            steps {
-                script {
-                    def imageTag = "v1.3.${env.BUILD_NUMBER}"
-                    def fullImage = "${env.REGISTRY}/${env.IMAGE_NAME}:${imageTag}"
-                    
-                    sh """
-                        docker build -t ${fullImage} -f ${env.PROJECT_DIR}/Dockerfile ${env.PROJECT_DIR}
-                        docker tag ${fullImage} ${env.REGISTRY}/${env.IMAGE_NAME}:latest
-                        docker push ${fullImage}
-                        docker push ${env.REGISTRY}/${env.IMAGE_NAME}:latest
-                    """
-                    
-                    writeFile file: 'image_tag.txt', text: imageTag
-                    stash name: 'image-tag', includes: 'image_tag.txt'
-                }
-            }
-        }
-        
-        // ============================================================
-        // STAGE 3: Unit Tests (Runs on ALL branches)
-        // ============================================================
-        stage('Unit Tests') {
-            agent {
-                docker {
-                    image "${env.REGISTRY}/python:3.12-slim"
-                    args '--network host -u root'
-                }
-            }
-            steps {
-                withCredentials([
-                    // Django Core
-                    string(credentialsId: 'crypto-secret-key', variable: 'SECRET_KEY'),
-                    string(credentialsId: 'DEBUG', variable: 'DEBUG'),
-                    string(credentialsId: 'ALLOWED_HOSTS', variable: 'ALLOWED_HOSTS'),
-                    string(credentialsId: 'FRONTEND_DOMAIN', variable: 'FRONTEND_DOMAIN'),
-                    
-                    // Security Settings
-                    string(credentialsId: 'SECURE_SSL_REDIRECT', variable: 'SECURE_SSL_REDIRECT'),
-                    string(credentialsId: 'SESSION_COOKIE_SECURE', variable: 'SESSION_COOKIE_SECURE'),
-                    string(credentialsId: 'CSRF_COOKIE_SECURE', variable: 'CSRF_COOKIE_SECURE'),
-                    string(credentialsId: 'SECURE_HSTS_SECONDS', variable: 'SECURE_HSTS_SECONDS'),
-                    string(credentialsId: 'SECURE_HSTS_INCLUDE_SUBDOMAINS', variable: 'SECURE_HSTS_INCLUDE_SUBDOMAINS'),
-                    string(credentialsId: 'SECURE_HSTS_PRELOAD', variable: 'SECURE_HSTS_PRELOAD'),
-                    string(credentialsId: 'USE_X_FORWARDED_HOST', variable: 'USE_X_FORWARDED_HOST'),
-                    string(credentialsId: 'USE_X_FORWARDED_PORT', variable: 'USE_X_FORWARDED_PORT'),
-                    string(credentialsId: 'SECURE_PROXY_SSL_HEADER', variable: 'SECURE_PROXY_SSL_HEADER'),
-                    
-                    // Email Settings
-                    string(credentialsId: 'EMAIL_HOST', variable: 'EMAIL_HOST'),
-                    string(credentialsId: 'EMAIL_PORT', variable: 'EMAIL_PORT'),
-                    string(credentialsId: 'EMAIL_HOST_USER', variable: 'EMAIL_HOST_USER'),
-                    string(credentialsId: 'EMAIL_HOST_PASSWORD', variable: 'EMAIL_HOST_PASSWORD'),
-                    string(credentialsId: 'EMAIL_USE_TLS', variable: 'EMAIL_USE_TLS'),
-                    
-                    // JWT Settings
-                    string(credentialsId: 'ACCESS_TOKEN', variable: 'ACCESS_TOKEN'),
-                    string(credentialsId: 'REFRESH_TOKEN', variable: 'REFRESH_TOKEN'),
-                    string(credentialsId: 'ROTATE_REFRESH_TOKENS', variable: 'ROTATE_REFRESH_TOKENS'),
-                    string(credentialsId: 'BLACKLIST_AFTER_ROTATION', variable: 'BLACKLIST_AFTER_ROTATION'),
-                    
-                    // Database Settings
-                    string(credentialsId: 'ENGINE_NAME', variable: 'ENGINE_NAME'),
-                    string(credentialsId: 'DB_NAME', variable: 'DB_NAME')
-                ]) {
-                    dir('app/source') {
-                        sh '''
-                            export PATH="/tmp/.local/bin:$PATH"
-                            pip install --break-system-packages --index-url https://mirror-pypi.runflare.com/simple/ --extra-index-url https://pypi.org/simple/ -r requirements.txt
 
-                            python manage.py test --settings=config.test_settings
-                        '''
+    environment {
+        REGISTRY     = '192.168.122.1:5000'
+        IMAGE_NAME   = 'crypto'
+        PROJECT_DIR  = 'app/source'
+        VALUES_FILE  = 'app/chart/values.yaml'
+        BRANCH       = 'develop'
+        GITHUB_CREDS = 'github-ssh'
+        GITHUB_REPO  = 'techie-guy92/CryptoLedger'
+        // v1.4.x on purpose: old v1.3.x tags exist from main builds, and
+        // develop's build counter would collide with them.
+        IMAGE_TAG    = "v1.4.${BUILD_NUMBER}"
+        // pip picks these up automatically (regional PyPI mirror + fallback)
+        PIP_INDEX_URL       = 'https://mirror-pypi.runflare.com/simple/'
+        PIP_EXTRA_INDEX_URL = 'https://pypi.org/simple/'
+        PATH         = '/usr/local/bin:/usr/bin:/bin'
+    }
+
+    options {
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: '30'))
+    }
+
+    // No triggers{}: set "Scan Multibranch Pipeline Triggers" or a webhook on the job.
+
+    stages {
+
+        // Skip the whole run when the latest commit is our own manifest bump
+        // (checks only HEAD, so real commits pushed alongside a bump still build)
+        stage('CI') {
+            when {
+                not {
+                    expression {
+                        return sh(script: 'git log -1 --pretty=%B', returnStdout: true).contains('[skip ci]')
                     }
                 }
             }
-        }
-        
-        // ============================================================
-        // STAGE 4: Update Manifests (ONLY on main branch)
-        // ============================================================
-        stage('Update Manifests') {
-            when {
-                branch 'main'
-            }
-            agent {
-                docker {
-                    image "${env.REGISTRY}/alpine:latest"
-                    args '-u root'
+
+            stages {
+
+                stage('Lint') {
+                    steps {
+                        sh '''
+                            python3 -m venv .venv-ci
+                            . .venv-ci/bin/activate
+                            pip install -q black isort
+                            cd "$PROJECT_DIR"
+                            black --check .
+                            isort --profile black --check-only .
+                        '''
+                    }
                 }
-            }
-            steps {
-                    script {
-                        dir(env.WORKSPACE) {
-                            checkout scm
-                            unstash 'image-tag'
-                            def imageTag = readFile('image_tag.txt').trim()
 
-                            withCredentials([usernamePassword(credentialsId: env.GITHUB_CREDS, usernameVariable: 'GIT_USER', passwordVariable: 'GIT_TOKEN')]) {
-                            
-                            sh """
-                                apk add --no-cache git sed openssh-client
+                stage('Unit Tests') {
+                    steps {
+                        sh '''
+                            . .venv-ci/bin/activate
+                            pip install -q -r "$PROJECT_DIR/requirements.txt"
+                            cd "$PROJECT_DIR"
+                            python manage.py test --settings=config.settings.test
+                        '''
+                    }
+                }
 
-                                git config --global --add safe.directory '*'
-                                git config --global user.email "jenkins@ci.com"
-                                git config --global user.name "Jenkins CI"
+                stage('Build Image') {
+                    steps {
+                        sh '''
+                            docker build \
+                                -t $REGISTRY/$IMAGE_NAME:$IMAGE_TAG \
+                                -t $REGISTRY/$IMAGE_NAME:latest \
+                                -f $PROJECT_DIR/Dockerfile $PROJECT_DIR
+                        '''
+                    }
+                }
 
-                                git remote set-url origin https://\${GIT_USER}:\${GIT_TOKEN}@github.com/techie-guy92/CryptoLedger.git
+                stage('Push Image') {
+                    when { branch 'develop' }
+                    steps {
+                        sh '''
+                            docker push $REGISTRY/$IMAGE_NAME:$IMAGE_TAG
+                            docker push $REGISTRY/$IMAGE_NAME:latest
+                        '''
+                    }
+                }
 
-                                echo "PWD: \$(pwd)"
-                                ls -la
+                stage('Update Manifests') {
+                    when { branch 'develop' }
+                    steps {
+                        withCredentials([sshUserPrivateKey(
+                            credentialsId: env.GITHUB_CREDS,
+                            keyFileVariable: 'SSH_KEY'
+                        )]) {
+                            // single-quoted on purpose: the shell expands vars, Groovy never sees the key path
+                            sh '''
+                                set -e
+                                export GIT_SSH_COMMAND='ssh -i "$SSH_KEY" -o IdentitiesOnly=yes -o StrictHostKeyChecking=accept-new'
 
-                                echo "Updating values.yaml on MAIN branch..."
-                                git pull origin main
-                                sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
-                                git add ${env.VALUES_FILE}
-                                git commit -m "Update image tag to ${imageTag} [skip ci]"
-                                git push origin HEAD:main
+                                # Fresh clone avoids workspace staleness
+                                WORK=/tmp/bump-cryptoledger-$BUILD_NUMBER
+                                rm -rf "$WORK"
+                                git clone --branch "$BRANCH" "git@github.com:${GITHUB_REPO}.git" "$WORK"
+                                cd "$WORK"
+                                git config user.email "jenkins@ci.com"
+                                git config user.name "Jenkins CI"
 
-                                echo "Updating values.yaml on DEVELOP branch..."
-                                git checkout develop
-                                git pull origin develop
-                                sed -i "s/tag: .*/tag: ${imageTag}/" ${env.VALUES_FILE}
-                                git add ${env.VALUES_FILE}
-                                git commit -m "Sync image tag to ${imageTag} from main [skip ci]"
-                                git push origin HEAD:develop
+                                # only touches the `tag:` line(s); formatting and comments stay intact
+                                sed -i -E "s/^( *tag: ).*/\\1${IMAGE_TAG}/" "$VALUES_FILE"
 
-                                git checkout main
-                                git fetch origin main
-                                git reset --hard origin/main
-                                echo "Both branches updated with image tag: ${imageTag}"
-                            """
+                                git add "$VALUES_FILE"
+                                if git diff --cached --quiet; then
+                                    echo "No manifest changes."
+                                else
+                                    git commit -m "ci: bump image tag to $IMAGE_TAG [skip ci]"
+                                    git push origin "$BRANCH"
+                                    echo "Pushed image tag $IMAGE_TAG to $BRANCH"
+                                fi
+
+                                cd /
+                                rm -rf "$WORK"
+                            '''
                         }
                     }
                 }
             }
         }
     }
+
     // ===============================================================
-    // POST-BUILD ACTIONS: Email Notifications and Restore workspaces
+    // POST-BUILD ACTIONS: cleanup and email notifications
     // ===============================================================
     post {
         always {
-            script {
-                docker.image("${env.REGISTRY}/alpine:latest").inside('-u root') {
-                    sh 'chown -R 131:128 /var/lib/jenkins/workspace/CryptoLedger-Multibranch_* || true'
-                }
-            }
+            sh '''
+                docker rmi $REGISTRY/$IMAGE_NAME:$IMAGE_TAG 2>/dev/null || true
+                docker rmi $REGISTRY/$IMAGE_NAME:latest     2>/dev/null || true
+            '''
         }
         success {
             mail (
@@ -222,4 +177,4 @@ pipeline {
             )
         }
     }
-}  
+}

@@ -1,9 +1,16 @@
+# ============================================================
+# CryptoLedger — backend image
+# Runtime settings: config.settings.prod (values come from env vars)
+# Build-time collectstatic uses config.settings.collectstatic (no secrets)
+# ============================================================
+
 FROM 192.168.122.1:5000/python:3.12-slim
 
 LABEL maintainer="soheil.dalirii@gmail.com"
 
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    DJANGO_SETTINGS_MODULE=config.settings.prod
 
 WORKDIR /app
 
@@ -18,11 +25,14 @@ RUN python -m pip install --upgrade pip --timeout 120 && \
 
 COPY . .
 
-RUN mkdir -p /app/staticfiles /app/media /app/logs && \
-    chmod 755 /app/staticfiles /app/media /app/logs
+# --- Static files: build-only settings module, so no runtime secrets are needed ---
+# /data is where compose keeps the SQLite file (named volume)
+RUN mkdir -p /app/staticfiles /app/media /data \
+    && DJANGO_SETTINGS_MODULE=config.settings.collectstatic \
+       python manage.py collectstatic --noinput
 
 RUN adduser --uid 1000 --disabled-password --gecos '' webuser && \
-    chown -R webuser:webuser /app && \
+    chown -R webuser:webuser /app /data && \
     chmod -R 755 /app
 
 USER webuser
