@@ -8,6 +8,8 @@ secret_keys.py
 .venv/
 app/source/venv
 .env
+.env.*
+!.env.example
 
 # SQLite
 db.sqlite3
