@@ -21,10 +21,7 @@ pipeline {
         BRANCH       = 'develop'
         GITHUB_CREDS = 'github-ssh'
         GITHUB_REPO  = 'techie-guy92/CryptoLedger'
-        // v1.4.x on purpose: old v1.3.x tags exist from main builds, and
-        // develop's build counter would collide with them.
         IMAGE_TAG    = "v1.4.${BUILD_NUMBER}"
-        // pip picks these up automatically (regional PyPI mirror + fallback)
         PIP_INDEX_URL       = 'https://mirror-pypi.runflare.com/simple/'
         PIP_EXTRA_INDEX_URL = 'https://pypi.org/simple/'
         PATH         = '/usr/local/bin:/usr/bin:/bin'
@@ -144,10 +141,16 @@ pipeline {
     // ===============================================================
     post {
         always {
-            sh '''
-                docker rmi $REGISTRY/$IMAGE_NAME:$IMAGE_TAG 2>/dev/null || true
-                docker rmi $REGISTRY/$IMAGE_NAME:latest     2>/dev/null || true
-            '''
+            script {
+                try {
+                    sh '''
+                        docker rmi $REGISTRY/$IMAGE_NAME:$IMAGE_TAG 2>/dev/null || true
+                        docker rmi $REGISTRY/$IMAGE_NAME:latest     2>/dev/null || true
+                    '''
+                } catch (ignored) {
+                    echo 'No workspace, skipping image cleanup'
+                }
+            }
         }
         success {
             mail (
