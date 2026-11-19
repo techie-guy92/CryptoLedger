@@ -114,8 +114,13 @@ pipeline {
                                 git config user.email "jenkins@ci.com"
                                 git config user.name "Jenkins CI"
 
-                                # only touches the `tag:` line(s); formatting and comments stay intact
-                                sed -i -E "s/^( *tag: ).*/\\1${IMAGE_TAG}/" "$VALUES_FILE"
+                                # only the app image tag (exactly 2 spaces of indent); postgres' tag has 4 and is left alone
+                                sed -i -E "s/^(  tag: ).*/\\1${IMAGE_TAG}/" "$VALUES_FILE"
+
+                                # safety checks: the tag must have landed, and at most ONE line may have changed
+                                grep -qx "  tag: ${IMAGE_TAG}" "$VALUES_FILE"
+                                CHANGED=$(git diff --numstat "$VALUES_FILE" | awk '{print $1}')
+                                [ -z "$CHANGED" ] || [ "$CHANGED" = "1" ]
 
                                 git add "$VALUES_FILE"
                                 if git diff --cached --quiet; then
