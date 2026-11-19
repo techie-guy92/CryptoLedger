@@ -2,7 +2,7 @@ replicaCount: 3
 
 image:
   repository: 192.168.122.1:5000/crypto
-  tag: v1.4.8
+  tag: v1.3.69
   pullPolicy: Always
 
 service:
@@ -85,7 +85,7 @@ postgres:
   enabled: true
   image:
     repository: 192.168.122.1:5000/postgres
-    tag: v1.4.8
+    tag: 15.4
   resources:
     requests:
       cpu: 250m
